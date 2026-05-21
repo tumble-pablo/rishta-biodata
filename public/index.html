@@ -8,7 +8,7 @@
   <link rel="apple-touch-icon" href="/logo.png.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Sora:wght@600;700;800&amp;display=swap" />
   <style>
     :root {
       --ink: #0A2540;
@@ -67,7 +67,12 @@
       top: 0;
       z-index: 50;
       background: transparent;
-      transition: background-color 0.2s ease;
+      border-bottom: 1px solid var(--hairline);
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .nav.is-scrolled {
+      border-color: var(--hairline-strong);
     }
 
     /* The white "card" — constrained to the content frame width */
@@ -119,10 +124,11 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      font-family: Georgia, 'Times New Roman', serif;
+      font-family: 'Sora', 'Inter', sans-serif;
       font-weight: 700;
       font-size: 24px;
-      color: var(--ink);
+      letter-spacing: -0.02em;
+      color: #000000;
       text-decoration: none;
       white-space: nowrap;
     }
@@ -144,7 +150,7 @@
       font-family: 'Inter', sans-serif;
       font-weight: 500;
       font-size: 15px;
-      color: var(--ink-muted);
+      color: #000000;
       text-decoration: none;
       transition: color 0.2s ease;
     }

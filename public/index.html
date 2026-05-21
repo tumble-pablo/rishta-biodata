@@ -70,17 +70,31 @@
       display: flex;
       align-items: center;
       background: transparent;
-      border-bottom: 1px solid var(--hairline);
-      transition: border-color 0.25s ease, min-height 0.3s ease;
+      transition: min-height 0.3s ease;
     }
 
-    .nav:hover,
-    .nav:focus-within,
-    .nav.is-scrolled {
-      border-color: transparent;
+    .nav::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+      height: 1px;
+      background: var(--hairline);
+      pointer-events: none;
+      transition: background-color 0.25s ease;
+    }
+
+    .nav:hover::after,
+    .nav:focus-within::after,
+    .nav.is-scrolled::after {
+      background: var(--hairline-strong);
     }
 
     .nav-frame {
+      position: relative;
+      z-index: 1;
       max-width: var(--frame-max);
       width: min(100%, var(--frame-max));
       margin: 0 auto;

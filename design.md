@@ -34,7 +34,9 @@ This is a narrative structure, not a feature dump.
 
 **Voice through type.**
 
-- One serif for warmth + one sans for clarity. No third typeface.
+- **Sora** for all headings (Bold 700, tight tracking -0.01 to -0.02em). The site-wide brand voice.
+- **Inter** for body, labels, microcopy, buttons (400 / 500 / 600).
+- Serif is reserved for **one artifact only**: the printed biodata preview itself, where the ornate wedding-stationery convention is intentional. Never use serif for site chrome, nav, headings, or form copy.
 - Headlines are large and confident. Tight tracking, tight leading on display sizes.
 - The headline can carry 2–3 full sentences — use a **two-tone fade** (dark → muted) to make it read as a paragraph, not a wall.
 - No italics, no underlines, no decorative weights. Just **regular + medium + bold**.

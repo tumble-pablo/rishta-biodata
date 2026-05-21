@@ -650,6 +650,10 @@
       align-items: start;
     }
 
+    .builder-grid > * {
+      min-width: 0;
+    }
+
     /* Middle — form */
     .builder-form {
       background: var(--surface);
@@ -693,6 +697,7 @@
     .builder-field {
       display: flex;
       flex-direction: column;
+      min-width: 0;
     }
 
     .builder-field.is-full {
@@ -722,6 +727,8 @@
       font-family: 'Inter', sans-serif;
       font-size: 15px;
       color: var(--ink);
+      width: 100%;
+      min-width: 0;
       padding: 12px 14px;
       border: 1px solid var(--hairline);
       border-radius: 10px;
@@ -874,6 +881,8 @@
     .biodata-card {
       --bio-accent: #9A3324;
       --bio-fill: #1D1A17;
+      --bio-border: #9A3324;
+      --bio-symbol: #9A3324;
       width: 100%;
       aspect-ratio: 1055 / 1491;
       background: #FFF8EE url("/biodata-template-preview.png") center / contain no-repeat;
@@ -887,9 +896,65 @@
       container-type: inline-size;
     }
 
-    .biodata-card.is-color-gold  { --bio-fill: #4A3217; }
-    .biodata-card.is-color-rose  { --bio-fill: #3E1D2B; }
-    .biodata-card.is-color-navy  { --bio-fill: #162235; }
+    /* Border color swatches (--bio-border) */
+    .biodata-card.bc-maroon  { --bio-border: #9A3324; }
+    .biodata-card.bc-red     { --bio-border: #D72638; }
+    .biodata-card.bc-saffron { --bio-border: #F08C00; }
+    .biodata-card.bc-gold    { --bio-border: #C9A227; }
+
+    /* Symbol color swatches (--bio-symbol) */
+    .biodata-card.sc-maroon  { --bio-symbol: #9A3324; }
+    .biodata-card.sc-red     { --bio-symbol: #D72638; }
+    .biodata-card.sc-saffron { --bio-symbol: #F08C00; }
+    .biodata-card.sc-gold    { --bio-symbol: #C9A227; }
+
+    /* Border designs — 4 overlay variants on top of the PNG */
+    .biodata-card[data-border="heritage"]::after {
+      content: '';
+      position: absolute;
+      inset: 1.4%;
+      border: 1.5px solid var(--bio-border);
+      border-radius: 4px;
+      opacity: 0.55;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .biodata-card[data-border="royal"]::after {
+      content: '';
+      position: absolute;
+      inset: 4.6%;
+      border: 1.5px double var(--bio-border);
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .biodata-card[data-border="floral"]::after {
+      content: '';
+      position: absolute;
+      inset: 4%;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        linear-gradient(var(--bio-border), var(--bio-border)) top left/3.2cqw 1px no-repeat,
+        linear-gradient(var(--bio-border), var(--bio-border)) top left/1px 3.2cqw no-repeat,
+        linear-gradient(var(--bio-border), var(--bio-border)) top right/3.2cqw 1px no-repeat,
+        linear-gradient(var(--bio-border), var(--bio-border)) top right/1px 3.2cqw no-repeat,
+        linear-gradient(var(--bio-border), var(--bio-border)) bottom left/3.2cqw 1px no-repeat,
+        linear-gradient(var(--bio-border), var(--bio-border)) bottom left/1px 3.2cqw no-repeat,
+        linear-gradient(var(--bio-border), var(--bio-border)) bottom right/3.2cqw 1px no-repeat,
+        linear-gradient(var(--bio-border), var(--bio-border)) bottom right/1px 3.2cqw no-repeat;
+    }
+
+    .biodata-card[data-border="sutra"]::after {
+      content: '';
+      position: absolute;
+      inset: 5.2%;
+      border: 1px solid var(--bio-border);
+      pointer-events: none;
+      z-index: 0;
+    }
 
     .biodata-fill {
       position: absolute;
@@ -947,18 +1012,18 @@
 
     .biodata-symbol-overlay {
       position: absolute;
-      left: 44.5%;
-      top: 3.5%;
-      width: 11%;
-      aspect-ratio: 1 / 1;
+      left: 40.5%;
+      top: 2.9%;
+      width: 19%;
+      aspect-ratio: 1.65 / 1;
       background: #FFF8EE;
       display: none;
       align-items: center;
       justify-content: center;
-      color: var(--bio-accent);
+      color: var(--bio-symbol);
       font-family: Georgia, 'Times New Roman', serif;
       font-weight: 700;
-      font-size: 5cqw;
+      font-size: 5.8cqw;
       line-height: 1;
       z-index: 2;
     }
@@ -1017,16 +1082,23 @@
       width: 100%;
       height: 56px;
       border-radius: 6px;
-      border: 1.5px solid var(--swatch-color, var(--accent));
       background: #FFF8EE;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 0 2px #FFF8EE inset, 0 0 0 3px color-mix(in srgb, var(--swatch-color, var(--accent)), transparent 65%) inset;
+      position: relative;
+      overflow: hidden;
     }
 
-    .builder-style-swatch .builder-symbol-glyph,
-    .builder-style-swatch img {
+    .builder-style-swatch.is-color {
+      background: var(--swatch-color, var(--accent));
+    }
+
+    .builder-style-swatch.is-symbol {
+      border: 1px solid var(--hairline);
+    }
+
+    .builder-style-swatch.is-symbol .builder-symbol-glyph {
       color: var(--swatch-color, var(--accent));
       font-family: Georgia, serif;
       font-weight: 700;
@@ -1034,9 +1106,46 @@
       line-height: 1;
     }
 
-    .builder-style-swatch img {
+    .builder-style-swatch.is-symbol img {
       height: 28px;
       width: auto;
+    }
+
+    /* Border-design preview cards inside the picker */
+    .builder-style-swatch.is-border {
+      border: 1.5px solid var(--swatch-color, var(--accent));
+    }
+
+    .builder-style-swatch.is-border[data-design="royal"]::after {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      border: 1px double var(--swatch-color, var(--accent));
+    }
+
+    .builder-style-swatch.is-border[data-design="floral"]::after {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      background:
+        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) top left/10px 1px no-repeat,
+        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) top left/1px 10px no-repeat,
+        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) top right/10px 1px no-repeat,
+        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) top right/1px 10px no-repeat,
+        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) bottom left/10px 1px no-repeat,
+        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) bottom left/1px 10px no-repeat,
+        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) bottom right/10px 1px no-repeat,
+        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) bottom right/1px 10px no-repeat;
+    }
+
+    .builder-style-swatch.is-border[data-design="sutra"] {
+      border-width: 1px;
+    }
+
+    .builder-style-swatch.is-border[data-design="heritage"]::after {
+      content: '✦';
+      color: var(--swatch-color, var(--accent));
+      font-size: 18px;
     }
 
     .builder-style-option-name {
@@ -1245,6 +1354,18 @@
       .builder-fields {
         grid-template-columns: 1fr;
       }
+
+      .builder-field.is-full {
+        grid-column: 1 / -1;
+      }
+
+      .builder-style-group {
+        grid-column: 1 / -1 !important;
+      }
+
+      .builder-style-options {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 560px) {
@@ -1280,6 +1401,34 @@
       *::before,
       *::after {
         transition-duration: 0.01ms !important;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 8mm;
+      }
+
+      body {
+        background: #fff;
+      }
+
+      body * {
+        visibility: hidden !important;
+      }
+
+      .biodata-card,
+      .biodata-card * {
+        visibility: visible !important;
+      }
+
+      .biodata-card {
+        position: fixed;
+        inset: 8mm auto auto 8mm;
+        width: calc(100vw - 16mm);
+        max-width: calc((100vh - 16mm) * 1055 / 1491);
+        border-radius: 0;
       }
     }
   </style>
@@ -1351,7 +1500,7 @@
     <div class="section-frame">
       <header class="builder-heading">
         <p class="builder-eyebrow">The builder</p>
-        <h2 class="builder-title">Create your biodata in 7 simple steps</h2>
+        <h2 class="builder-title">Create your biodata in 8 simple steps</h2>
         <p class="builder-helper">Fill in your details on the left. The preview on the right updates as you type.</p>
       </header>
 
@@ -1387,7 +1536,7 @@
         <div class="builder-form" id="builder-form">
           <p class="builder-form-counter" id="builder-form-counter">Step 1 of 8</p>
           <h3 class="builder-form-title" id="builder-form-title">Pick your style</h3>
-          <p class="builder-form-helper" id="builder-form-helper">Choose a border color and a symbol for the top of your biodata.</p>
+          <p class="builder-form-helper" id="builder-form-helper">Choose a border, colors, and symbol before adding details.</p>
           <div class="builder-fields" id="builder-fields"></div>
           <div class="builder-form-footer">
             <button type="button" class="builder-back" id="builder-back" hidden>← Back</button>
@@ -1402,8 +1551,8 @@
           <div class="builder-preview-toolbar">
             <span class="builder-preview-label">Live preview</span>
             <div class="builder-preview-actions">
-              <button type="button" class="builder-preview-btn">Print</button>
-              <button type="button" class="builder-preview-btn is-primary">Download</button>
+              <button type="button" class="builder-preview-btn" id="builder-print">Print</button>
+              <button type="button" class="builder-preview-btn is-primary" id="builder-download">Download</button>
             </div>
           </div>
           <div class="biodata-card" id="biodata-card">
@@ -1493,13 +1642,15 @@
       var fieldsHost = document.getElementById('builder-fields');
       var continueBtn = document.getElementById('builder-continue');
       var backBtn = document.getElementById('builder-back');
+      var printBtn = document.getElementById('builder-print');
+      var downloadBtn = document.getElementById('builder-download');
       var progressFill = document.getElementById('builder-progress-fill');
       var progressPct = document.getElementById('builder-progress-pct');
 
       var totalSteps = steps.length;
       var currentStep = 1;
       var stepMeta = {
-        1: { title: 'Pick your style', helper: 'Choose a border color and a symbol for the top of your biodata.' },
+        1: { title: 'Pick your style', helper: 'Choose a border, colors, and symbol before adding details.' },
         2: { title: 'Basic Details', helper: "Start with the essentials. We'll keep things short." },
         3: { title: 'Religion & Community', helper: 'Help families find common ground.' },
         4: { title: 'Education & Career', helper: 'Your work and what you studied.' },
@@ -1509,11 +1660,18 @@
         8: { title: 'Contact Details', helper: 'How families can reach you.' }
       };
 
-      var styleColors = [
-        { id: 'maroon', name: 'Maroon', hex: '#9A3324' },
-        { id: 'gold',   name: 'Gold',   hex: '#B57D2A' },
-        { id: 'rose',   name: 'Rose',   hex: '#B83A6B' },
-        { id: 'navy',   name: 'Navy',   hex: '#1F3A6C' }
+      var weddingColors = [
+        { id: 'maroon',  name: 'Maroon',  hex: '#9A3324' },
+        { id: 'red',     name: 'Red',     hex: '#D72638' },
+        { id: 'saffron', name: 'Saffron', hex: '#F08C00' },
+        { id: 'gold',    name: 'Gold',    hex: '#C9A227' }
+      ];
+
+      var borderDesigns = [
+        { id: 'heritage', name: 'Heritage' },
+        { id: 'royal',    name: 'Royal' },
+        { id: 'floral',   name: 'Floral' },
+        { id: 'sutra',    name: 'Sutra' }
       ];
 
       var styleSymbols = [
@@ -1524,8 +1682,10 @@
       ];
 
       var state = {
-        color: 'maroon',
+        borderDesign: 'heritage',
+        borderColor: 'maroon',
         symbol: 'ganesha',
+        symbolColor: 'maroon',
         values: {}
       };
 
@@ -1732,15 +1892,37 @@
           </div>'
       };
 
+      var trackedFields = [];
+      Object.keys(stepFieldsHTML).forEach(function (stepKey) {
+        var holder = document.createElement('div');
+        holder.innerHTML = stepFieldsHTML[stepKey];
+        holder.querySelectorAll('[data-field]').forEach(function (input) {
+          var field = input.getAttribute('data-field');
+          if (!field || field === 'photo' || trackedFields.indexOf(field) !== -1) return;
+          trackedFields.push(field);
+        });
+      });
+
       function bind(field, value) {
         var nodes = card.querySelectorAll('[data-bind="' + field + '"]');
         for (var i = 0; i < nodes.length; i++) nodes[i].textContent = value || '';
       }
 
-      function applyColor(id) {
-        state.color = id;
-        card.classList.remove('is-color-maroon','is-color-gold','is-color-rose','is-color-navy');
-        card.classList.add('is-color-' + id);
+      function applyBorderDesign(id) {
+        state.borderDesign = id;
+        card.setAttribute('data-border', id);
+      }
+
+      function applyBorderColor(id) {
+        state.borderColor = id;
+        card.classList.remove('bc-maroon','bc-red','bc-saffron','bc-gold');
+        card.classList.add('bc-' + id);
+      }
+
+      function applySymbolColor(id) {
+        state.symbolColor = id;
+        card.classList.remove('sc-maroon','sc-red','sc-saffron','sc-gold');
+        card.classList.add('sc-' + id);
       }
 
       function applySymbol(id) {
@@ -1772,47 +1954,258 @@
         }
       }
 
+      function loadImage(src) {
+        return new Promise(function (resolve, reject) {
+          var img = new Image();
+          img.onload = function () { resolve(img); };
+          img.onerror = reject;
+          img.src = src;
+        });
+      }
+
+      function pct(raw) {
+        return parseFloat(String(raw || '').replace('%', '')) / 100;
+      }
+
+      function fitText(ctx, text, maxWidth) {
+        if (ctx.measureText(text).width <= maxWidth) return text;
+        var clipped = text;
+        while (clipped.length > 1 && ctx.measureText(clipped + '...').width > maxWidth) {
+          clipped = clipped.slice(0, -1);
+        }
+        return clipped.trim() + '...';
+      }
+
+      function drawCoverImage(ctx, img, x, y, width, height) {
+        var scale = Math.max(width / img.width, height / img.height);
+        var sourceWidth = width / scale;
+        var sourceHeight = height / scale;
+        var sourceX = (img.width - sourceWidth) / 2;
+        var sourceY = (img.height - sourceHeight) / 2;
+        ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
+      }
+
+      function drawWrappedText(ctx, text, x, y, maxWidth, lineHeight, maxLines) {
+        var words = text.split(/\s+/);
+        var line = '';
+        var lines = [];
+        words.forEach(function (word) {
+          var next = line ? line + ' ' + word : word;
+          if (ctx.measureText(next).width > maxWidth && line) {
+            lines.push(line);
+            line = word;
+          } else {
+            line = next;
+          }
+        });
+        if (line) lines.push(line);
+        lines.slice(0, maxLines).forEach(function (row, index) {
+          var output = index === maxLines - 1 && lines.length > maxLines ? fitText(ctx, row, maxWidth) : row;
+          ctx.fillText(output, x, y + (lineHeight * index));
+        });
+      }
+
+      function drawBorderDesign(ctx, design, color, width, height) {
+        ctx.save();
+        ctx.strokeStyle = color;
+        ctx.lineJoin = 'round';
+
+        if (design === 'royal') {
+          var royalInset = width * 0.046;
+          ctx.lineWidth = 2;
+          ctx.strokeRect(royalInset, royalInset, width - royalInset * 2, height - royalInset * 2);
+          ctx.strokeRect(royalInset + 7, royalInset + 7, width - (royalInset + 7) * 2, height - (royalInset + 7) * 2);
+        } else if (design === 'floral') {
+          var floralInset = width * 0.04;
+          var corner = width * 0.032;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(floralInset, floralInset + corner);
+          ctx.lineTo(floralInset, floralInset);
+          ctx.lineTo(floralInset + corner, floralInset);
+          ctx.moveTo(width - floralInset - corner, floralInset);
+          ctx.lineTo(width - floralInset, floralInset);
+          ctx.lineTo(width - floralInset, floralInset + corner);
+          ctx.moveTo(floralInset, height - floralInset - corner);
+          ctx.lineTo(floralInset, height - floralInset);
+          ctx.lineTo(floralInset + corner, height - floralInset);
+          ctx.moveTo(width - floralInset - corner, height - floralInset);
+          ctx.lineTo(width - floralInset, height - floralInset);
+          ctx.lineTo(width - floralInset, height - floralInset - corner);
+          ctx.stroke();
+        } else if (design === 'sutra') {
+          var sutraInset = width * 0.052;
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(sutraInset, sutraInset, width - sutraInset * 2, height - sutraInset * 2);
+        } else {
+          var heritageInset = width * 0.014;
+          ctx.globalAlpha = 0.55;
+          ctx.lineWidth = 2;
+          ctx.strokeRect(heritageInset, heritageInset, width - heritageInset * 2, height - heritageInset * 2);
+        }
+
+        ctx.restore();
+      }
+
+      async function createBiodataBlob() {
+        var canvas = document.createElement('canvas');
+        canvas.width = 1055;
+        canvas.height = 1491;
+        var ctx = canvas.getContext('2d');
+        var base = await loadImage('/biodata-template-preview.png');
+        ctx.drawImage(base, 0, 0, canvas.width, canvas.height);
+        drawBorderDesign(ctx, state.borderDesign, hexFor(state.borderColor), canvas.width, canvas.height);
+
+        if (state.values.photo) {
+          var photo = await loadImage(state.values.photo);
+          drawCoverImage(ctx, photo, canvas.width * 0.7135, canvas.height * 0.1215, canvas.width * 0.198, canvas.height * 0.192);
+        }
+
+        if (state.symbol !== 'ganesha') {
+          var symbol = styleSymbols.filter(function (s) { return s.id === state.symbol; })[0];
+          if (symbol) {
+            var symbolX = canvas.width * 0.405;
+            var symbolY = canvas.height * 0.029;
+            var symbolWidth = canvas.width * 0.19;
+            var symbolHeight = symbolWidth / 1.65;
+            ctx.fillStyle = '#FFF8EE';
+            ctx.fillRect(symbolX, symbolY, symbolWidth, symbolHeight);
+            ctx.fillStyle = hexFor(state.symbolColor);
+            ctx.font = '700 62px Georgia, serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(symbol.glyph || '', symbolX + symbolWidth / 2, symbolY + symbolHeight / 2 + 2);
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+          }
+        }
+
+        card.querySelectorAll('.biodata-fill').forEach(function (node) {
+          var text = node.textContent.trim();
+          if (!text) return;
+          var styles = getComputedStyle(node);
+          var x = canvas.width * pct(styles.getPropertyValue('--x'));
+          var y = canvas.height * pct(styles.getPropertyValue('--y'));
+          var maxWidth = canvas.width * pct(styles.getPropertyValue('--w'));
+          var isName = node.classList.contains('is-name');
+          var isMini = node.classList.contains('is-mini');
+          var isAddress = node.classList.contains('is-address');
+          var fontSize = isName ? 31 : (isMini ? 15 : 16);
+          ctx.font = (isName ? '700 ' : '400 ') + fontSize + 'px Georgia, serif';
+          ctx.fillStyle = isName ? '#9A3324' : '#1D1A17';
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'top';
+          if (isName) text = text.toUpperCase();
+          if (isAddress) {
+            drawWrappedText(ctx, text, x, y, maxWidth, fontSize * 1.25, 2);
+          } else {
+            ctx.fillText(fitText(ctx, text, maxWidth), x, y);
+          }
+        });
+
+        return new Promise(function (resolve) {
+          canvas.toBlob(resolve, 'image/png', 1);
+        });
+      }
+
+      async function downloadBiodata() {
+        if (!downloadBtn) return;
+        var oldLabel = downloadBtn.textContent;
+        downloadBtn.disabled = true;
+        downloadBtn.textContent = 'Preparing...';
+        try {
+          var blob = await createBiodataBlob();
+          if (!blob) return;
+          var url = URL.createObjectURL(blob);
+          var link = document.createElement('a');
+          link.href = url;
+          link.download = 'rishta-biodata.png';
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          URL.revokeObjectURL(url);
+        } catch (error) {
+          console.error('Could not prepare biodata download.', error);
+        } finally {
+          downloadBtn.disabled = false;
+          downloadBtn.textContent = oldLabel;
+        }
+      }
+
+      function hexFor(colorId) {
+        var c = weddingColors.filter(function (w) { return w.id === colorId; })[0];
+        return c ? c.hex : '#9A3324';
+      }
+
       function renderStyleStep() {
         var html = '';
+        var borderHex = hexFor(state.borderColor);
+        var symbolHex = hexFor(state.symbolColor);
+
+        // 1. Border design
+        html += '<div class="builder-style-group" style="grid-column: span 2;">';
+        html += '<p class="builder-style-label">Border design</p>';
+        html += '<div class="builder-style-options">';
+        borderDesigns.forEach(function (b) {
+          html += '<div class="builder-style-option' + (state.borderDesign === b.id ? ' is-selected' : '') + '" data-border-design="' + b.id + '">' +
+                  '<div class="builder-style-swatch is-border" data-design="' + b.id + '" style="--swatch-color:' + borderHex + '"></div>' +
+                  '<span class="builder-style-option-name">' + b.name + '</span>' +
+                  '</div>';
+        });
+        html += '</div></div>';
+
+        // 2. Border color
         html += '<div class="builder-style-group" style="grid-column: span 2;">';
         html += '<p class="builder-style-label">Border color</p>';
         html += '<div class="builder-style-options">';
-        styleColors.forEach(function (c) {
-          html += '<div class="builder-style-option' + (state.color === c.id ? ' is-selected' : '') + '" data-color="' + c.id + '">' +
-                  '<div class="builder-style-swatch" style="--swatch-color:' + c.hex + '"></div>' +
+        weddingColors.forEach(function (c) {
+          html += '<div class="builder-style-option' + (state.borderColor === c.id ? ' is-selected' : '') + '" data-border-color="' + c.id + '">' +
+                  '<div class="builder-style-swatch is-color" style="--swatch-color:' + c.hex + '"></div>' +
                   '<span class="builder-style-option-name">' + c.name + '</span>' +
                   '</div>';
         });
         html += '</div></div>';
 
+        // 3. Symbol
         html += '<div class="builder-style-group" style="grid-column: span 2;">';
         html += '<p class="builder-style-label">Symbol</p>';
         html += '<div class="builder-style-options">';
-        var currentHex = styleColors.filter(function (c) { return c.id === state.color; })[0].hex;
         styleSymbols.forEach(function (s) {
           var inner = s.type === 'image'
             ? '<img src="' + s.src + '" alt="" />'
             : '<span class="builder-symbol-glyph">' + s.glyph + '</span>';
           html += '<div class="builder-style-option' + (state.symbol === s.id ? ' is-selected' : '') + '" data-symbol="' + s.id + '">' +
-                  '<div class="builder-style-swatch" style="--swatch-color:' + currentHex + '">' + inner + '</div>' +
+                  '<div class="builder-style-swatch is-symbol" style="--swatch-color:' + symbolHex + '">' + inner + '</div>' +
                   '<span class="builder-style-option-name">' + s.name + '</span>' +
+                  '</div>';
+        });
+        html += '</div></div>';
+
+        // 4. Symbol color
+        html += '<div class="builder-style-group" style="grid-column: span 2;">';
+        html += '<p class="builder-style-label">Symbol color</p>';
+        html += '<div class="builder-style-options">';
+        weddingColors.forEach(function (c) {
+          html += '<div class="builder-style-option' + (state.symbolColor === c.id ? ' is-selected' : '') + '" data-symbol-color="' + c.id + '">' +
+                  '<div class="builder-style-swatch is-color" style="--swatch-color:' + c.hex + '"></div>' +
+                  '<span class="builder-style-option-name">' + c.name + '</span>' +
                   '</div>';
         });
         html += '</div></div>';
 
         fieldsHost.innerHTML = html;
 
-        fieldsHost.querySelectorAll('[data-color]').forEach(function (el) {
-          el.addEventListener('click', function () {
-            applyColor(el.getAttribute('data-color'));
-            renderStyleStep();
-          });
+        fieldsHost.querySelectorAll('[data-border-design]').forEach(function (el) {
+          el.addEventListener('click', function () { applyBorderDesign(el.getAttribute('data-border-design')); renderStyleStep(); });
+        });
+        fieldsHost.querySelectorAll('[data-border-color]').forEach(function (el) {
+          el.addEventListener('click', function () { applyBorderColor(el.getAttribute('data-border-color')); renderStyleStep(); });
         });
         fieldsHost.querySelectorAll('[data-symbol]').forEach(function (el) {
-          el.addEventListener('click', function () {
-            applySymbol(el.getAttribute('data-symbol'));
-            renderStyleStep();
-          });
+          el.addEventListener('click', function () { applySymbol(el.getAttribute('data-symbol')); renderStyleStep(); });
+        });
+        fieldsHost.querySelectorAll('[data-symbol-color]').forEach(function (el) {
+          el.addEventListener('click', function () { applySymbolColor(el.getAttribute('data-symbol-color')); renderStyleStep(); });
         });
       }
 
@@ -1851,16 +2244,11 @@
 
       function updateProgress() {
         if (!progressFill || !progressPct) return;
-        var inputs = fieldsHost ? fieldsHost.querySelectorAll('[data-field]') : [];
         var filled = 0;
-        var counted = 0;
-        inputs.forEach(function (i) {
-          if (i.type === 'file') return;
-          counted++;
-          if (i.value) filled++;
+        trackedFields.forEach(function (field) {
+          if (state.values[field] && String(state.values[field]).trim()) filled++;
         });
-        var stepCompletion = counted ? filled / counted : (currentStep === 1 ? 1 : 0);
-        var pct = Math.round(((currentStep - 1) + stepCompletion) / totalSteps * 100);
+        var pct = trackedFields.length ? Math.round(filled / trackedFields.length * 100) : 0;
         progressFill.style.width = pct + '%';
         progressPct.textContent = pct + '% complete';
       }
@@ -1882,7 +2270,12 @@
           }
         }
         for (var i = 0; i < steps.length; i++) {
-          steps[i].classList.toggle('is-active', steps[i].getAttribute('data-step') == String(step));
+          var stepNum = parseInt(steps[i].getAttribute('data-step'), 10);
+          var isActive = stepNum === step;
+          steps[i].classList.toggle('is-active', isActive);
+          steps[i].classList.toggle('is-complete', stepNum < step);
+          if (isActive) steps[i].setAttribute('aria-current', 'step');
+          else steps[i].removeAttribute('aria-current');
         }
         if (backBtn) backBtn.hidden = step <= 1;
         if (continueBtn) continueBtn.innerHTML = (step >= totalSteps ? 'Finish' : 'Continue') + ' <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 2 8 6 4 10"/></svg>';
@@ -1907,8 +2300,18 @@
           if (currentStep > 1) renderStep(currentStep - 1);
         });
       }
+      if (printBtn) {
+        printBtn.addEventListener('click', function () {
+          window.print();
+        });
+      }
+      if (downloadBtn) {
+        downloadBtn.addEventListener('click', downloadBiodata);
+      }
 
-      applyColor(state.color);
+      applyBorderDesign(state.borderDesign);
+      applyBorderColor(state.borderColor);
+      applySymbolColor(state.symbolColor);
       applySymbol(state.symbol);
       renderStep(1);
 

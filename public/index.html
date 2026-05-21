@@ -559,7 +559,7 @@
     .builder-stepper {
       list-style: none;
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(8, 1fr);
       position: relative;
       margin-bottom: 36px;
     }
@@ -568,8 +568,8 @@
       content: '';
       position: absolute;
       top: 13px;
-      left: calc(100% / 14);
-      right: calc(100% / 14);
+      left: calc(100% / 16);
+      right: calc(100% / 16);
       height: 1px;
       background: var(--hairline);
       z-index: 0;
@@ -945,6 +945,28 @@
       display: block;
     }
 
+    .biodata-symbol-overlay {
+      position: absolute;
+      left: 44.5%;
+      top: 3.5%;
+      width: 11%;
+      aspect-ratio: 1 / 1;
+      background: #FFF8EE;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: var(--bio-accent);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 700;
+      font-size: 5cqw;
+      line-height: 1;
+      z-index: 2;
+    }
+
+    .biodata-symbol-overlay.is-active {
+      display: flex;
+    }
+
     /* Style step (border + symbol pickers) */
     .builder-style-group {
       margin-bottom: 26px;
@@ -1123,7 +1145,7 @@
 
     @media (max-width: 820px) {
       .builder-stepper {
-        grid-template-columns: repeat(7, auto);
+        grid-template-columns: repeat(8, auto);
         justify-content: space-between;
       }
 
@@ -1351,20 +1373,21 @@
         </div>
 
         <ol class="builder-stepper" id="builder-steps-list">
-          <li class="builder-step is-active" data-step="1"><span class="builder-step-num">1</span><span class="builder-step-label">Basics</span></li>
-          <li class="builder-step" data-step="2"><span class="builder-step-num">2</span><span class="builder-step-label">Religion</span></li>
-          <li class="builder-step" data-step="3"><span class="builder-step-num">3</span><span class="builder-step-label">Education</span></li>
-          <li class="builder-step" data-step="4"><span class="builder-step-num">4</span><span class="builder-step-label">Lifestyle</span></li>
-          <li class="builder-step" data-step="5"><span class="builder-step-num">5</span><span class="builder-step-label">Family</span></li>
-          <li class="builder-step" data-step="6"><span class="builder-step-num">6</span><span class="builder-step-label">Preferences</span></li>
-          <li class="builder-step" data-step="7"><span class="builder-step-num">7</span><span class="builder-step-label">Contact</span></li>
+          <li class="builder-step is-active" data-step="1"><span class="builder-step-num">1</span><span class="builder-step-label">Style</span></li>
+          <li class="builder-step" data-step="2"><span class="builder-step-num">2</span><span class="builder-step-label">Basics</span></li>
+          <li class="builder-step" data-step="3"><span class="builder-step-num">3</span><span class="builder-step-label">Religion</span></li>
+          <li class="builder-step" data-step="4"><span class="builder-step-num">4</span><span class="builder-step-label">Education</span></li>
+          <li class="builder-step" data-step="5"><span class="builder-step-num">5</span><span class="builder-step-label">Lifestyle</span></li>
+          <li class="builder-step" data-step="6"><span class="builder-step-num">6</span><span class="builder-step-label">Family</span></li>
+          <li class="builder-step" data-step="7"><span class="builder-step-num">7</span><span class="builder-step-label">Preferences</span></li>
+          <li class="builder-step" data-step="8"><span class="builder-step-num">8</span><span class="builder-step-label">Contact</span></li>
         </ol>
 
         <div class="builder-grid">
         <div class="builder-form" id="builder-form">
-          <p class="builder-form-counter" id="builder-form-counter">Step 1 of 7</p>
-          <h3 class="builder-form-title" id="builder-form-title">Basic Details</h3>
-          <p class="builder-form-helper" id="builder-form-helper">Start with the essentials. We'll keep things short.</p>
+          <p class="builder-form-counter" id="builder-form-counter">Step 1 of 8</p>
+          <h3 class="builder-form-title" id="builder-form-title">Pick your style</h3>
+          <p class="builder-form-helper" id="builder-form-helper">Choose a border color and a symbol for the top of your biodata.</p>
           <div class="builder-fields" id="builder-fields"></div>
           <div class="builder-form-footer">
             <button type="button" class="builder-back" id="builder-back" hidden>← Back</button>
@@ -1385,6 +1408,7 @@
           </div>
           <div class="biodata-card" id="biodata-card">
             <div class="biodata-photo-overlay"></div>
+            <div class="biodata-symbol-overlay" id="biodata-symbol-overlay"></div>
 
             <span class="biodata-fill is-name" data-bind="name" style="--x: 8.3%; --y: 23.4%; --w: 54%;"></span>
             <span class="biodata-fill is-mini" data-bind="age" style="--x: 8.3%; --y: 30.4%; --w: 15%;"></span>
@@ -1475,13 +1499,14 @@
       var totalSteps = steps.length;
       var currentStep = 1;
       var stepMeta = {
-        1: { title: 'Basic Details', helper: "Start with the essentials. We'll keep things short." },
-        2: { title: 'Religion & Community', helper: 'Help families find common ground.' },
-        3: { title: 'Education & Career', helper: 'Your work and what you studied.' },
-        4: { title: 'Lifestyle', helper: 'How you live day to day.' },
-        5: { title: 'Family Details', helper: 'A short introduction to your family.' },
-        6: { title: 'Partner Preferences', helper: 'What you are looking for.' },
-        7: { title: 'Contact Details', helper: 'How families can reach you.' }
+        1: { title: 'Pick your style', helper: 'Choose a border color and a symbol for the top of your biodata.' },
+        2: { title: 'Basic Details', helper: "Start with the essentials. We'll keep things short." },
+        3: { title: 'Religion & Community', helper: 'Help families find common ground.' },
+        4: { title: 'Education & Career', helper: 'Your work and what you studied.' },
+        5: { title: 'Lifestyle', helper: 'How you live day to day.' },
+        6: { title: 'Family Details', helper: 'A short introduction to your family.' },
+        7: { title: 'Partner Preferences', helper: 'What you are looking for.' },
+        8: { title: 'Contact Details', helper: 'How families can reach you.' }
       };
 
       var styleColors = [
@@ -1558,8 +1583,8 @@
         </div>';
 
       var stepFieldsHTML = {
-        1: step1FieldsHTML,
-        2: '\
+        2: step1FieldsHTML,
+        3: '\
           <div class="builder-field">\
             <label for="f-religion">Religion</label>\
             <input id="f-religion" type="text" placeholder="Hindu" data-field="religion" />\
@@ -1594,7 +1619,7 @@
               <option value="">Select…</option><option>No</option><option>Yes</option><option>Partial</option>\
             </select>\
           </div>',
-        3: '\
+        4: '\
           <div class="builder-field">\
             <label for="f-qualification">Qualification</label>\
             <input id="f-qualification" type="text" placeholder="MBA" data-field="qualification" />\
@@ -1615,7 +1640,7 @@
             <label for="f-income">Annual Income</label>\
             <input id="f-income" type="text" placeholder="18 LPA" data-field="income" />\
           </div>',
-        4: '\
+        5: '\
           <div class="builder-field">\
             <label for="f-diet">Diet</label>\
             <select id="f-diet" data-field="diet">\
@@ -1638,7 +1663,7 @@
             <label for="f-values">Values</label>\
             <input id="f-values" type="text" placeholder="Family-oriented, respectful, ambitious" data-field="values" />\
           </div>',
-        5: '\
+        6: '\
           <div class="builder-field">\
             <label for="f-father">Father</label>\
             <input id="f-father" type="text" placeholder="Name" data-field="father" />\
@@ -1667,7 +1692,7 @@
             <label for="f-family-values">Family Values</label>\
             <input id="f-family-values" type="text" placeholder="Traditional with modern outlook" data-field="familyValues" />\
           </div>',
-        6: '\
+        7: '\
           <div class="builder-field">\
             <label for="f-pref-age">Preferred Age</label>\
             <input id="f-pref-age" type="text" placeholder="25-30" data-field="prefAge" />\
@@ -1692,7 +1717,7 @@
             <label for="f-pref-other">Other Expectations</label>\
             <input id="f-pref-other" type="text" placeholder="Kind, family-oriented" data-field="prefOther" />\
           </div>',
-        7: '\
+        8: '\
           <div class="builder-field">\
             <label for="f-phone">Phone</label>\
             <input id="f-phone" type="tel" placeholder="+91 98765 43210" data-field="phone" />\
@@ -1720,14 +1745,19 @@
 
       function applySymbol(id) {
         state.symbol = id;
-        var sym = styleSymbols.filter(function (s) { return s.id === id; })[0];
-        var mark = card.querySelector('.biodata-mark');
-        if (!mark || !sym) return;
-        if (sym.type === 'image') {
-          mark.innerHTML = '<img src="' + sym.src + '" alt="" />';
-        } else {
-          mark.innerHTML = '<span class="biodata-symbol">' + sym.glyph + '</span>';
+        var overlay = document.getElementById('biodata-symbol-overlay');
+        if (!overlay) return;
+        if (id === 'ganesha') {
+          overlay.classList.remove('is-active');
+          overlay.innerHTML = '';
+          return;
         }
+        var sym = styleSymbols.filter(function (s) { return s.id === id; })[0];
+        if (!sym) return;
+        overlay.classList.add('is-active');
+        overlay.innerHTML = sym.type === 'image'
+          ? '<img src="' + sym.src + '" alt="" style="height:100%;width:auto;" />'
+          : sym.glyph;
       }
 
       function applyPhoto(dataUrl) {
@@ -1842,7 +1872,9 @@
         if (title) title.textContent = meta.title || '';
         if (helper) helper.textContent = meta.helper || '';
         if (fieldsHost) {
-          if (stepFieldsHTML[step]) {
+          if (step === 1) {
+            renderStyleStep();
+          } else if (stepFieldsHTML[step]) {
             fieldsHost.innerHTML = stepFieldsHTML[step];
             wireFields();
           } else {

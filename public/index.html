@@ -892,7 +892,7 @@
         radial-gradient(circle at 50% 4%, rgba(244, 184, 63, 0.12), transparent 19%),
         radial-gradient(circle at 50% 100%, rgba(154, 51, 36, 0.10), transparent 22%),
         var(--bio-paper);
-      border: 1.8px solid var(--bio-border);
+      border: 0;
       border-radius: 6px;
       padding: 3.1%;
       font-family: Georgia, 'Times New Roman', serif;
@@ -915,29 +915,56 @@
     .biodata-card.sc-saffron { --bio-symbol: #F08C00; }
     .biodata-card.sc-gold    { --bio-symbol: #C9A227; }
 
-    .biodata-card::before {
+    .biodata-card::before,
+    .biodata-card::after {
       content: '';
       position: absolute;
-      inset: 1.2%;
-      border: 1px solid var(--bio-border);
       border-radius: 4px;
       pointer-events: none;
-      opacity: 0.7;
+      opacity: 0;
       z-index: 2;
     }
 
-    .biodata-card[data-border="royal"] {
-      box-shadow:
-        inset 0 0 0 1.2cqw rgba(255, 248, 238, 0.92),
-        inset 0 0 0 1.45cqw var(--bio-border),
-        inset 0 0 0 1.95cqw rgba(255, 248, 238, 0.92),
-        inset 0 0 0 2.12cqw var(--bio-border),
-        0 10px 24px rgba(10, 37, 64, 0.08);
+    .biodata-card[data-border="heritage"]::before {
+      inset: 1.2%;
+      border: 1.8px solid var(--bio-border);
+      opacity: 0.78;
+    }
+
+    .biodata-card[data-border="heritage"]::after {
+      inset: 2.25%;
+      border: 1px solid rgba(201, 162, 39, 0.42);
+      opacity: 1;
+    }
+
+    .biodata-card[data-border="royal"]::before {
+      inset: 3%;
+      border: 1.8px solid var(--bio-border);
+      opacity: 0.95;
+    }
+
+    .biodata-card[data-border="royal"]::after {
+      inset: 4.2%;
+      border: 1px solid var(--bio-border);
+      opacity: 0.78;
+    }
+
+    .biodata-card[data-border="floral"]::before {
+      inset: 2.4%;
+      border: 1.4px solid var(--bio-border);
+      opacity: 0.82;
+    }
+
+    .biodata-card[data-border="floral"]::after {
+      inset: 4.1%;
+      border: 1px solid rgba(201, 162, 39, 0.42);
+      opacity: 1;
     }
 
     .biodata-card[data-border="sutra"]::before {
       inset: 4.3%;
-      border-width: 1.4px;
+      border: 1.6px solid var(--bio-border);
+      opacity: 0.9;
     }
 
     .bio-corner {
@@ -982,7 +1009,7 @@
     .bio-inner {
       height: 100%;
       padding: 3.5% 4%;
-      border: 1px solid rgba(201, 162, 39, 0.42);
+      border: 0;
       display: flex;
       flex-direction: column;
       position: relative;
@@ -2258,18 +2285,27 @@
 
       function drawBorderDesign(ctx, design, color, width, height) {
         ctx.save();
-        ctx.strokeStyle = color;
         ctx.lineJoin = 'round';
 
+        function rect(inset, lineWidth, strokeColor, alpha) {
+          ctx.save();
+          ctx.globalAlpha = alpha == null ? 1 : alpha;
+          ctx.strokeStyle = strokeColor;
+          ctx.lineWidth = lineWidth;
+          ctx.strokeRect(inset, inset, width - inset * 2, height - inset * 2);
+          ctx.restore();
+        }
+
         if (design === 'royal') {
-          var royalInset = width * 0.046;
-          ctx.lineWidth = 2;
-          ctx.strokeRect(royalInset, royalInset, width - royalInset * 2, height - royalInset * 2);
-          ctx.strokeRect(royalInset + 7, royalInset + 7, width - (royalInset + 7) * 2, height - (royalInset + 7) * 2);
+          rect(width * 0.03, 2, color, 0.95);
+          rect(width * 0.042, 1.2, color, 0.78);
         } else if (design === 'floral') {
-          var floralInset = width * 0.04;
+          var floralInset = width * 0.024;
           var corner = width * 0.032;
+          rect(floralInset, 1.4, color, 0.82);
+          rect(width * 0.041, 1.2, 'rgba(201, 162, 39, 0.55)', 1);
           ctx.lineWidth = 2;
+          ctx.strokeStyle = color;
           ctx.beginPath();
           ctx.moveTo(floralInset, floralInset + corner);
           ctx.lineTo(floralInset, floralInset);
@@ -2285,14 +2321,10 @@
           ctx.lineTo(width - floralInset, height - floralInset - corner);
           ctx.stroke();
         } else if (design === 'sutra') {
-          var sutraInset = width * 0.052;
-          ctx.lineWidth = 1.5;
-          ctx.strokeRect(sutraInset, sutraInset, width - sutraInset * 2, height - sutraInset * 2);
+          rect(width * 0.043, 1.6, color, 0.9);
         } else {
-          var heritageInset = width * 0.014;
-          ctx.globalAlpha = 0.55;
-          ctx.lineWidth = 2;
-          ctx.strokeRect(heritageInset, heritageInset, width - heritageInset * 2, height - heritageInset * 2);
+          rect(width * 0.012, 2, color, 0.78);
+          rect(width * 0.0225, 1.2, 'rgba(201, 162, 39, 0.55)', 1);
         }
 
         ctx.restore();
@@ -2348,9 +2380,6 @@
         ctx.fillStyle = '#FFF8EE';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         drawBorderDesign(ctx, state.borderDesign, accent, canvas.width, canvas.height);
-        ctx.strokeStyle = 'rgba(201, 162, 39, 0.55)';
-        ctx.lineWidth = 1.2;
-        ctx.strokeRect(36, 36, 983, 1419);
 
         function text(value, x, y, size, color, weight, align) {
           ctx.font = (weight || '400') + ' ' + size + 'px Georgia, serif';

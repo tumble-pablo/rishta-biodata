@@ -1496,39 +1496,88 @@
 
     /* Border-design preview cards inside the picker */
     .builder-style-swatch.is-border {
+      border: 0;
+    }
+
+    .builder-style-swatch.is-border::before,
+    .builder-style-swatch.is-border::after {
+      content: '';
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .builder-style-swatch.is-border[data-design="heritage"]::before {
+      inset: 5px;
       border: 1.5px solid var(--swatch-color, var(--accent));
     }
 
+    .builder-style-swatch.is-border[data-design="heritage"]::after {
+      inset: 10px;
+      border: 1px dotted #C9861A;
+      background:
+        radial-gradient(circle at 9px 9px, #C9861A 0 2px, transparent 2.2px),
+        radial-gradient(circle at calc(100% - 9px) 9px, #C9861A 0 2px, transparent 2.2px),
+        radial-gradient(circle at 9px calc(100% - 9px), #C9861A 0 2px, transparent 2.2px),
+        radial-gradient(circle at calc(100% - 9px) calc(100% - 9px), #C9861A 0 2px, transparent 2.2px);
+    }
+
+    .builder-style-swatch.is-border[data-design="royal"]::before {
+      inset: 5px;
+      border: 4px double var(--swatch-color, var(--accent));
+    }
+
     .builder-style-swatch.is-border[data-design="royal"]::after {
-      content: '';
-      position: absolute;
-      inset: 6px;
-      border: 1px double var(--swatch-color, var(--accent));
+      inset: 17px;
+      border: 1px solid #C9861A;
+      background:
+        linear-gradient(45deg, transparent 42%, var(--swatch-color, var(--accent)) 43% 57%, transparent 58%) top 2px left 2px/14px 14px no-repeat,
+        linear-gradient(45deg, transparent 42%, var(--swatch-color, var(--accent)) 43% 57%, transparent 58%) top 2px right 2px/14px 14px no-repeat,
+        linear-gradient(45deg, transparent 42%, var(--swatch-color, var(--accent)) 43% 57%, transparent 58%) bottom 2px left 2px/14px 14px no-repeat,
+        linear-gradient(45deg, transparent 42%, var(--swatch-color, var(--accent)) 43% 57%, transparent 58%) bottom 2px right 2px/14px 14px no-repeat;
+    }
+
+    .builder-style-swatch.is-border[data-design="floral"]::before {
+      inset: 7px;
+      border: 1px solid var(--swatch-color, var(--accent));
     }
 
     .builder-style-swatch.is-border[data-design="floral"]::after {
-      content: '';
-      position: absolute;
       inset: 5px;
       background:
-        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) top left/10px 1px no-repeat,
-        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) top left/1px 10px no-repeat,
-        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) top right/10px 1px no-repeat,
-        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) top right/1px 10px no-repeat,
-        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) bottom left/10px 1px no-repeat,
-        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) bottom left/1px 10px no-repeat,
-        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) bottom right/10px 1px no-repeat,
-        linear-gradient(var(--swatch-color, var(--accent)), var(--swatch-color, var(--accent))) bottom right/1px 10px no-repeat;
+        radial-gradient(ellipse at 13px 16px, #C9861A 0 5px, transparent 5.5px),
+        radial-gradient(ellipse at 18px 11px, #C9861A 0 4px, transparent 4.5px),
+        radial-gradient(ellipse at calc(100% - 13px) 16px, #C9861A 0 5px, transparent 5.5px),
+        radial-gradient(ellipse at calc(100% - 18px) 11px, #C9861A 0 4px, transparent 4.5px),
+        radial-gradient(ellipse at 13px calc(100% - 16px), #C9861A 0 5px, transparent 5.5px),
+        radial-gradient(ellipse at 18px calc(100% - 11px), #C9861A 0 4px, transparent 4.5px),
+        radial-gradient(ellipse at calc(100% - 13px) calc(100% - 16px), #C9861A 0 5px, transparent 5.5px),
+        radial-gradient(ellipse at calc(100% - 18px) calc(100% - 11px), #C9861A 0 4px, transparent 4.5px),
+        linear-gradient(#C9861A, #C9861A) top left/22px 1px no-repeat,
+        linear-gradient(#C9861A, #C9861A) top left/1px 22px no-repeat,
+        linear-gradient(#C9861A, #C9861A) top right/22px 1px no-repeat,
+        linear-gradient(#C9861A, #C9861A) top right/1px 22px no-repeat,
+        linear-gradient(#C9861A, #C9861A) bottom left/22px 1px no-repeat,
+        linear-gradient(#C9861A, #C9861A) bottom left/1px 22px no-repeat,
+        linear-gradient(#C9861A, #C9861A) bottom right/22px 1px no-repeat,
+        linear-gradient(#C9861A, #C9861A) bottom right/1px 22px no-repeat;
     }
 
-    .builder-style-swatch.is-border[data-design="sutra"] {
-      border-width: 1px;
+    .builder-style-swatch.is-border[data-design="sutra"]::before {
+      inset: 7px;
+      border: 1px solid rgba(201, 134, 26, 0.5);
     }
 
-    .builder-style-swatch.is-border[data-design="heritage"]::after {
-      content: '✦';
-      color: var(--swatch-color, var(--accent));
-      font-size: 18px;
+    .builder-style-swatch.is-border[data-design="sutra"]::after {
+      inset: 13px;
+      background:
+        repeating-linear-gradient(90deg, var(--swatch-color, var(--accent)) 0 8px, transparent 8px 13px) top left/100% 1px no-repeat,
+        repeating-linear-gradient(90deg, var(--swatch-color, var(--accent)) 0 8px, transparent 8px 13px) bottom left/100% 1px no-repeat,
+        repeating-linear-gradient(0deg, var(--swatch-color, var(--accent)) 0 8px, transparent 8px 13px) top left/1px 100% no-repeat,
+        repeating-linear-gradient(0deg, var(--swatch-color, var(--accent)) 0 8px, transparent 8px 13px) top right/1px 100% no-repeat,
+        radial-gradient(circle at 0 0, var(--swatch-color, var(--accent)) 0 3px, transparent 3.4px),
+        radial-gradient(circle at 100% 0, var(--swatch-color, var(--accent)) 0 3px, transparent 3.4px),
+        radial-gradient(circle at 0 100%, var(--swatch-color, var(--accent)) 0 3px, transparent 3.4px),
+        radial-gradient(circle at 100% 100%, var(--swatch-color, var(--accent)) 0 3px, transparent 3.4px);
     }
 
     .builder-style-option-name {
@@ -2418,6 +2467,7 @@
       function drawBorderDesign(ctx, design, color, width, height) {
         ctx.save();
         ctx.lineJoin = 'round';
+        var gold = '#C9861A';
 
         function rect(inset, lineWidth, strokeColor, alpha) {
           ctx.save();
@@ -2428,9 +2478,151 @@
           ctx.restore();
         }
 
+        function dashedRect(inset, lineWidth, strokeColor, dash, alpha) {
+          ctx.save();
+          ctx.globalAlpha = alpha == null ? 1 : alpha;
+          ctx.strokeStyle = strokeColor;
+          ctx.lineWidth = lineWidth;
+          ctx.setLineDash(dash);
+          ctx.strokeRect(inset, inset, width - inset * 2, height - inset * 2);
+          ctx.restore();
+        }
+
+        function withCorners(inset, draw) {
+          [
+            [inset, inset, 0],
+            [width - inset, inset, Math.PI / 2],
+            [width - inset, height - inset, Math.PI],
+            [inset, height - inset, -Math.PI / 2]
+          ].forEach(function (corner) {
+            ctx.save();
+            ctx.translate(corner[0], corner[1]);
+            ctx.rotate(corner[2]);
+            draw();
+            ctx.restore();
+          });
+        }
+
+        function drawHeritageCorner(size) {
+          ctx.save();
+          ctx.strokeStyle = gold;
+          ctx.fillStyle = gold;
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.moveTo(0, size * 0.88);
+          ctx.lineTo(0, 0);
+          ctx.lineTo(size * 0.88, 0);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(size * 0.18, size * 0.18, size * 0.24, Math.PI, Math.PI * 1.5);
+          ctx.stroke();
+          [
+            [size * 0.08, size * 0.08, 2.2],
+            [size * 0.24, size * 0.07, 1.6],
+            [size * 0.07, size * 0.24, 1.6],
+            [size * 0.36, size * 0.18, 1.3],
+            [size * 0.18, size * 0.36, 1.3]
+          ].forEach(function (dot) {
+            ctx.beginPath();
+            ctx.arc(dot[0], dot[1], dot[2], 0, Math.PI * 2);
+            ctx.fill();
+          });
+          ctx.translate(size * 0.18, size * 0.18);
+          ctx.rotate(-0.52);
+          ctx.beginPath();
+          ctx.ellipse(size * 0.12, size * 0.22, size * 0.045, size * 0.14, 0, 0, Math.PI * 2);
+          ctx.ellipse(size * 0.22, size * 0.12, size * 0.045, size * 0.14, Math.PI / 2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        function drawRoyalCorner(size) {
+          ctx.save();
+          ctx.strokeStyle = color;
+          ctx.fillStyle = color;
+          ctx.lineWidth = 2.3;
+          ctx.translate(size * 0.13, size * 0.13);
+          ctx.rotate(Math.PI / 4);
+          ctx.strokeRect(0, 0, size * 0.28, size * 0.28);
+          ctx.fillRect(size * 0.095, size * 0.095, size * 0.09, size * 0.09);
+          ctx.restore();
+          ctx.save();
+          ctx.fillStyle = gold;
+          ctx.beginPath();
+          ctx.arc(size * 0.52, size * 0.13, size * 0.035, 0, Math.PI * 2);
+          ctx.arc(size * 0.13, size * 0.52, size * 0.035, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        function drawFloralCorner(size) {
+          ctx.save();
+          ctx.strokeStyle = gold;
+          ctx.fillStyle = gold;
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.moveTo(0, size * 0.78);
+          ctx.lineTo(0, 0);
+          ctx.lineTo(size * 0.78, 0);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(size * 0.2, size * 0.2, size * 0.28, Math.PI, Math.PI * 1.5);
+          ctx.stroke();
+          [
+            [size * 0.2, size * 0.44, -0.55],
+            [size * 0.44, size * 0.2, 0.9],
+            [size * 0.37, size * 0.37, 0.25]
+          ].forEach(function (leaf) {
+            ctx.save();
+            ctx.translate(leaf[0], leaf[1]);
+            ctx.rotate(leaf[2]);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, size * 0.06, size * 0.16, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          });
+          ctx.restore();
+        }
+
+        function drawSutraCorner(size) {
+          ctx.save();
+          ctx.strokeStyle = color;
+          ctx.fillStyle = color;
+          ctx.lineWidth = 1.7;
+          ctx.beginPath();
+          ctx.moveTo(0, size * 0.36);
+          ctx.lineTo(size * 0.78, size * 0.36);
+          ctx.moveTo(size * 0.36, 0);
+          ctx.lineTo(size * 0.36, size * 0.78);
+          ctx.stroke();
+          ctx.translate(size * 0.36, size * 0.36);
+          ctx.rotate(Math.PI / 4);
+          ctx.strokeRect(-size * 0.105, -size * 0.105, size * 0.21, size * 0.21);
+          ctx.beginPath();
+          ctx.arc(0, 0, size * 0.035, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        function drawSutraKnot(x, y, size) {
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate(Math.PI / 4);
+          ctx.strokeStyle = color;
+          ctx.fillStyle = color;
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(-size / 2, -size / 2, size, size);
+          ctx.beginPath();
+          ctx.arc(0, 0, size * 0.18, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
         if (design === 'royal') {
-          rect(width * 0.03, 2, color, 0.95);
-          rect(width * 0.042, 1.2, color, 0.78);
+          rect(width * 0.017, 4.6, color, 0.92);
+          rect(width * 0.028, 1.8, color, 0.78);
+          rect(width * 0.051, 1.2, gold, 0.62);
+          withCorners(width * 0.034, function () { drawRoyalCorner(width * 0.09); });
         } else if (design === 'floral') {
           var floralInset = width * 0.024;
           var corner = width * 0.032;
@@ -2452,11 +2644,17 @@
           ctx.lineTo(width - floralInset, height - floralInset);
           ctx.lineTo(width - floralInset, height - floralInset - corner);
           ctx.stroke();
+          withCorners(width * 0.036, function () { drawFloralCorner(width * 0.085); });
         } else if (design === 'sutra') {
-          rect(width * 0.043, 1.6, color, 0.9);
+          rect(width * 0.0355, 1, gold, 0.38);
+          dashedRect(width * 0.0435, 1.5, color, [12, 9], 0.9);
+          withCorners(width * 0.044, function () { drawSutraCorner(width * 0.075); });
+          drawSutraKnot(width / 2, width * 0.0435, width * 0.025);
+          drawSutraKnot(width / 2, height - width * 0.0435, width * 0.025);
         } else {
           rect(width * 0.012, 2, color, 0.78);
-          rect(width * 0.0225, 1.2, 'rgba(201, 162, 39, 0.55)', 1);
+          dashedRect(width * 0.0225, 1.2, gold, [2, 6], 0.82);
+          withCorners(width * 0.027, function () { drawHeritageCorner(width * 0.09); });
         }
 
         ctx.restore();

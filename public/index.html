@@ -1010,6 +1010,13 @@
       border-radius: 18%;
     }
 
+    .bio-ganesha-mark {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+
     .bio-title {
       text-align: center;
       font-size: 6.6cqw;
@@ -1315,6 +1322,12 @@
       font-weight: 700;
       font-size: 22px;
       line-height: 1;
+    }
+
+    .builder-style-swatch.is-symbol .bio-ganesha-mark {
+      width: 54px;
+      height: 54px;
+      color: var(--swatch-color, var(--accent));
     }
 
     .builder-style-swatch.is-symbol img {
@@ -1940,8 +1953,10 @@
         { id: 'sutra',    name: 'Sutra' }
       ];
 
+      var ganeshaSymbolSvg = '<svg class="bio-ganesha-mark" viewBox="0 0 120 112" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M60 22c-13 0-22 9-22 22 0 9 5 16 13 20" /><path d="M60 22c13 0 22 9 22 22 0 9-5 16-13 20" /><path d="M48 36c-17-10-34-3-38 13-3 13 7 25 22 24" /><path d="M72 36c17-10 34-3 38 13 3 13-7 25-22 24" /><path d="M60 40c-7 12-8 28 5 36 11 7 8 22-5 22" /><path d="M51 70c-9 0-16-5-20-13" /><path d="M69 70c9 0 16-5 20-13" /><path d="M50 25l10-13 10 13" /><path d="M55 14h10" /><path d="M39 91c10-10 32-10 42 0" /><path d="M27 96c12 8 26 7 34-2" /><path d="M93 96c-12 8-26 7-34-2" /><path d="M44 107c11-5 21-5 32 0" /></g><g fill="currentColor"><circle cx="52" cy="45" r="2.5" /><circle cx="68" cy="45" r="2.5" /></g></svg>';
+
       var styleSymbols = [
-        { id: 'ganesha',  name: 'Ganesha',  type: 'image', src: '/rishta-logo.png' },
+        { id: 'ganesha',  name: 'Ganesha',  type: 'svg', markup: ganeshaSymbolSvg },
         { id: 'om',       name: 'Om',       type: 'glyph', glyph: 'ॐ' },
         { id: 'swastika', name: 'Swastika', type: 'glyph', glyph: '卐' },
         { id: 'shri',     name: 'Shri',     type: 'glyph', glyph: 'श्री' }
@@ -2197,9 +2212,9 @@
         if (!overlay) return;
         var sym = styleSymbols.filter(function (s) { return s.id === id; })[0];
         if (!sym) return;
-        overlay.innerHTML = sym.type === 'image'
-          ? '<img src="' + sym.src + '" alt="' + sym.name + '" />'
-          : '<span class="bio-glyph is-' + sym.id + '">' + sym.glyph + '</span>';
+        if (sym.type === 'svg') overlay.innerHTML = sym.markup;
+        else if (sym.type === 'image') overlay.innerHTML = '<img src="' + sym.src + '" alt="' + sym.name + '" />';
+        else overlay.innerHTML = '<span class="bio-glyph is-' + sym.id + '">' + sym.glyph + '</span>';
       }
 
       function applyPhoto(dataUrl) {
@@ -2223,10 +2238,6 @@
         });
       }
 
-      function pct(raw) {
-        return parseFloat(String(raw || '').replace('%', '')) / 100;
-      }
-
       function fitText(ctx, text, maxWidth) {
         if (ctx.measureText(text).width <= maxWidth) return text;
         var clipped = text;
@@ -2243,26 +2254,6 @@
         var sourceX = (img.width - sourceWidth) / 2;
         var sourceY = (img.height - sourceHeight) / 2;
         ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
-      }
-
-      function drawWrappedText(ctx, text, x, y, maxWidth, lineHeight, maxLines) {
-        var words = text.split(/\s+/);
-        var line = '';
-        var lines = [];
-        words.forEach(function (word) {
-          var next = line ? line + ' ' + word : word;
-          if (ctx.measureText(next).width > maxWidth && line) {
-            lines.push(line);
-            line = word;
-          } else {
-            line = next;
-          }
-        });
-        if (line) lines.push(line);
-        lines.slice(0, maxLines).forEach(function (row, index) {
-          var output = index === maxLines - 1 && lines.length > maxLines ? fitText(ctx, row, maxWidth) : row;
-          ctx.fillText(output, x, y + (lineHeight * index));
-        });
       }
 
       function drawBorderDesign(ctx, design, color, width, height) {
@@ -2304,6 +2295,45 @@
           ctx.strokeRect(heritageInset, heritageInset, width - heritageInset * 2, height - heritageInset * 2);
         }
 
+        ctx.restore();
+      }
+
+      function drawGaneshaMark(ctx, centerX, topY, size, color) {
+        ctx.save();
+        ctx.translate(centerX - size / 2, topY);
+        ctx.scale(size / 120, size / 112);
+        ctx.strokeStyle = color;
+        ctx.fillStyle = color;
+        ctx.lineWidth = 4;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        function curve(points) {
+          ctx.beginPath();
+          ctx.moveTo(points[0], points[1]);
+          for (var i = 2; i < points.length; i += 6) {
+            ctx.bezierCurveTo(points[i], points[i + 1], points[i + 2], points[i + 3], points[i + 4], points[i + 5]);
+          }
+          ctx.stroke();
+        }
+
+        curve([60, 22, 47, 22, 38, 31, 38, 44, 38, 53, 43, 60, 51, 64]);
+        curve([60, 22, 73, 22, 82, 31, 82, 44, 82, 53, 77, 60, 69, 64]);
+        curve([48, 36, 31, 26, 14, 33, 10, 49, 7, 62, 17, 74, 32, 73]);
+        curve([72, 36, 89, 26, 106, 33, 110, 49, 113, 62, 103, 74, 88, 73]);
+        curve([60, 40, 53, 52, 53, 68, 65, 76, 76, 83, 73, 98, 60, 98]);
+        curve([51, 70, 42, 70, 35, 65, 31, 57]);
+        curve([69, 70, 78, 70, 85, 65, 89, 57]);
+        curve([50, 25, 55, 17, 58, 12, 60, 10, 62, 12, 65, 17, 70, 25]);
+        curve([39, 91, 49, 81, 71, 81, 81, 91]);
+        curve([27, 96, 39, 104, 53, 103, 61, 94]);
+        curve([93, 96, 81, 104, 67, 103, 59, 94]);
+        curve([44, 107, 55, 102, 65, 102, 76, 107]);
+
+        ctx.beginPath();
+        ctx.arc(52, 45, 2.5, 0, Math.PI * 2);
+        ctx.arc(68, 45, 2.5, 0, Math.PI * 2);
+        ctx.fill();
         ctx.restore();
       }
 
@@ -2353,7 +2383,11 @@
         }
 
         var symbol = styleSymbols.filter(function (s) { return s.id === state.symbol; })[0];
-        text(symbol && symbol.type === 'glyph' ? symbol.glyph : 'श्री', 527, 72, 58, symbolColor, '700', 'center');
+        if (symbol && symbol.id === 'ganesha') {
+          drawGaneshaMark(ctx, 527, 48, 104, symbolColor);
+        } else {
+          text(symbol && symbol.type === 'glyph' ? symbol.glyph : 'श्री', 527, 72, 58, symbolColor, '700', 'center');
+        }
         text('Biodata', 527, 155, 68, accent, '700', 'center');
         line(390, 246, 665, false);
 
@@ -2501,9 +2535,11 @@
         html += '<p class="builder-style-label">Symbol</p>';
         html += '<div class="builder-style-options">';
         styleSymbols.forEach(function (s) {
-          var inner = s.type === 'image'
-            ? '<img src="' + s.src + '" alt="" />'
-            : '<span class="builder-symbol-glyph">' + s.glyph + '</span>';
+          var inner = s.type === 'svg'
+            ? s.markup
+            : s.type === 'image'
+              ? '<img src="' + s.src + '" alt="" />'
+              : '<span class="builder-symbol-glyph">' + s.glyph + '</span>';
           html += '<div class="builder-style-option' + (state.symbol === s.id ? ' is-selected' : '') + '" data-symbol="' + s.id + '">' +
                   '<div class="builder-style-swatch is-symbol" style="--swatch-color:' + symbolHex + '">' + inner + '</div>' +
                   '<span class="builder-style-option-name">' + s.name + '</span>' +

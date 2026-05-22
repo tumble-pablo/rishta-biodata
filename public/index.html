@@ -933,20 +933,21 @@
 
     .biodata-card[data-border="heritage"]::after {
       inset: 2.25%;
-      border: 1px solid rgba(201, 162, 39, 0.42);
+      border: 1px dotted rgba(201, 134, 26, 0.82);
       opacity: 1;
     }
 
     .biodata-card[data-border="royal"]::before {
-      inset: 3%;
-      border: 1.8px solid var(--bio-border);
+      inset: 1.7%;
+      border: 0.72cqw double var(--bio-border);
       opacity: 0.95;
     }
 
     .biodata-card[data-border="royal"]::after {
-      inset: 4.2%;
-      border: 1px solid var(--bio-border);
-      opacity: 0.78;
+      inset: 5.1%;
+      border: 1px solid rgba(201, 134, 26, 0.62);
+      box-shadow: 0 0 0 0.5cqw rgba(201, 134, 26, 0.08);
+      opacity: 1;
     }
 
     .biodata-card[data-border="floral"]::before {
@@ -962,9 +963,19 @@
     }
 
     .biodata-card[data-border="sutra"]::before {
-      inset: 4.3%;
-      border: 1.6px solid var(--bio-border);
+      inset: 3.55%;
+      border: 1px solid rgba(201, 134, 26, 0.38);
+      opacity: 1;
+    }
+
+    .biodata-card[data-border="sutra"]::after {
+      inset: 4.35%;
       opacity: 0.9;
+      background:
+        repeating-linear-gradient(90deg, var(--bio-border) 0 1.15cqw, transparent 1.15cqw 1.95cqw) top left/100% 1px no-repeat,
+        repeating-linear-gradient(90deg, var(--bio-border) 0 1.15cqw, transparent 1.15cqw 1.95cqw) bottom left/100% 1px no-repeat,
+        repeating-linear-gradient(0deg, var(--bio-border) 0 1.15cqw, transparent 1.15cqw 1.95cqw) top left/1px 100% no-repeat,
+        repeating-linear-gradient(0deg, var(--bio-border) 0 1.15cqw, transparent 1.15cqw 1.95cqw) top right/1px 100% no-repeat;
     }
 
     .bio-corner {
@@ -974,13 +985,134 @@
       pointer-events: none;
       opacity: 0;
       z-index: 3;
+      color: var(--bio-border);
+      background: none;
+    }
+
+    .bio-corner::before,
+    .bio-corner::after {
+      content: '';
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .biodata-card[data-border="heritage"] .bio-corner,
+    .biodata-card[data-border="royal"] .bio-corner,
+    .biodata-card[data-border="floral"] .bio-corner,
+    .biodata-card[data-border="sutra"] .bio-corner {
+      opacity: 1;
+    }
+
+    .biodata-card[data-border="heritage"] .bio-corner {
+      width: 9.8%;
+      color: #C9861A;
       background:
-        linear-gradient(var(--bio-border), var(--bio-border)) top left/72% 1px no-repeat,
-        linear-gradient(var(--bio-border), var(--bio-border)) top left/1px 72% no-repeat;
+        linear-gradient(currentColor, currentColor) 5% 5%/84% 1px no-repeat,
+        linear-gradient(currentColor, currentColor) 5% 5%/1px 84% no-repeat,
+        radial-gradient(circle at 8% 8%, currentColor 0 1.3px, transparent 1.8px),
+        radial-gradient(circle at 24% 7%, currentColor 0 1px, transparent 1.5px),
+        radial-gradient(circle at 7% 24%, currentColor 0 1px, transparent 1.5px);
+    }
+
+    .biodata-card[data-border="heritage"] .bio-corner::before {
+      inset: 15% 22% 22% 15%;
+      border-top: 1.2px solid currentColor;
+      border-left: 1.2px solid currentColor;
+      border-radius: 100% 0 0;
+    }
+
+    .biodata-card[data-border="heritage"] .bio-corner::after {
+      left: 17%;
+      top: 16%;
+      width: 54%;
+      height: 54%;
+      background:
+        radial-gradient(ellipse at 24% 38%, currentColor 0 10%, transparent 11%),
+        radial-gradient(ellipse at 38% 24%, currentColor 0 10%, transparent 11%),
+        radial-gradient(ellipse at 43% 48%, currentColor 0 8%, transparent 9%);
+      transform: rotate(-24deg);
+      opacity: 0.95;
+    }
+
+    .biodata-card[data-border="royal"] .bio-corner {
+      width: 7.4%;
+      color: var(--bio-border);
+    }
+
+    .biodata-card[data-border="royal"] .bio-corner::before {
+      left: 4%;
+      top: 4%;
+      width: 34%;
+      height: 34%;
+      border: 1.8px solid currentColor;
+      transform: rotate(45deg);
+      background: var(--bio-paper);
+      box-shadow: 0 0 0 0.5cqw rgba(201, 134, 26, 0.16);
+    }
+
+    .biodata-card[data-border="royal"] .bio-corner::after {
+      left: 21%;
+      top: 21%;
+      width: 11%;
+      height: 11%;
+      background: currentColor;
+      transform: rotate(45deg);
+      box-shadow: 1.7cqw 0 0 -0.35cqw #C9861A, 0 1.7cqw 0 -0.35cqw #C9861A;
     }
 
     .biodata-card[data-border="floral"] .bio-corner {
-      opacity: 1;
+      color: #C9861A;
+      background:
+        linear-gradient(currentColor, currentColor) 0 0/74% 1px no-repeat,
+        linear-gradient(currentColor, currentColor) 0 0/1px 74% no-repeat;
+    }
+
+    .biodata-card[data-border="floral"] .bio-corner::before {
+      inset: 9% 20% 20% 9%;
+      border-top: 1.4px solid currentColor;
+      border-left: 1.4px solid currentColor;
+      border-radius: 100% 0 0;
+      transform: rotate(-6deg);
+    }
+
+    .biodata-card[data-border="floral"] .bio-corner::after {
+      left: 18%;
+      top: 17%;
+      width: 64%;
+      height: 64%;
+      background:
+        radial-gradient(ellipse at 18% 47%, currentColor 0 9%, transparent 10%),
+        radial-gradient(ellipse at 44% 18%, currentColor 0 9%, transparent 10%),
+        radial-gradient(ellipse at 38% 42%, var(--bio-border) 0 7%, transparent 8%),
+        radial-gradient(circle at 58% 59%, currentColor 0 4%, transparent 5%);
+    }
+
+    .biodata-card[data-border="sutra"] .bio-corner {
+      width: 7.2%;
+      color: var(--bio-border);
+      background:
+        linear-gradient(currentColor, currentColor) 0 35%/74% 1px no-repeat,
+        linear-gradient(currentColor, currentColor) 35% 0/1px 74% no-repeat;
+    }
+
+    .biodata-card[data-border="sutra"] .bio-corner::before {
+      left: 24%;
+      top: 24%;
+      width: 24%;
+      height: 24%;
+      border: 1.5px solid currentColor;
+      transform: rotate(45deg);
+      background: var(--bio-paper);
+    }
+
+    .biodata-card[data-border="sutra"] .bio-corner::after {
+      left: 33%;
+      top: 33%;
+      width: 8%;
+      height: 8%;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 1.4cqw 0 0 -0.25cqw currentColor, 0 1.4cqw 0 -0.25cqw currentColor;
     }
 
     .bio-corner-tr {

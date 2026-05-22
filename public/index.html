@@ -877,30 +877,37 @@
       border-color: var(--accent);
     }
 
-    /* Biodata card (template-backed live preview) */
+    /* Biodata card (rendered live preview) */
     .biodata-card {
       --bio-accent: #9A3324;
       --bio-fill: #1D1A17;
       --bio-border: #9A3324;
       --bio-symbol: #9A3324;
+      --bio-paper: #FFF8EE;
+      --bio-line: rgba(154, 51, 36, 0.62);
+      --bio-dot: rgba(29, 26, 23, 0.34);
       width: 100%;
       aspect-ratio: 1055 / 1491;
-      background: #FFF8EE url("/biodata-template-preview.png") center / contain no-repeat;
-      border: 0;
+      background:
+        radial-gradient(circle at 50% 4%, rgba(244, 184, 63, 0.12), transparent 19%),
+        radial-gradient(circle at 50% 100%, rgba(154, 51, 36, 0.10), transparent 22%),
+        var(--bio-paper);
+      border: 1.8px solid var(--bio-border);
       border-radius: 6px;
-      padding: 0;
+      padding: 3.1%;
       font-family: Georgia, 'Times New Roman', serif;
       color: var(--bio-fill);
       position: relative;
       overflow: hidden;
       container-type: inline-size;
+      box-shadow: 0 10px 24px rgba(10, 37, 64, 0.08);
     }
 
     /* Border color swatches (--bio-border) */
-    .biodata-card.bc-maroon  { --bio-border: #9A3324; }
-    .biodata-card.bc-red     { --bio-border: #D72638; }
-    .biodata-card.bc-saffron { --bio-border: #F08C00; }
-    .biodata-card.bc-gold    { --bio-border: #C9A227; }
+    .biodata-card.bc-maroon  { --bio-border: #9A3324; --bio-line: rgba(154, 51, 36, 0.62); }
+    .biodata-card.bc-red     { --bio-border: #D72638; --bio-line: rgba(215, 38, 56, 0.58); }
+    .biodata-card.bc-saffron { --bio-border: #F08C00; --bio-line: rgba(240, 140, 0, 0.58); }
+    .biodata-card.bc-gold    { --bio-border: #C9A227; --bio-line: rgba(201, 162, 39, 0.62); }
 
     /* Symbol color swatches (--bio-symbol) */
     .biodata-card.sc-maroon  { --bio-symbol: #9A3324; }
@@ -908,128 +915,332 @@
     .biodata-card.sc-saffron { --bio-symbol: #F08C00; }
     .biodata-card.sc-gold    { --bio-symbol: #C9A227; }
 
-    /* Border designs — 4 overlay variants on top of the PNG */
-    .biodata-card[data-border="heritage"]::after {
+    .biodata-card::before {
       content: '';
       position: absolute;
-      inset: 1.4%;
-      border: 1.5px solid var(--bio-border);
-      border-radius: 4px;
-      opacity: 0.55;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .biodata-card[data-border="royal"]::after {
-      content: '';
-      position: absolute;
-      inset: 4.6%;
-      border: 1.5px double var(--bio-border);
-      border-radius: 2px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .biodata-card[data-border="floral"]::after {
-      content: '';
-      position: absolute;
-      inset: 4%;
-      pointer-events: none;
-      z-index: 0;
-      background:
-        linear-gradient(var(--bio-border), var(--bio-border)) top left/3.2cqw 1px no-repeat,
-        linear-gradient(var(--bio-border), var(--bio-border)) top left/1px 3.2cqw no-repeat,
-        linear-gradient(var(--bio-border), var(--bio-border)) top right/3.2cqw 1px no-repeat,
-        linear-gradient(var(--bio-border), var(--bio-border)) top right/1px 3.2cqw no-repeat,
-        linear-gradient(var(--bio-border), var(--bio-border)) bottom left/3.2cqw 1px no-repeat,
-        linear-gradient(var(--bio-border), var(--bio-border)) bottom left/1px 3.2cqw no-repeat,
-        linear-gradient(var(--bio-border), var(--bio-border)) bottom right/3.2cqw 1px no-repeat,
-        linear-gradient(var(--bio-border), var(--bio-border)) bottom right/1px 3.2cqw no-repeat;
-    }
-
-    .biodata-card[data-border="sutra"]::after {
-      content: '';
-      position: absolute;
-      inset: 5.2%;
+      inset: 1.2%;
       border: 1px solid var(--bio-border);
+      border-radius: 4px;
       pointer-events: none;
-      z-index: 0;
+      opacity: 0.7;
+      z-index: 2;
     }
 
-    .biodata-fill {
+    .biodata-card[data-border="royal"] {
+      box-shadow:
+        inset 0 0 0 1.2cqw rgba(255, 248, 238, 0.92),
+        inset 0 0 0 1.45cqw var(--bio-border),
+        inset 0 0 0 1.95cqw rgba(255, 248, 238, 0.92),
+        inset 0 0 0 2.12cqw var(--bio-border),
+        0 10px 24px rgba(10, 37, 64, 0.08);
+    }
+
+    .biodata-card[data-border="sutra"]::before {
+      inset: 4.3%;
+      border-width: 1.4px;
+    }
+
+    .bio-corner {
       position: absolute;
-      left: var(--x);
-      top: var(--y);
-      width: var(--w);
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: 1.5cqw;
-      line-height: 1.08;
-      color: var(--bio-fill);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      width: 8.5%;
+      aspect-ratio: 1 / 1;
       pointer-events: none;
+      opacity: 0;
+      z-index: 3;
+      background:
+        linear-gradient(var(--bio-border), var(--bio-border)) top left/72% 1px no-repeat,
+        linear-gradient(var(--bio-border), var(--bio-border)) top left/1px 72% no-repeat;
+    }
+
+    .biodata-card[data-border="floral"] .bio-corner {
+      opacity: 1;
+    }
+
+    .bio-corner-tr {
+      top: 3%;
+      right: 3%;
+      transform: rotate(90deg);
+    }
+
+    .bio-corner-br {
+      right: 3%;
+      bottom: 3%;
+      transform: rotate(180deg);
+    }
+
+    .bio-corner-bl {
+      left: 3%;
+      bottom: 3%;
+      transform: rotate(270deg);
+    }
+
+    .bio-corner-tl {
+      top: 3%;
+      left: 3%;
+    }
+
+    .bio-inner {
+      height: 100%;
+      padding: 3.5% 4%;
+      border: 1px solid rgba(201, 162, 39, 0.42);
+      display: flex;
+      flex-direction: column;
+      position: relative;
       z-index: 1;
     }
 
-    .biodata-fill:empty {
-      display: none;
+    .biodata-symbol-overlay {
+      width: 12%;
+      aspect-ratio: 1 / 1;
+      margin: 0 auto 0.8%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--bio-symbol);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 700;
+      font-size: 6cqw;
+      line-height: 1;
     }
 
-    .biodata-fill.is-name {
-      font-size: 2.4cqw;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
+    .biodata-symbol-overlay img {
+      width: 72%;
+      height: 72%;
+      object-fit: contain;
+      border-radius: 18%;
+    }
+
+    .bio-title {
+      text-align: center;
+      font-size: 6.6cqw;
+      font-weight: 700;
+      line-height: 0.95;
       color: var(--bio-accent);
+      margin-bottom: 0.8%;
     }
 
-    .biodata-fill.is-mini {
+    .bio-ornament {
+      width: 25%;
+      height: 1px;
+      margin: 0 auto 2.8%;
+      background: linear-gradient(90deg, transparent, var(--bio-line), transparent);
+      position: relative;
+    }
+
+    .bio-ornament::after {
+      content: '◇';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: #C9861A;
+      background: var(--bio-paper);
+      padding: 0 4%;
+      font-size: 1.5cqw;
+    }
+
+    .bio-intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 24%;
+      gap: 7%;
+      align-items: end;
+      margin-bottom: 3.2%;
+    }
+
+    .bio-name-label {
+      color: var(--bio-accent);
+      font-size: 3.15cqw;
+      font-variant: small-caps;
+      letter-spacing: 0.07em;
+      margin-bottom: 1.8%;
+    }
+
+    .bio-name-line {
+      min-height: 3.7cqw;
+      border-bottom: 1px solid var(--bio-line);
+      color: var(--bio-accent);
+      font-size: 1.8cqw;
+      line-height: 1.15;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .bio-name-line [data-bind] {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .bio-stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5%;
+      margin-top: 4.5%;
+    }
+
+    .bio-stat-label {
+      color: var(--bio-accent);
       font-size: 1.35cqw;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8%;
     }
 
-    .biodata-fill.is-address {
-      white-space: normal;
-      line-height: 1.22;
+    .bio-stat-value {
+      min-height: 2.2cqw;
+      border-bottom: 1px dotted var(--bio-dot);
+      font-size: 1.15cqw;
+      line-height: 1.1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .bio-photo-frame {
+      min-height: 23cqw;
+      border: 1.6px solid var(--bio-border);
+      box-shadow: inset 0 0 0 0.7cqw var(--bio-paper), inset 0 0 0 calc(0.7cqw + 1px) rgba(201, 162, 39, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: var(--bio-accent);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .bio-photo-placeholder {
+      font-size: 1.7cqw;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .bio-photo-placeholder::before {
+      content: '▢';
+      display: block;
+      color: #C9861A;
+      font-size: 2.8cqw;
+      line-height: 1;
+      margin-bottom: 8%;
     }
 
     .biodata-photo-overlay {
       position: absolute;
-      left: 71.35%;
-      top: 12.15%;
-      width: 19.8%;
-      height: 19.2%;
+      inset: 0.9cqw;
       background-size: cover;
       background-position: center;
       border-radius: 2px;
-      overflow: hidden;
       display: none;
-      z-index: 1;
+      z-index: 2;
     }
 
     .biodata-photo-overlay.has-image {
       display: block;
     }
 
-    .biodata-symbol-overlay {
-      position: absolute;
-      left: 40.5%;
-      top: 2.9%;
-      width: 19%;
-      aspect-ratio: 1.65 / 1;
-      background: #FFF8EE;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      color: var(--bio-symbol);
-      font-family: Georgia, 'Times New Roman', serif;
-      font-weight: 700;
-      font-size: 5.8cqw;
-      line-height: 1;
-      z-index: 2;
+    .bio-section-rule {
+      border: 0;
+      border-top: 1px solid rgba(201, 162, 39, 0.65);
+      margin: 0 0 2.6%;
     }
 
-    .biodata-symbol-overlay.is-active {
-      display: flex;
+    .bio-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.7% 4.2%;
+      flex: 1;
+    }
+
+    .bio-section {
+      min-width: 0;
+      border-top: 1px solid var(--bio-line);
+      padding-top: 1.5%;
+    }
+
+    .bio-section.is-wide {
+      grid-column: 1 / -1;
+    }
+
+    .bio-section-title {
+      color: var(--bio-accent);
+      font-size: 1.85cqw;
+      line-height: 1.1;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 2.2%;
+      font-weight: 700;
+    }
+
+    .bio-section-title::before,
+    .bio-section-title::after {
+      content: '✧';
+      color: #C9861A;
+      font-size: 1.35cqw;
+      padding: 0 2.2%;
+    }
+
+    .bio-row {
+      display: grid;
+      grid-template-columns: 38% minmax(0, 1fr);
+      gap: 4%;
+      align-items: baseline;
+      min-height: 2.28cqw;
+      font-size: 1.32cqw;
+      line-height: 1.06;
+    }
+
+    .bio-row-label {
+      white-space: nowrap;
+    }
+
+    .bio-value {
+      min-width: 0;
+      min-height: 1.3cqw;
+      border-bottom: 1px dotted var(--bio-dot);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--bio-fill);
+    }
+
+    .bio-section.is-wide .bio-row {
+      grid-template-columns: 11% minmax(0, 1fr);
+    }
+
+    .bio-footer-ornament {
+      width: 18%;
+      height: 1px;
+      margin: 2.2% auto 0;
+      background: linear-gradient(90deg, transparent, #C9861A, transparent);
+      position: relative;
+    }
+
+    .bio-footer-ornament::after {
+      content: '♥';
+      position: absolute;
+      left: 50%;
+      top: -1.4cqw;
+      transform: translateX(-50%);
+      color: var(--bio-accent);
+      font-size: 1.9cqw;
+      background: var(--bio-paper);
+      padding: 0 4%;
+    }
+
+    .bio-glyph {
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bio-glyph.is-om,
+    .bio-glyph.is-swastika,
+    .bio-glyph.is-shri {
+      font-size: 5.2cqw;
     }
 
     /* Style step (border + symbol pickers) */
@@ -1556,61 +1767,116 @@
             </div>
           </div>
           <div class="biodata-card" id="biodata-card">
-            <div class="biodata-photo-overlay"></div>
-            <div class="biodata-symbol-overlay" id="biodata-symbol-overlay"></div>
+            <span class="bio-corner bio-corner-tl"></span>
+            <span class="bio-corner bio-corner-tr"></span>
+            <span class="bio-corner bio-corner-br"></span>
+            <span class="bio-corner bio-corner-bl"></span>
 
-            <span class="biodata-fill is-name" data-bind="name" style="--x: 8.3%; --y: 23.4%; --w: 54%;"></span>
-            <span class="biodata-fill is-mini" data-bind="age" style="--x: 8.3%; --y: 30.4%; --w: 15%;"></span>
-            <span class="biodata-fill is-mini" data-bind="height" style="--x: 28.2%; --y: 30.4%; --w: 15%;"></span>
-            <span class="biodata-fill is-mini" data-bind="city" style="--x: 48.2%; --y: 30.4%; --w: 16%;"></span>
+            <div class="bio-inner">
+              <div class="biodata-symbol-overlay" id="biodata-symbol-overlay"></div>
+              <div class="bio-title">Biodata</div>
+              <div class="bio-ornament"></div>
 
-            <span class="biodata-fill" data-bind="dob" style="--x: 22%; --y: 38.85%; --w: 24%;"></span>
-            <span class="biodata-fill" data-bind="tob" style="--x: 22%; --y: 40.95%; --w: 24%;"></span>
-            <span class="biodata-fill" data-bind="pob" style="--x: 22%; --y: 43.05%; --w: 24%;"></span>
-            <span class="biodata-fill" data-bind="height" style="--x: 22%; --y: 45.15%; --w: 24%;"></span>
-            <span class="biodata-fill" data-bind="complexion" style="--x: 22%; --y: 47.25%; --w: 24%;"></span>
-            <span class="biodata-fill" data-bind="body" style="--x: 22%; --y: 49.35%; --w: 24%;"></span>
+              <div class="bio-intro">
+                <div>
+                  <div class="bio-name-label">Name</div>
+                  <div class="bio-name-line"><span data-bind="name"></span></div>
+                  <div class="bio-stat-row">
+                    <div>
+                      <div class="bio-stat-label">Age</div>
+                      <div class="bio-stat-value" data-bind="age"></div>
+                    </div>
+                    <div>
+                      <div class="bio-stat-label">Height</div>
+                      <div class="bio-stat-value" data-bind="height"></div>
+                    </div>
+                    <div>
+                      <div class="bio-stat-label">City</div>
+                      <div class="bio-stat-value" data-bind="city"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="bio-photo-frame">
+                  <div class="biodata-photo-overlay"></div>
+                  <div class="bio-photo-placeholder">Photo</div>
+                </div>
+              </div>
 
-            <span class="biodata-fill" data-bind="religion" style="--x: 61.2%; --y: 38.85%; --w: 11.5%;"></span>
-            <span class="biodata-fill" data-bind="caste" style="--x: 61.2%; --y: 41.15%; --w: 11.5%;"></span>
-            <span class="biodata-fill" data-bind="subCaste" style="--x: 61.2%; --y: 43.75%; --w: 11.5%;"></span>
-            <span class="biodata-fill" data-bind="gotra" style="--x: 61.2%; --y: 46.25%; --w: 11.5%;"></span>
-            <span class="biodata-fill" data-bind="motherTongue" style="--x: 84.3%; --y: 38.85%; --w: 10%;"></span>
-            <span class="biodata-fill" data-bind="rashi" style="--x: 84.3%; --y: 41.15%; --w: 10%;"></span>
-            <span class="biodata-fill" data-bind="nakshatra" style="--x: 84.3%; --y: 43.75%; --w: 10%;"></span>
-            <span class="biodata-fill" data-bind="manglik" style="--x: 84.3%; --y: 46.25%; --w: 10%;"></span>
+              <hr class="bio-section-rule" />
 
-            <span class="biodata-fill" data-bind="qualification" style="--x: 22%; --y: 55.6%; --w: 24%;"></span>
-            <span class="biodata-fill" data-bind="university" style="--x: 22%; --y: 57.65%; --w: 24%;"></span>
-            <span class="biodata-fill" data-bind="occupation" style="--x: 22%; --y: 59.7%; --w: 24%;"></span>
-            <span class="biodata-fill" data-bind="company" style="--x: 22%; --y: 61.75%; --w: 24%;"></span>
-            <span class="biodata-fill" data-bind="income" style="--x: 22%; --y: 63.8%; --w: 24%;"></span>
+              <div class="bio-grid">
+                <section class="bio-section">
+                  <h4 class="bio-section-title">1. Personal Details</h4>
+                  <div class="bio-row"><span class="bio-row-label">Date of Birth</span><span class="bio-value" data-bind="dob"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Time of Birth</span><span class="bio-value" data-bind="tob"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Place of Birth</span><span class="bio-value" data-bind="pob"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Height</span><span class="bio-value" data-bind="height"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Complexion</span><span class="bio-value" data-bind="complexion"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Body Type</span><span class="bio-value" data-bind="body"></span></div>
+                </section>
 
-            <span class="biodata-fill" data-bind="diet" style="--x: 67%; --y: 55.6%; --w: 25%;"></span>
-            <span class="biodata-fill" data-bind="hobbies" style="--x: 67%; --y: 57.65%; --w: 25%;"></span>
-            <span class="biodata-fill" data-bind="interests" style="--x: 67%; --y: 59.7%; --w: 25%;"></span>
-            <span class="biodata-fill" data-bind="values" style="--x: 67%; --y: 61.75%; --w: 25%;"></span>
-            <span class="biodata-fill" data-bind="habits" style="--x: 67%; --y: 63.8%; --w: 25%;"></span>
+                <section class="bio-section">
+                  <h4 class="bio-section-title">2. Religion &amp; Community</h4>
+                  <div class="bio-row"><span class="bio-row-label">Religion</span><span class="bio-value" data-bind="religion"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Mother Tongue</span><span class="bio-value" data-bind="motherTongue"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Caste</span><span class="bio-value" data-bind="caste"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Rashi</span><span class="bio-value" data-bind="rashi"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Sub Caste</span><span class="bio-value" data-bind="subCaste"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Nakshatra</span><span class="bio-value" data-bind="nakshatra"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Gotra</span><span class="bio-value" data-bind="gotra"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Manglik</span><span class="bio-value" data-bind="manglik"></span></div>
+                </section>
 
-            <span class="biodata-fill" data-bind="father" style="--x: 23%; --y: 70.45%; --w: 23%;"></span>
-            <span class="biodata-fill" data-bind="fatherOcc" style="--x: 23%; --y: 72.5%; --w: 23%;"></span>
-            <span class="biodata-fill" data-bind="mother" style="--x: 23%; --y: 74.55%; --w: 23%;"></span>
-            <span class="biodata-fill" data-bind="motherOcc" style="--x: 23%; --y: 76.6%; --w: 23%;"></span>
-            <span class="biodata-fill" data-bind="siblings" style="--x: 23%; --y: 78.65%; --w: 23%;"></span>
-            <span class="biodata-fill" data-bind="familyType" style="--x: 23%; --y: 80.7%; --w: 23%;"></span>
-            <span class="biodata-fill" data-bind="familyValues" style="--x: 23%; --y: 82.75%; --w: 23%;"></span>
-            <span class="biodata-fill" data-bind="native" style="--x: 23%; --y: 84.8%; --w: 23%;"></span>
+                <section class="bio-section">
+                  <h4 class="bio-section-title">3. Education &amp; Career</h4>
+                  <div class="bio-row"><span class="bio-row-label">Qualification</span><span class="bio-value" data-bind="qualification"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">University</span><span class="bio-value" data-bind="university"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Occupation</span><span class="bio-value" data-bind="occupation"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Company</span><span class="bio-value" data-bind="company"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Annual Income</span><span class="bio-value" data-bind="income"></span></div>
+                </section>
 
-            <span class="biodata-fill" data-bind="prefAge" style="--x: 69%; --y: 70.45%; --w: 23%;"></span>
-            <span class="biodata-fill" data-bind="prefHeight" style="--x: 69%; --y: 72.5%; --w: 23%;"></span>
-            <span class="biodata-fill" data-bind="prefEducation" style="--x: 69%; --y: 74.55%; --w: 23%;"></span>
-            <span class="biodata-fill" data-bind="prefProfession" style="--x: 69%; --y: 76.6%; --w: 23%;"></span>
-            <span class="biodata-fill" data-bind="prefLocation" style="--x: 69%; --y: 78.65%; --w: 23%;"></span>
-            <span class="biodata-fill" data-bind="prefOther" style="--x: 69%; --y: 80.7%; --w: 23%;"></span>
+                <section class="bio-section">
+                  <h4 class="bio-section-title">4. Lifestyle</h4>
+                  <div class="bio-row"><span class="bio-row-label">Diet</span><span class="bio-value" data-bind="diet"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Hobbies</span><span class="bio-value" data-bind="hobbies"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Interests</span><span class="bio-value" data-bind="interests"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Values</span><span class="bio-value" data-bind="values"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Smoking / Drinking</span><span class="bio-value" data-bind="habits"></span></div>
+                </section>
 
-            <span class="biodata-fill" data-bind="phone" style="--x: 18.5%; --y: 88.45%; --w: 68%;"></span>
-            <span class="biodata-fill" data-bind="email" style="--x: 18.5%; --y: 90.55%; --w: 68%;"></span>
-            <span class="biodata-fill is-address" data-bind="address" style="--x: 18.5%; --y: 92.65%; --w: 68%;"></span>
+                <section class="bio-section">
+                  <h4 class="bio-section-title">5. Family Details</h4>
+                  <div class="bio-row"><span class="bio-row-label">Father</span><span class="bio-value" data-bind="father"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Father's Occupation</span><span class="bio-value" data-bind="fatherOcc"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Mother</span><span class="bio-value" data-bind="mother"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Mother's Occupation</span><span class="bio-value" data-bind="motherOcc"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Siblings</span><span class="bio-value" data-bind="siblings"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Family Type</span><span class="bio-value" data-bind="familyType"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Family Values</span><span class="bio-value" data-bind="familyValues"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Native Place</span><span class="bio-value" data-bind="native"></span></div>
+                </section>
+
+                <section class="bio-section">
+                  <h4 class="bio-section-title">6. Partner Preference</h4>
+                  <div class="bio-row"><span class="bio-row-label">Preferred Age</span><span class="bio-value" data-bind="prefAge"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Preferred Height</span><span class="bio-value" data-bind="prefHeight"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Education</span><span class="bio-value" data-bind="prefEducation"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Profession</span><span class="bio-value" data-bind="prefProfession"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Location</span><span class="bio-value" data-bind="prefLocation"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Other</span><span class="bio-value" data-bind="prefOther"></span></div>
+                </section>
+
+                <section class="bio-section is-wide">
+                  <h4 class="bio-section-title">7. Contact Details</h4>
+                  <div class="bio-row"><span class="bio-row-label">Phone</span><span class="bio-value" data-bind="phone"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Email</span><span class="bio-value" data-bind="email"></span></div>
+                  <div class="bio-row"><span class="bio-row-label">Address</span><span class="bio-value" data-bind="address"></span></div>
+                </section>
+              </div>
+
+              <div class="bio-footer-ornament"></div>
+            </div>
           </div>
         </aside>
         </div>
@@ -1929,17 +2195,11 @@
         state.symbol = id;
         var overlay = document.getElementById('biodata-symbol-overlay');
         if (!overlay) return;
-        if (id === 'ganesha') {
-          overlay.classList.remove('is-active');
-          overlay.innerHTML = '';
-          return;
-        }
         var sym = styleSymbols.filter(function (s) { return s.id === id; })[0];
         if (!sym) return;
-        overlay.classList.add('is-active');
         overlay.innerHTML = sym.type === 'image'
-          ? '<img src="' + sym.src + '" alt="" style="height:100%;width:auto;" />'
-          : sym.glyph;
+          ? '<img src="' + sym.src + '" alt="' + sym.name + '" />'
+          : '<span class="bio-glyph is-' + sym.id + '">' + sym.glyph + '</span>';
       }
 
       function applyPhoto(dataUrl) {
@@ -2052,56 +2312,126 @@
         canvas.width = 1055;
         canvas.height = 1491;
         var ctx = canvas.getContext('2d');
-        var base = await loadImage('/biodata-template-preview.png');
-        ctx.drawImage(base, 0, 0, canvas.width, canvas.height);
-        drawBorderDesign(ctx, state.borderDesign, hexFor(state.borderColor), canvas.width, canvas.height);
+        var accent = hexFor(state.borderColor);
+        var symbolColor = hexFor(state.symbolColor);
 
-        if (state.values.photo) {
-          var photo = await loadImage(state.values.photo);
-          drawCoverImage(ctx, photo, canvas.width * 0.7135, canvas.height * 0.1215, canvas.width * 0.198, canvas.height * 0.192);
+        ctx.fillStyle = '#FFF8EE';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        drawBorderDesign(ctx, state.borderDesign, accent, canvas.width, canvas.height);
+        ctx.strokeStyle = 'rgba(201, 162, 39, 0.55)';
+        ctx.lineWidth = 1.2;
+        ctx.strokeRect(36, 36, 983, 1419);
+
+        function text(value, x, y, size, color, weight, align) {
+          ctx.font = (weight || '400') + ' ' + size + 'px Georgia, serif';
+          ctx.fillStyle = color || '#1D1A17';
+          ctx.textAlign = align || 'left';
+          ctx.textBaseline = 'top';
+          ctx.fillText(value, x, y);
         }
 
-        if (state.symbol !== 'ganesha') {
-          var symbol = styleSymbols.filter(function (s) { return s.id === state.symbol; })[0];
-          if (symbol) {
-            var symbolX = canvas.width * 0.405;
-            var symbolY = canvas.height * 0.029;
-            var symbolWidth = canvas.width * 0.19;
-            var symbolHeight = symbolWidth / 1.65;
-            ctx.fillStyle = '#FFF8EE';
-            ctx.fillRect(symbolX, symbolY, symbolWidth, symbolHeight);
-            ctx.fillStyle = hexFor(state.symbolColor);
-            ctx.font = '700 62px Georgia, serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(symbol.glyph || '', symbolX + symbolWidth / 2, symbolY + symbolHeight / 2 + 2);
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'top';
-          }
+        function line(x1, y, x2, dotted) {
+          ctx.save();
+          ctx.strokeStyle = dotted ? 'rgba(29,26,23,0.34)' : accent;
+          ctx.setLineDash(dotted ? [2, 4] : []);
+          ctx.beginPath();
+          ctx.moveTo(x1, y);
+          ctx.lineTo(x2, y);
+          ctx.stroke();
+          ctx.restore();
         }
 
-        card.querySelectorAll('.biodata-fill').forEach(function (node) {
-          var text = node.textContent.trim();
-          if (!text) return;
-          var styles = getComputedStyle(node);
-          var x = canvas.width * pct(styles.getPropertyValue('--x'));
-          var y = canvas.height * pct(styles.getPropertyValue('--y'));
-          var maxWidth = canvas.width * pct(styles.getPropertyValue('--w'));
-          var isName = node.classList.contains('is-name');
-          var isMini = node.classList.contains('is-mini');
-          var isAddress = node.classList.contains('is-address');
-          var fontSize = isName ? 31 : (isMini ? 15 : 16);
-          ctx.font = (isName ? '700 ' : '400 ') + fontSize + 'px Georgia, serif';
-          ctx.fillStyle = isName ? '#9A3324' : '#1D1A17';
+        function value(field, x, y, maxWidth, size, color, uppercase) {
+          var output = state.values[field] || '';
+          if (!output) return;
+          if (uppercase) output = output.toUpperCase();
+          ctx.font = '400 ' + size + 'px Georgia, serif';
+          ctx.fillStyle = color || '#1D1A17';
           ctx.textAlign = 'left';
           ctx.textBaseline = 'top';
-          if (isName) text = text.toUpperCase();
-          if (isAddress) {
-            drawWrappedText(ctx, text, x, y, maxWidth, fontSize * 1.25, 2);
-          } else {
-            ctx.fillText(fitText(ctx, text, maxWidth), x, y);
-          }
+          ctx.fillText(fitText(ctx, output, maxWidth), x, y);
+        }
+
+        var symbol = styleSymbols.filter(function (s) { return s.id === state.symbol; })[0];
+        text(symbol && symbol.type === 'glyph' ? symbol.glyph : 'श्री', 527, 72, 58, symbolColor, '700', 'center');
+        text('Biodata', 527, 155, 68, accent, '700', 'center');
+        line(390, 246, 665, false);
+
+        text('Name', 88, 320, 36, accent, '700');
+        line(88, 402, 665, false);
+        value('name', 88, 368, 560, 24, accent, true);
+
+        var photoX = 750;
+        var photoY = 225;
+        var photoW = 220;
+        var photoH = 285;
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(photoX, photoY, photoW, photoH);
+        ctx.strokeStyle = 'rgba(201,162,39,0.7)';
+        ctx.strokeRect(photoX + 10, photoY + 10, photoW - 20, photoH - 20);
+        if (state.values.photo) {
+          var photo = await loadImage(state.values.photo);
+          drawCoverImage(ctx, photo, photoX + 12, photoY + 12, photoW - 24, photoH - 24);
+        } else {
+          text('PHOTO', photoX + photoW / 2, photoY + 145, 20, accent, '700', 'center');
+        }
+
+        [
+          ['Age', 'age', 88],
+          ['Height', 'height', 300],
+          ['City', 'city', 515]
+        ].forEach(function (item) {
+          text(item[0], item[2], 445, 16, accent, '700');
+          line(item[2], 500, item[2] + 150, true);
+          value(item[1], item[2], 476, 145, 16);
         });
+
+        line(70, 540, 985, false);
+
+        function section(index, titleText, x, y, rows, wide) {
+          var w = wide ? 880 : 425;
+          line(x, y, x + w, false);
+          text(index + '. ' + titleText.toUpperCase(), x + w / 2, y + 18, 19, accent, '700', 'center');
+          var rowY = y + 60;
+          rows.forEach(function (row) {
+            text(row[0], x + 10, rowY, 17, '#1D1A17', '400');
+            var lineX = x + (wide ? 120 : 180);
+            line(lineX, rowY + 19, x + w - 15, true);
+            value(row[1], lineX + 4, rowY + 2, x + w - lineX - 20, 16);
+            rowY += 30;
+          });
+        }
+
+        section(1, 'Personal Details', 70, 560, [
+          ['Date of Birth', 'dob'], ['Time of Birth', 'tob'], ['Place of Birth', 'pob'],
+          ['Height', 'height'], ['Complexion', 'complexion'], ['Body Type', 'body']
+        ]);
+        section(2, 'Religion & Community', 540, 560, [
+          ['Religion', 'religion'], ['Mother Tongue', 'motherTongue'], ['Caste', 'caste'],
+          ['Rashi', 'rashi'], ['Sub Caste', 'subCaste'], ['Nakshatra', 'nakshatra'],
+          ['Gotra', 'gotra'], ['Manglik', 'manglik']
+        ]);
+        section(3, 'Education & Career', 70, 790, [
+          ['Qualification', 'qualification'], ['University', 'university'], ['Occupation', 'occupation'],
+          ['Company', 'company'], ['Annual Income', 'income']
+        ]);
+        section(4, 'Lifestyle', 540, 790, [
+          ['Diet', 'diet'], ['Hobbies', 'hobbies'], ['Interests', 'interests'],
+          ['Values', 'values'], ['Smoking / Drinking', 'habits']
+        ]);
+        section(5, 'Family Details', 70, 1010, [
+          ['Father', 'father'], ['Father\'s Occupation', 'fatherOcc'], ['Mother', 'mother'],
+          ['Mother\'s Occupation', 'motherOcc'], ['Siblings', 'siblings'],
+          ['Family Type', 'familyType'], ['Family Values', 'familyValues'], ['Native Place', 'native']
+        ]);
+        section(6, 'Partner Preference', 540, 1010, [
+          ['Preferred Age', 'prefAge'], ['Preferred Height', 'prefHeight'], ['Education', 'prefEducation'],
+          ['Profession', 'prefProfession'], ['Location', 'prefLocation'], ['Other', 'prefOther']
+        ]);
+        section(7, 'Contact Details', 88, 1300, [
+          ['Phone', 'phone'], ['Email', 'email'], ['Address', 'address']
+        ], true);
 
         return new Promise(function (resolve) {
           canvas.toBlob(resolve, 'image/png', 1);

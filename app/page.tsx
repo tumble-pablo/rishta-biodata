@@ -117,7 +117,7 @@ export default function Home() {
             id="hero-title"
             className="font-heading max-w-[650px] scroll-mt-28 text-[clamp(3.2rem,7vw,6.8rem)] font-semibold leading-[0.94] tracking-[-0.065em] text-balance"
           >
-            Your story, thoughtfully presented.
+            आपकी कहानी deserves a better biodata.
           </h1>
 
           <p className="mt-7 max-w-[590px] text-[17px] leading-[1.65] text-muted-foreground sm:text-lg">

@@ -172,6 +172,84 @@ export default function Home() {
           </ol>
         </div>
       </section>
+
+      <section
+        id="biodata-builder"
+        aria-hidden="true"
+        className="min-h-[32rem] border-b border-border bg-background sm:min-h-[40rem] lg:min-h-[46rem]"
+      />
+
+      <section
+        id="testimonials"
+        aria-labelledby="testimonials-title"
+        className="border-b border-border bg-card"
+      >
+        <div className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+          <div className="max-w-[720px]">
+            <p className="font-heading text-[12px] font-semibold uppercase tracking-[0.12em] text-accent-foreground sm:text-[13px]">
+              Testimonials
+            </p>
+            <h2
+              id="testimonials-title"
+              className="font-heading mt-4 text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+            >
+              What families are saying.
+            </h2>
+          </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-3 lg:mt-14 lg:gap-6">
+            {[
+              {
+                quote:
+                  "The whole process was so much easier—my parents were impressed with how thoughtful it looked.",
+                name: "Priya S.",
+                city: "Bengaluru",
+                initials: "PS",
+              },
+              {
+                quote:
+                  "I created my brother’s biodata in 15 minutes on my phone. No login, no hassle.",
+                name: "Arjun M.",
+                city: "Delhi",
+                initials: "AM",
+              },
+              {
+                quote:
+                  "Finally, a biodata that doesn’t look like it was made in Word. Clean and modern.",
+                name: "Fatima K.",
+                city: "Dhaka",
+                initials: "FK",
+              },
+            ].map((testimonial) => (
+              <figure
+                key={testimonial.name}
+                className="flex min-h-[280px] flex-col rounded-[14px] border border-border bg-background p-7 shadow-[0_14px_36px_rgba(62,21,50,0.06)] sm:p-8"
+              >
+                <blockquote className="border-l-2 border-accent-foreground pl-5 text-[16px] leading-7 text-foreground sm:text-[17px]">
+                  <p>“{testimonial.quote}”</p>
+                </blockquote>
+
+                <figcaption className="mt-auto flex items-center gap-3 pt-8">
+                  <span
+                    aria-hidden="true"
+                    className="font-heading grid size-11 shrink-0 place-items-center rounded-full bg-primary text-[11px] font-semibold tracking-[0.04em] text-primary-foreground shadow-[0_8px_20px_rgba(62,21,50,0.14)]"
+                  >
+                    {testimonial.initials}
+                  </span>
+                  <span>
+                    <span className="font-heading block text-sm font-semibold tracking-[-0.02em]">
+                      {testimonial.name}
+                    </span>
+                    <span className="mt-1 block text-[13px] text-muted-foreground">
+                      {testimonial.city}
+                    </span>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

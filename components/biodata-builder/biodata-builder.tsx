@@ -39,6 +39,12 @@ const STEP_COMPONENTS = [
 
 const AUTOSAVE_DEBOUNCE_MS = 500;
 
+// TEMPORARY: set back to `true` before launch. While `false`, "Next"
+// advances through every step regardless of required fields, so the whole
+// flow (including reaching Review & Download) can be clicked through
+// quickly for testing without filling in valid data at each step.
+const REQUIRE_VALID_FIELDS_TO_ADVANCE = false;
+
 export function BiodataBuilder() {
   const isMobile = useIsMobile();
   const form = useForm<BiodataFormValues>({
@@ -93,10 +99,13 @@ export function BiodataBuilder() {
   };
 
   const handleNext = async () => {
-    const fieldsToValidate = STEPS[stepIndex].fields;
-    const valid =
-      fieldsToValidate.length === 0 || (await form.trigger(fieldsToValidate, { shouldFocus: true }));
-    if (valid && !isLastStep) goToStep(stepIndex + 1);
+    if (REQUIRE_VALID_FIELDS_TO_ADVANCE) {
+      const fieldsToValidate = STEPS[stepIndex].fields;
+      const valid =
+        fieldsToValidate.length === 0 || (await form.trigger(fieldsToValidate, { shouldFocus: true }));
+      if (!valid) return;
+    }
+    if (!isLastStep) goToStep(stepIndex + 1);
   };
 
   const handleBack = () => {

@@ -1,0 +1,177 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../vendor/shadcn-tailwind-4.13.0.css";
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+:root {
+  --background: #fffaf5;
+  --foreground: #35112c;
+  --card: #fffefd;
+  --card-foreground: #35112c;
+  --popover: #fffefd;
+  --popover-foreground: #35112c;
+  --primary: #3e1532;
+  --primary-foreground: #fffaf5;
+  --secondary: #f8e8e1;
+  --secondary-foreground: #3e1532;
+  --muted: #f4e9e4;
+  --muted-foreground: #745d6c;
+  --accent: #edc8bb;
+  --accent-foreground: #8f2f3c;
+  --destructive: #b42318;
+  --border: #e8d9d2;
+  --input: #e8d9d2;
+  --ring: #a14351;
+  --chart-1: #a14351;
+  --chart-2: #3e1532;
+  --chart-3: #c5745f;
+  --chart-4: #8b6f47;
+  --chart-5: #6b7b64;
+  --radius: 0.875rem;
+  --sidebar: #fff7f1;
+  --sidebar-foreground: #35112c;
+  --sidebar-primary: #3e1532;
+  --sidebar-primary-foreground: #fffaf5;
+  --sidebar-accent: #f4e9e4;
+  --sidebar-accent-foreground: #3e1532;
+  --sidebar-border: #e8d9d2;
+  --sidebar-ring: #a14351;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-public-sans), "Public Sans", system-ui, sans-serif;
+  --font-heading: var(--font-sora), "Sora", system-ui, sans-serif;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-public-sans), "Public Sans", system-ui, sans-serif;
+}
+
+.font-heading,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-sora), "Sora", system-ui, sans-serif;
+}
+
+.hero-glow {
+  position: absolute;
+  left: -12%;
+  top: 3%;
+  width: min(62vw, 760px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(225, 137, 112, 0.2), rgba(255, 250, 245, 0) 68%);
+  pointer-events: none;
+}
+
+.document-sheet::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(62, 21, 50, 0.05);
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+.document-corner {
+  position: absolute;
+  top: 0;
+  width: 94px;
+  height: 94px;
+  background: linear-gradient(135deg, rgba(161, 67, 81, 0.18), rgba(237, 200, 187, 0.04));
+  pointer-events: none;
+}
+
+.document-corner-left {
+  left: 0;
+  border-bottom-right-radius: 100%;
+}
+
+.document-corner-right {
+  right: 0;
+  transform: scaleX(-1);
+  border-bottom-right-radius: 100%;
+}
+
+@media (max-width: 640px) {
+  .hero-glow {
+    left: -45%;
+    top: 1%;
+    width: 125vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

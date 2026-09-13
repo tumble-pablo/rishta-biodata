@@ -15,6 +15,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
@@ -259,11 +260,11 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-3 lg:mt-14 lg:gap-6">
+          <div className="mt-12 grid divide-y divide-border md:grid-cols-3 md:divide-x md:divide-y-0 lg:mt-14">
             {[
               {
                 quote:
-                  "The whole process was so much easier—my parents were impressed with how thoughtful it looked.",
+                  "The whole process was so much easier. My parents were impressed with how thoughtful it looked.",
                 name: "Priya S.",
                 city: "Bengaluru",
                 initials: "PS",
@@ -285,19 +286,18 @@ export default function Home() {
             ].map((testimonial) => (
               <figure
                 key={testimonial.name}
-                className="flex min-h-[280px] flex-col rounded-[14px] border border-border bg-background p-7 shadow-[0_14px_36px_rgba(62,21,50,0.06)] sm:p-8"
+                className="flex flex-col py-8 first:pt-0 last:pb-0 md:min-h-[250px] md:px-8 md:py-0 md:first:pl-0 md:last:pr-0 lg:min-h-[270px] lg:px-12"
               >
-                <blockquote className="border-l-2 border-accent-foreground pl-5 text-[16px] leading-7 text-foreground sm:text-[17px]">
+                <blockquote className="relative pl-5 text-[16px] leading-7 text-foreground before:absolute before:inset-y-1 before:left-0 before:w-[3px] before:rounded-full before:bg-accent before:content-[''] sm:text-[17px]">
                   <p>“{testimonial.quote}”</p>
                 </blockquote>
 
                 <figcaption className="mt-auto flex items-center gap-3 pt-8">
-                  <span
-                    aria-hidden="true"
-                    className="font-heading grid size-11 shrink-0 place-items-center rounded-full bg-primary text-[11px] font-semibold tracking-[0.04em] text-primary-foreground shadow-[0_8px_20px_rgba(62,21,50,0.14)]"
-                  >
-                    {testimonial.initials}
-                  </span>
+                  <Avatar className="size-11 ring-1 ring-primary/10">
+                    <AvatarFallback className="font-heading bg-primary text-[11px] font-semibold tracking-[0.04em] text-primary-foreground">
+                      {testimonial.initials}
+                    </AvatarFallback>
+                  </Avatar>
                   <span>
                     <span className="font-heading block text-sm font-semibold tracking-[-0.02em]">
                       {testimonial.name}

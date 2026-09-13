@@ -1,4 +1,12 @@
-import { ArrowUpRight } from "lucide-react";
+import {
+  ArrowUpRight,
+  KeyRound,
+  Languages,
+  LayoutTemplate,
+  MessageCircle,
+  Sparkles,
+  Smartphone,
+} from "lucide-react";
 
 import {
   Accordion,
@@ -20,27 +28,74 @@ export default function Home() {
 
       <header className="relative z-10 border-b border-border/70">
         <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-12">
-          <a href="/" className="group flex min-h-11 items-center gap-3" aria-label="Rishta Biodata home">
-            <span
-              aria-hidden="true"
-              className="font-heading grid size-10 place-items-center rounded-[14px] bg-primary text-sm font-semibold text-primary-foreground shadow-[0_8px_20px_rgba(62,21,50,0.16)] transition-transform duration-200 group-hover:-rotate-2"
-            >
-              RB
-            </span>
-            <span className="font-heading text-[15px] font-semibold tracking-[-0.02em] sm:text-base">
-              Rishta Biodata
-            </span>
-          </a>
+          <div className="flex min-w-0 items-center gap-8 xl:gap-12">
+            <a href="/" className="group flex min-h-11 shrink-0 items-center gap-3" aria-label="Rishta Biodata home">
+              <span
+                aria-hidden="true"
+                className="font-heading grid size-10 place-items-center rounded-[14px] bg-primary text-sm font-semibold text-primary-foreground shadow-[0_8px_20px_rgba(62,21,50,0.16)] transition-transform duration-200 group-hover:-rotate-2"
+              >
+                RB
+              </span>
+              <span className="font-heading text-[15px] font-semibold tracking-[-0.02em] sm:text-base">
+                Rishta Biodata
+              </span>
+            </a>
 
-          <p className="rounded-full border border-border bg-white/65 px-4 py-2 text-[12px] font-medium tracking-[0.02em] text-muted-foreground backdrop-blur-sm sm:text-[13px]">
-            Download from ₹9
-          </p>
+            <nav aria-label="Primary navigation" className="hidden lg:block">
+              <ul className="flex items-center gap-1 xl:gap-2">
+                {[
+                  { label: "Home", href: "#hero-title" },
+                  { label: "Steps", href: "#how-it-works" },
+                  { label: "Reviews", href: "#testimonials" },
+                  { label: "Features", href: "#features" },
+                  { label: "FAQ", href: "#faq" },
+                ].map((item) => (
+                  <li key={item.label}>
+                    <a
+                      href={item.href}
+                      className="font-heading flex min-h-11 items-center px-2.5 text-[13px] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground focus-visible:text-foreground xl:px-3"
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+
+          <Button
+            asChild
+            className="h-11 shrink-0 rounded-[6px] px-4 text-[12px] font-semibold shadow-[0_10px_24px_rgba(62,21,50,0.16)] sm:px-5 sm:text-[13px]"
+          >
+            <a href="#biodata-builder">Create your biodata</a>
+          </Button>
         </div>
+
+        <nav aria-label="Primary navigation on mobile" className="border-t border-border/70 lg:hidden">
+          <ul className="mx-auto grid max-w-[1440px] grid-cols-5 px-2 sm:px-6">
+            {[
+              { label: "Home", href: "#hero-title" },
+              { label: "Steps", href: "#how-it-works" },
+              { label: "Reviews", href: "#testimonials" },
+              { label: "Features", href: "#features" },
+              { label: "FAQ", href: "#faq" },
+            ].map((item) => (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  className="font-heading flex min-h-11 items-center justify-center px-1 text-[11px] font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground focus-visible:text-foreground sm:text-[12px]"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </header>
 
       <section
         aria-labelledby="hero-title"
-        className="relative mx-auto grid min-h-[calc(100dvh-5rem)] max-w-[1440px] items-center gap-12 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[minmax(0,0.94fr)_minmax(480px,0.76fr)] lg:gap-16 lg:px-12 lg:py-16"
+        className="relative mx-auto grid min-h-[calc(100dvh-7.75rem)] max-w-[1440px] items-center gap-12 px-5 py-14 sm:px-8 sm:py-20 lg:min-h-[calc(100dvh-5rem)] lg:grid-cols-[minmax(0,0.94fr)_minmax(480px,0.76fr)] lg:gap-16 lg:px-12 lg:py-16"
       >
         <div aria-hidden="true" className="hero-glow" />
 
@@ -258,6 +313,83 @@ export default function Home() {
       </section>
 
       <section
+        id="features"
+        aria-labelledby="features-title"
+        className="border-b border-border bg-card"
+      >
+        <div className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+          <div className="max-w-[820px]">
+            <p className="font-heading text-[12px] font-semibold uppercase tracking-[0.12em] text-accent-foreground sm:text-[13px]">
+              Why Rishta Biodata
+            </p>
+            <h2
+              id="features-title"
+              className="font-heading mt-4 text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+            >
+              Built for how South Asian families share biodata.
+            </h2>
+          </div>
+
+          <div className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-14">
+            {[
+              {
+                icon: KeyRound,
+                title: "No login required",
+                description:
+                  "Start right away and preview your biodata without creating an account.",
+              },
+              {
+                icon: LayoutTemplate,
+                title: "Multiple templates",
+                description:
+                  "Choose from thoughtful traditional and modern layouts for print and sharing.",
+              },
+              {
+                icon: MessageCircle,
+                title: "WhatsApp-ready PDF",
+                description:
+                  "Download a lightweight PDF that stays clear when sent to family and friends.",
+              },
+              {
+                icon: Sparkles,
+                title: "Astrology details",
+                description:
+                  "Add optional gotra, rashi, nakshatra, manglik and birth details when needed.",
+              },
+              {
+                icon: Languages,
+                title: "Multiple languages",
+                description:
+                  "Begin in English, with Hindi and more Indian languages coming as we grow.",
+              },
+              {
+                icon: Smartphone,
+                title: "Made for mobile",
+                description:
+                  "Fill every detail comfortably from your phone, tablet or computer.",
+              },
+            ].map((feature) => {
+              const Icon = feature.icon;
+
+              return (
+                <article key={feature.title} className="group border-t border-border pt-6">
+                  <span className="grid size-12 place-items-center rounded-[8px] bg-primary text-primary-foreground shadow-[0_10px_24px_rgba(62,21,50,0.13)] transition-transform duration-200 group-hover:-translate-y-0.5">
+                    <Icon aria-hidden="true" className="size-5" strokeWidth={1.8} />
+                  </span>
+                  <h3 className="font-heading mt-6 text-lg font-semibold tracking-[-0.025em]">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-3 max-w-[40ch] text-[15px] leading-7 text-muted-foreground sm:text-base">
+                    {feature.description}
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section
         id="faq"
         aria-labelledby="faq-title"
         className="border-b border-border bg-background"
@@ -359,6 +491,11 @@ export default function Home() {
                 <li>
                   <a className="transition-colors hover:text-primary-foreground" href="#testimonials">
                     Reviews
+                  </a>
+                </li>
+                <li>
+                  <a className="transition-colors hover:text-primary-foreground" href="#features">
+                    Features
                   </a>
                 </li>
               </ul>

@@ -23,6 +23,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { BiodataBuilder } from "@/components/biodata-builder/biodata-builder";
 
 const navItems = [
   { label: "Home", href: "#hero-title" },
@@ -251,9 +252,27 @@ export default function Home() {
 
       <section
         id="biodata-builder"
-        aria-hidden="true"
-        className="min-h-[32rem] border-b border-border bg-background sm:min-h-[40rem] lg:min-h-[46rem]"
-      />
+        aria-labelledby="biodata-builder-title"
+        className="scroll-mt-20 border-b border-border bg-background"
+      >
+        <div className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+          <div className="mx-auto max-w-[760px] text-center">
+            <h2
+              id="biodata-builder-title"
+              className="font-heading text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+            >
+              Build your biodata.
+            </h2>
+            <p className="mx-auto mt-4 max-w-[52ch] text-base leading-7 text-muted-foreground sm:text-[17px]">
+              Fill in your details on the left and watch your biodata come together on the right.
+            </p>
+          </div>
+
+          <div className="mt-12 lg:mt-14">
+            <BiodataBuilder />
+          </div>
+        </div>
+      </section>
 
       <section
         id="testimonials"

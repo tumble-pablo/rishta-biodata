@@ -110,6 +110,68 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      <section
+        id="how-it-works"
+        aria-labelledby="how-it-works-title"
+        className="relative border-y border-border bg-card"
+      >
+        <div className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+          <div className="max-w-[720px]">
+            <p className="font-heading text-[12px] font-semibold uppercase tracking-[0.12em] text-accent-foreground sm:text-[13px]">
+              How it works
+            </p>
+            <h2
+              id="how-it-works-title"
+              className="font-heading mt-4 text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+            >
+              Three simple steps to a beautiful biodata.
+            </h2>
+          </div>
+
+          <ol className="mt-12 grid gap-5 md:grid-cols-3 lg:mt-14 lg:gap-6">
+            {[
+              {
+                step: "01",
+                title: "Add your details",
+                description:
+                  "Share your personal, family, education, career and contact details in one clear flow.",
+              },
+              {
+                step: "02",
+                title: "Choose your design",
+                description:
+                  "Pick a thoughtful biodata style and see your information come together as you go.",
+              },
+              {
+                step: "03",
+                title: "Download for ₹9",
+                description:
+                  "Preview everything for free, then pay only when your polished PDF is ready to download.",
+              },
+            ].map((item) => (
+              <li
+                key={item.step}
+                className="relative min-h-[260px] overflow-hidden rounded-[14px] border border-border bg-background p-7 shadow-[0_14px_36px_rgba(62,21,50,0.06)] sm:p-8"
+              >
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-accent-foreground to-accent"
+                />
+                <span className="font-heading grid size-10 place-items-center rounded-[6px] bg-primary text-[12px] font-semibold tabular-nums text-primary-foreground shadow-[0_8px_20px_rgba(62,21,50,0.14)]">
+                  {item.step}
+                </span>
+                <h3 className="font-heading mt-8 text-xl font-semibold tracking-[-0.03em]">
+                  {item.title}
+                </h3>
+                <p className="mt-4 max-w-[34ch] text-[15px] leading-7 text-muted-foreground sm:text-base">
+                  {item.description}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
     </main>
   );
 }

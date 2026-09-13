@@ -108,23 +108,23 @@ export default function Home() {
 
       <section
         aria-labelledby="hero-title"
-        className="relative mx-auto grid min-h-[calc(100dvh-7.75rem)] max-w-[1440px] items-center gap-12 px-5 py-14 sm:px-8 sm:py-20 lg:min-h-[calc(100dvh-5rem)] lg:grid-cols-[minmax(0,0.94fr)_minmax(480px,0.76fr)] lg:gap-16 lg:px-12 lg:py-16"
+        className="relative mx-auto grid min-h-[calc(100dvh-7.75rem)] max-w-[1440px] items-center gap-10 px-5 py-10 sm:px-8 sm:py-12 lg:min-h-[calc(100dvh-5rem)] lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.72fr)] lg:gap-12 lg:px-12 lg:py-10 xl:gap-14"
       >
         <div aria-hidden="true" className="hero-glow" />
 
-        <div className="relative z-10 max-w-[680px]">
+        <div className="relative z-10 max-w-[640px]">
           <h1
             id="hero-title"
-            className="font-heading max-w-[650px] scroll-mt-28 text-[clamp(3.2rem,7vw,6.8rem)] font-semibold leading-[0.94] tracking-[-0.065em] text-balance"
+            className="font-heading max-w-[620px] scroll-mt-28 text-[clamp(2.75rem,5vw,4.65rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-balance"
           >
             आपकी कहानी deserves a better biodata.
           </h1>
 
-          <p className="mt-7 max-w-[590px] text-[17px] leading-[1.65] text-muted-foreground sm:text-lg">
+          <p className="mt-5 max-w-[560px] text-base leading-[1.6] text-muted-foreground sm:text-[17px]">
             जो बात ज़रूरी है, वो सब एक ही जगह। अपनी personal, family और career details को एक clear और beautiful biodata में सजाइए, जिसे share करना आसान हो।
           </p>
 
-          <div className="mt-9 flex flex-wrap items-center gap-4">
+          <div className="mt-7 flex flex-wrap items-center gap-4">
             <Button
               asChild
               size="lg"
@@ -139,23 +139,23 @@ export default function Home() {
           </div>
         </div>
 
-        <div id="biodata-preview" className="relative z-10 mx-auto w-full max-w-[560px] scroll-mt-8">
-          <div className="absolute -left-5 top-14 hidden h-[72%] w-full -rotate-3 rounded-[30px] border border-primary/10 bg-primary/[0.035] lg:block" />
+        <div id="biodata-preview" className="relative z-10 mx-auto w-full max-w-[460px] scroll-mt-8">
+          <div className="absolute -left-4 top-12 hidden h-[72%] w-full -rotate-3 rounded-[26px] border border-primary/10 bg-primary/[0.035] lg:block" />
 
-          <div className="document-sheet relative aspect-[4/5] overflow-hidden rounded-[28px] border border-border bg-card p-6 shadow-[0_32px_80px_rgba(62,21,50,0.14)] sm:p-9">
+          <div className="document-sheet relative aspect-[4/5] overflow-hidden rounded-[24px] border border-border bg-card p-5 shadow-[0_28px_64px_rgba(62,21,50,0.13)] sm:p-7">
             <div aria-hidden="true" className="document-corner document-corner-left" />
             <div aria-hidden="true" className="document-corner document-corner-right" />
 
-            <div className="relative flex h-full flex-col rounded-[18px] border border-primary/10 px-6 py-7 sm:px-9 sm:py-9">
+            <div className="relative flex h-full flex-col rounded-[16px] border border-primary/10 px-5 py-6 sm:px-7 sm:py-7">
               <div className="flex items-start justify-between gap-6">
                 <div className="space-y-3">
                   <div className="h-2.5 w-20 rounded-full bg-accent" />
                   <div className="h-7 w-44 rounded-md bg-primary/12 sm:w-56" />
                 </div>
-                <div className="size-16 rounded-full border border-dashed border-primary/20 bg-accent/45 sm:size-20" />
+                <div className="size-16 rounded-full border border-dashed border-primary/20 bg-accent/45 sm:size-[4.5rem]" />
               </div>
 
-              <div className="mt-9 grid grid-cols-[84px_1fr] gap-x-5 gap-y-4 sm:grid-cols-[104px_1fr]">
+              <div className="mt-7 grid grid-cols-[84px_1fr] gap-x-5 gap-y-3.5 sm:grid-cols-[96px_1fr]">
                 {[72, 92, 58, 82, 68].map((width) => (
                   <div key={width} className="contents">
                     <span className="h-2 rounded-full bg-accent" style={{ width: `${Math.max(48, width - 14)}%` }} />
@@ -164,9 +164,9 @@ export default function Home() {
                 ))}
               </div>
 
-              <div className="mt-auto border-t border-primary/10 pt-6">
-                <div className="mb-4 h-2.5 w-28 rounded-full bg-accent" />
-                <div className="space-y-3">
+              <div className="mt-auto border-t border-primary/10 pt-5">
+                <div className="mb-3.5 h-2.5 w-28 rounded-full bg-accent" />
+                <div className="space-y-2.5">
                   <div className="h-2 w-full rounded-full bg-primary/[0.07]" />
                   <div className="h-2 w-[88%] rounded-full bg-primary/[0.07]" />
                   <div className="h-2 w-[64%] rounded-full bg-primary/[0.07]" />
@@ -175,7 +175,7 @@ export default function Home() {
             </div>
           </div>
 
-          <p className="mt-5 text-center text-[12px] font-medium tracking-[0.02em] text-muted-foreground">
+          <p className="mt-3.5 text-center text-[12px] font-medium tracking-[0.02em] text-muted-foreground">
             A clean canvas for the details that matter
           </p>
         </div>

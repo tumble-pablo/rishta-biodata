@@ -115,7 +115,7 @@ export default function Home() {
         <div className="relative z-10 max-w-[640px]">
           <h1
             id="hero-title"
-            className="font-heading max-w-[620px] scroll-mt-28 text-[clamp(2.75rem,5vw,4.65rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-balance"
+            className="font-heading max-w-[620px] scroll-mt-28 text-[clamp(2.5rem,4.4vw,4rem)] font-semibold leading-[1] tracking-[-0.05em] text-balance"
           >
             आपकी कहानी deserves a better biodata.
           </h1>
@@ -139,7 +139,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div id="biodata-preview" className="relative z-10 mx-auto w-full max-w-[460px] scroll-mt-8">
+        <div id="biodata-preview" className="relative z-10 mx-auto w-full max-w-[410px] scroll-mt-8">
           <div className="absolute -left-4 top-12 hidden h-[72%] w-full -rotate-3 rounded-[26px] border border-primary/10 bg-primary/[0.035] lg:block" />
 
           <div className="document-sheet relative aspect-[4/5] overflow-hidden rounded-[24px] border border-border bg-card p-5 shadow-[0_28px_64px_rgba(62,21,50,0.13)] sm:p-7">

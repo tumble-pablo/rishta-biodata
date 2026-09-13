@@ -58,7 +58,7 @@ export default function Home() {
             <Button
               asChild
               size="lg"
-              className="h-13 rounded-full px-6 text-sm font-semibold shadow-[0_14px_34px_rgba(62,21,50,0.22)] transition-transform duration-200 hover:-translate-y-0.5"
+              className="h-13 rounded-[6px] px-6 text-sm font-semibold shadow-[0_14px_34px_rgba(62,21,50,0.22)] transition-transform duration-200 hover:-translate-y-0.5"
             >
               <a href="#biodata-preview">
                 Start with a blank biodata

@@ -55,8 +55,9 @@ export function StepTemplate() {
                     <RadioGroupItem value={templateOption.id} id={inputId} className="sr-only" />
                     <TemplateFrame
                       templateId={templateOption.id}
+                      compact
                       aria-hidden="true"
-                      className="pointer-events-none p-3 shadow-none sm:p-3"
+                      className="pointer-events-none shadow-none"
                     >
                       <TemplateMiniPreview />
                     </TemplateFrame>

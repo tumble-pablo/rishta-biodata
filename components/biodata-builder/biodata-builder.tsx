@@ -132,7 +132,9 @@ export function BiodataBuilder() {
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-4">
-            <BiodataPreview ref={previewRef} hasPaid={hasPaid} />
+            <div className="mx-auto max-w-[360px]">
+              <BiodataPreview ref={previewRef} hasPaid={hasPaid} />
+            </div>
           </CollapsibleContent>
         </Collapsible>
       )}
@@ -167,7 +169,7 @@ export function BiodataBuilder() {
         </div>
 
         {!isMobile && (
-          <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:self-start lg:overflow-y-auto">
+          <div className="mx-auto w-full max-w-[420px] lg:sticky lg:top-24 lg:self-start">
             <BiodataPreview ref={previewRef} hasPaid={hasPaid} />
           </div>
         )}

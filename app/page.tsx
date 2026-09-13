@@ -1,9 +1,12 @@
 import {
   ArrowUpRight,
+  FileText,
   KeyRound,
   Languages,
   LayoutTemplate,
   MessageCircle,
+  PenLine,
+  Share2,
   Sparkles,
   Smartphone,
 } from "lucide-react";
@@ -16,7 +19,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 const navItems = [
   { label: "Home", href: "#hero-title" },
@@ -380,6 +385,95 @@ export default function Home() {
                   <p className="mt-3 max-w-[40ch] text-[15px] leading-7 text-muted-foreground sm:text-base">
                     {feature.description}
                   </p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="articles"
+        aria-labelledby="articles-title"
+        className="border-b border-border bg-background"
+      >
+        <div className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+          <div className="max-w-[820px]">
+            <h2
+              id="articles-title"
+              className="font-heading text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+            >
+              Helpful reads for creating your biodata.
+            </h2>
+          </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-3 lg:mt-14 lg:gap-6">
+            {[
+              {
+                icon: FileText,
+                title: "What should you include in a marriage biodata?",
+                description:
+                  "A simple checklist for personal, family, education, career and contact details.",
+                panelClass: "bg-secondary",
+                accentClass: "bg-primary/10 text-primary",
+              },
+              {
+                icon: PenLine,
+                title: "How to write a biodata that feels personal",
+                description:
+                  "Practical ways to sound clear, warm and genuine without writing too much.",
+                panelClass: "bg-accent/50",
+                accentClass: "bg-primary text-primary-foreground",
+              },
+              {
+                icon: Share2,
+                title: "Simple tips for sharing your biodata with family",
+                description:
+                  "Keep your biodata easy to read and ready to share across phones and WhatsApp.",
+                panelClass: "bg-muted",
+                accentClass: "bg-card text-primary",
+              },
+            ].map((article) => {
+              const Icon = article.icon;
+
+              return (
+                <article key={article.title}>
+                  <Card className="h-full gap-0 overflow-hidden rounded-[14px] border-border bg-card py-0 shadow-none">
+                    <AspectRatio ratio={16 / 10} className={article.panelClass}>
+                      <div
+                        aria-hidden="true"
+                        className="absolute -right-8 -top-10 size-32 rounded-full border border-primary/10"
+                      />
+                      <div
+                        aria-hidden="true"
+                        className="absolute -bottom-12 -left-8 size-36 rounded-full bg-background/55"
+                      />
+                      <span
+                        className={`absolute left-6 top-6 grid size-12 place-items-center rounded-[8px] ${article.accentClass}`}
+                      >
+                        <Icon aria-hidden="true" className="size-5" strokeWidth={1.8} />
+                      </span>
+                      <div
+                        aria-hidden="true"
+                        className="absolute bottom-7 left-6 right-6 space-y-2"
+                      >
+                        <span className="block h-2 w-2/3 rounded-full bg-primary/15" />
+                        <span className="block h-2 w-1/2 rounded-full bg-primary/10" />
+                      </div>
+                    </AspectRatio>
+
+                    <CardContent className="flex min-h-[220px] flex-col p-6 sm:p-7">
+                      <h3 className="font-heading text-xl font-semibold leading-snug tracking-[-0.025em] text-balance">
+                        {article.title}
+                      </h3>
+                      <p className="mt-3 text-[15px] leading-7 text-muted-foreground sm:text-base">
+                        {article.description}
+                      </p>
+                      <p className="font-heading mt-auto pt-7 text-[13px] font-medium text-primary">
+                        Guide coming soon
+                      </p>
+                    </CardContent>
+                  </Card>
                 </article>
               );
             })}

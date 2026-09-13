@@ -11,11 +11,23 @@ import { SYMBOL_GLYPHS } from "@/components/biodata-builder/symbol-glyphs";
 import { TemplateFrame } from "@/components/biodata-builder/template-frame";
 import { WatermarkOverlay } from "@/components/biodata-builder/watermark-overlay";
 
+// Every curated row always renders — see print-layout.ts for why. A blank
+// value shows a short dashed "fill this in" line rather than disappearing,
+// so the document's structure (every heading it'll eventually have) is
+// visible from the very first render, before anything's been typed.
 function PrintFieldRow({ label, value, wrap = false }: PrintRow & { wrap?: boolean }) {
+  const hasValue = value.length > 0;
   return (
     <div className="grid grid-cols-[auto_1fr] items-baseline gap-x-1.5 text-[8.5px] leading-snug sm:text-[9.5px]">
       <span className="text-muted-foreground">{label}</span>
-      <span className={cn("font-medium text-foreground", wrap ? "" : "truncate")}>{value}</span>
+      {hasValue ? (
+        <span className={cn("font-medium text-foreground", wrap ? "" : "truncate")}>{value}</span>
+      ) : (
+        <span
+          aria-hidden="true"
+          className="h-px w-10 self-center border-b border-dashed border-muted-foreground/25 sm:w-14"
+        />
+      )}
     </div>
   );
 }
@@ -33,9 +45,10 @@ function SectionHeading({ title }: { title: string }) {
 
 // Full-width section (Personal, Religion, Family): a 2-column grid of field
 // rows — matches the reference's dense layout and lets the natural grid flow
-// pair rows side by side without any manual row-pairing logic.
+// pair rows side by side without any manual row-pairing logic. Rows are
+// always the same fixed curated set (see print-layout.ts), so there's
+// nothing to gate on — the section itself always renders.
 function FullWidthSection({ title, rows }: PrintSection) {
-  if (rows.length === 0) return null;
   return (
     <div className="mt-2 first:mt-0">
       <SectionHeading title={title} />
@@ -53,7 +66,6 @@ function FullWidthSection({ title, rows }: PrintSection) {
 // Values wrap instead of truncating here — with the narrower column, a
 // two-line institution/company name reads better than a hard ellipsis cut.
 function HalfWidthSection({ title, rows }: PrintSection) {
-  if (rows.length === 0) return null;
   return (
     <div>
       <SectionHeading title={title} />
@@ -75,9 +87,10 @@ interface BiodataPreviewProps {
 // ref to the actual snapshotted node (see `pdf-export.ts`), so what gets
 // exported is always exactly what's on screen, watermark included.
 //
-// Fixed to one A4 page by `TemplateFrame` (see there for why) — only fields
-// that actually have a value are shown here (no skeleton/ghost placeholder
-// rows), matching a real formal biodata document rather than a form dump.
+// Fixed to one A4 page by `TemplateFrame` (see there for why). Every
+// curated field's label always renders, blank until filled — see
+// print-layout.ts for why that's safe (a small fixed set, not the full
+// form) — so the document reads as "actively taking shape," not empty.
 export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewProps>(
   function BiodataPreview({ hasPaid }, ref) {
     const { watch } = useFormContext<BiodataFormValues>();
@@ -87,9 +100,6 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
 
     const SymbolGlyph = SYMBOL_GLYPHS[symbol.symbolId];
     const showSymbol = symbol.symbolId !== "none";
-
-    const hasEducationOrLifestyle =
-      layout.educationCareer.rows.length > 0 || layout.lifestyle.rows.length > 0;
 
     return (
       <TemplateFrame ref={ref} templateId={template.templateId} className="w-full">
@@ -116,18 +126,22 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
 
           <div className="mt-2.5 flex items-start justify-between gap-3">
             <div className="min-w-0">
-              {layout.header.name ? (
-                <h3 className="font-heading truncate text-base font-semibold text-foreground sm:text-lg">
-                  {layout.header.name}
-                </h3>
-              ) : (
-                <div className="h-4 w-28 rounded bg-primary/10 sm:h-5 sm:w-32" />
-              )}
-              {layout.header.subtitle && (
-                <p className="mt-0.5 text-[8px] text-muted-foreground sm:text-[9px]">
-                  {layout.header.subtitle}
-                </p>
-              )}
+              <h3
+                className={cn(
+                  "font-heading truncate text-base font-semibold sm:text-lg",
+                  layout.header.name ? "text-foreground" : "text-muted-foreground/40"
+                )}
+              >
+                {layout.header.name || "Full Name"}
+              </h3>
+              <p
+                className={cn(
+                  "mt-0.5 text-[8px] sm:text-[9px]",
+                  layout.header.subtitle ? "text-muted-foreground" : "text-muted-foreground/40"
+                )}
+              >
+                {layout.header.subtitle || "Age  |  Height  |  City"}
+              </p>
             </div>
             <div className="flex h-14 w-12 shrink-0 flex-col items-center justify-center gap-1 rounded border border-dashed border-primary/25 bg-muted/40 sm:h-[4.5rem] sm:w-14">
               <UserRound aria-hidden="true" className="size-3.5 text-primary/30 sm:size-4" />
@@ -142,12 +156,10 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
           <FullWidthSection {...layout.personal} />
           <FullWidthSection {...layout.religion} />
 
-          {hasEducationOrLifestyle && (
-            <div className="mt-2 grid grid-cols-2 gap-x-5">
-              <HalfWidthSection {...layout.educationCareer} />
-              <HalfWidthSection {...layout.lifestyle} />
-            </div>
-          )}
+          <div className="mt-2 grid grid-cols-2 gap-x-5">
+            <HalfWidthSection {...layout.educationCareer} />
+            <HalfWidthSection {...layout.lifestyle} />
+          </div>
 
           <FullWidthSection {...layout.family} />
 

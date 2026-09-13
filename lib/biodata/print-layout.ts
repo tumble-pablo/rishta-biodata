@@ -22,18 +22,23 @@ import type { BiodataFormValues } from "@/lib/biodata/schema";
 // What actually gets PRINTED on the one-page card is a curated subset of the
 // full form — matching a real formal biodata document (see the reference
 // design this was built from), not a dump of every field. Long free-text
-// fields (About me, family description) are deliberately left off the card:
-// they have no natural length limit, and printing them is what made the
-// previous version balloon to dozens of pages. They're kept in the input
-// form (out of scope to change) but simply don't render here.
+// fields (About me, family description) are deliberately left off the card
+// entirely: they have no natural length limit, and printing them is what
+// made an earlier version balloon to dozens of pages. They're kept in the
+// input form (out of scope to change) but simply don't appear here.
 //
-// Every row is computed fresh from form values and either has a `value` or
-// doesn't — callers filter out empty rows so the card only ever shows what
-// was actually provided, with no placeholder/skeleton rows.
+// Every row in this curated set is ALWAYS present, whether or not it has a
+// value yet — like a printed form's blank lines. Without that, the card
+// looks empty/broken the moment someone opens the builder, since nothing
+// has been typed yet; showing every label up front (with a blank next to
+// it) makes it obvious the document is actively taking shape as they fill
+// each field in. This is safe from the earlier bloat problem specifically
+// because the set is fixed and small (~28 rows total) — it's not "every
+// field in the form," just this same curated list, blank or not.
 
 export interface PrintRow {
   label: string;
-  value: string;
+  value: string; // "" until filled in — renderers show a blank/placeholder
 }
 
 export interface PrintHeader {
@@ -57,13 +62,8 @@ export interface PrintLayout {
   family: PrintSection;
 }
 
-function row(label: string, value: string | null | undefined): PrintRow | null {
-  const trimmed = value?.trim();
-  return trimmed ? { label, value: trimmed } : null;
-}
-
-function compact(rows: Array<PrintRow | null>): PrintRow[] {
-  return rows.filter((r): r is PrintRow => r !== null);
+function row(label: string, value: string | null | undefined): PrintRow {
+  return { label, value: value?.trim() ?? "" };
 }
 
 function habitSummary(habit: string, verb: "Smokes" | "Drinks", nonLabel: string): string | null {
@@ -126,18 +126,18 @@ export function buildPrintLayout(values: BiodataFormValues): PrintLayout {
     zodiac,
     personal: {
       title: "Personal Details",
-      rows: compact([
+      rows: [
         row("Date of Birth", formatDate(personal.dateOfBirth)),
         row("Time of Birth", formatTime(personal.timeOfBirth)),
         row("Place of Birth", personal.placeOfBirth),
         row("Height", personal.height),
         row("Complexion", optionLabel(COMPLEXION_OPTIONS, personal.complexion)),
         row("Body Type", optionLabel(BODY_TYPE_OPTIONS, personal.bodyType)),
-      ]),
+      ],
     },
     religion: {
       title: "Religion & Community",
-      rows: compact([
+      rows: [
         row("Religion", optionLabel(RELIGION_OPTIONS, personal.religion)),
         row("Mother Tongue", optionLabel(MOTHER_TONGUE_OPTIONS, personal.motherTongue)),
         row("Caste", religious.caste),
@@ -146,36 +146,36 @@ export function buildPrintLayout(values: BiodataFormValues): PrintLayout {
         row("Rashi", optionLabel(RASHI_OPTIONS, religious.rashi)),
         row("Manglik", optionLabel(MANGLIK_OPTIONS, religious.manglik)),
         row("Nakshatra", optionLabel(NAKSHATRA_OPTIONS, religious.nakshatra)),
-      ]),
+      ],
     },
     educationCareer: {
       title: "Education & Career",
-      rows: compact([
+      rows: [
         row("Qualification", optionLabel(HIGHEST_QUALIFICATION_OPTIONS, educationCareer.highestQualification)),
         row("University", educationCareer.college),
         row("Occupation", educationCareer.occupation),
         row("Company", educationCareer.companyName),
         row("Annual Income", optionLabel(ANNUAL_INCOME_OPTIONS, educationCareer.annualIncome)),
-      ]),
+      ],
     },
     lifestyle: {
       title: "Lifestyle",
-      rows: compact([
+      rows: [
         row("Diet", optionLabel(DIET_OPTIONS, personal.diet)),
         row("Hobbies", personal.hobbies),
         row("Habits", habitsSummary(personal.smokingHabit, personal.drinkingHabit)),
-      ]),
+      ],
     },
     family: {
       title: "Family Details",
-      rows: compact([
+      rows: [
         row("Father", personName(family.fatherName, family.fatherOccupation)),
         row("Family Type", optionLabel(FAMILY_TYPE_OPTIONS, family.familyType)),
         row("Mother", personName(family.motherName, family.motherOccupation)),
         row("Family Value", optionLabel(FAMILY_VALUES_OPTIONS, family.familyValues)),
         row("Siblings", siblings),
         row("Native Place", family.nativePlace),
-      ]),
+      ],
     },
   };
 }

@@ -50,7 +50,7 @@ function SectionHeading({ title }: { title: string }) {
 // nothing to gate on — the section itself always renders.
 function FullWidthSection({ title, rows }: PrintSection) {
   return (
-    <div className="mt-2 first:mt-0">
+    <div className="mt-1.5 first:mt-0">
       <SectionHeading title={title} />
       <div className="grid grid-cols-2 gap-x-5 gap-y-0.5">
         {rows.map((r) => (
@@ -124,7 +124,7 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
             </div>
           </div>
 
-          <div className="mt-2.5 flex items-start justify-between gap-3">
+          <div className="mt-2 flex items-start justify-between gap-3">
             <div className="min-w-0">
               <h3
                 className={cn(
@@ -151,19 +151,23 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
             </div>
           </div>
 
-          <div className="mt-2 h-px bg-border" />
+          <div className="mt-1.5 h-px bg-border" />
 
           <FullWidthSection {...layout.personal} />
           <FullWidthSection {...layout.religion} />
 
-          <div className="mt-2 grid grid-cols-2 gap-x-5">
+          <div className="mt-1.5 grid grid-cols-2 gap-x-5">
             <HalfWidthSection {...layout.educationCareer} />
             <HalfWidthSection {...layout.lifestyle} />
           </div>
 
           <FullWidthSection {...layout.family} />
 
-          <div className="-mx-3.5 -mb-3.5 mt-auto border-t border-accent-foreground/15 bg-accent/25 px-3.5 pt-1.5 pb-2 text-center sm:-mx-5 sm:-mb-4 sm:px-5">
+          <div className="mt-1.5 border-t border-border pt-1">
+            <PrintFieldRow {...layout.contact} />
+          </div>
+
+          <div className="-mx-3.5 -mb-3.5 mt-auto border-t border-accent-foreground/15 bg-accent/25 px-3.5 pt-1 pb-1.5 text-center sm:-mx-5 sm:-mb-4 sm:px-5">
             <p className="text-[7.5px] leading-snug text-accent-foreground/90 italic sm:text-[8.5px]">
               Looking for a kind, understanding and family-oriented partner to build a happy life
               together.

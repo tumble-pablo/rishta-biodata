@@ -60,6 +60,10 @@ export interface PrintLayout {
   educationCareer: PrintSection;
   lifestyle: PrintSection;
   family: PrintSection;
+  /** "+91 98765 43210  ·  Bengaluru" — deliberately just phone + city, not
+   * the full contact step (no email/address), since this line prints on a
+   * document that gets forwarded widely. */
+  contact: PrintRow;
 }
 
 function row(label: string, value: string | null | undefined): PrintRow {
@@ -111,6 +115,13 @@ export function buildPrintLayout(values: BiodataFormValues): PrintLayout {
     .filter(Boolean)
     .join("  |  ");
 
+  const contactValue = [
+    contact.phoneNumber ? `${contact.phoneCountryCode} ${contact.phoneNumber}` : null,
+    contact.city || null,
+  ]
+    .filter(Boolean)
+    .join("  ·  ");
+
   const siblings = (() => {
     if (!family.siblingsCount) return null;
     const married =
@@ -124,6 +135,7 @@ export function buildPrintLayout(values: BiodataFormValues): PrintLayout {
     header: { name: personal.fullName, subtitle },
     age,
     zodiac,
+    contact: row("Contact", contactValue),
     personal: {
       title: "Personal Details",
       rows: [

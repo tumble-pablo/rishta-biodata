@@ -187,7 +187,7 @@ export default function Home() {
         className="relative border-y border-border bg-card"
       >
         <div className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-          <div className="max-w-[720px]">
+          <div className="mx-auto max-w-[760px] text-center">
             <h2
               id="how-it-works-title"
               className="font-heading text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
@@ -196,7 +196,7 @@ export default function Home() {
             </h2>
           </div>
 
-          <ol className="mt-12 grid gap-5 md:grid-cols-3 lg:mt-14 lg:gap-6">
+          <ol className="relative mx-auto mt-12 grid max-w-[1180px] gap-9 md:grid-cols-3 md:gap-8 lg:mt-14 lg:gap-12">
             {[
               {
                 step: "01",
@@ -219,21 +219,19 @@ export default function Home() {
             ].map((item) => (
               <li
                 key={item.step}
-                className="relative min-h-[260px] overflow-hidden rounded-[14px] border border-border bg-background p-7 shadow-[0_14px_36px_rgba(62,21,50,0.06)] sm:p-8"
+                className="relative grid grid-cols-[40px_1fr] items-start gap-5 after:absolute after:bottom-[-2.25rem] after:left-[19.5px] after:top-10 after:w-px after:bg-border after:content-[''] last:after:hidden md:block md:text-center md:after:bottom-auto md:after:left-1/2 md:after:top-5 md:after:h-px md:after:w-[calc(100%+2rem)] lg:after:w-[calc(100%+3rem)]"
               >
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-accent-foreground to-accent"
-                />
-                <span className="font-heading grid size-10 place-items-center rounded-[6px] bg-primary text-[12px] font-semibold tabular-nums text-primary-foreground shadow-[0_8px_20px_rgba(62,21,50,0.14)]">
+                <span className="font-heading relative z-10 grid size-10 place-items-center rounded-full bg-primary text-[12px] font-semibold tabular-nums text-primary-foreground ring-8 ring-card md:mx-auto">
                   {item.step}
                 </span>
-                <h3 className="font-heading mt-8 text-xl font-semibold tracking-[-0.03em]">
-                  {item.title}
-                </h3>
-                <p className="mt-4 max-w-[34ch] text-[15px] leading-7 text-muted-foreground sm:text-base">
-                  {item.description}
-                </p>
+                <div className="pt-1 md:pt-0">
+                  <h3 className="font-heading text-lg font-semibold tracking-[-0.025em] md:mt-8 md:text-xl">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 max-w-[38ch] text-[15px] leading-7 text-muted-foreground md:mx-auto sm:text-base">
+                    {item.description}
+                  </p>
+                </div>
               </li>
             ))}
           </ol>

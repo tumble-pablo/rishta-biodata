@@ -15,6 +15,7 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://rishtabiodata.com"),
   title: "Rishta Biodata — Create a beautiful marriage biodata",
   description:
     "Create a thoughtful marriage biodata and pay only when you are ready to download it.",

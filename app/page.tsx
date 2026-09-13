@@ -10,6 +10,7 @@ import {
   Sparkles,
   Smartphone,
 } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import {
@@ -30,6 +31,10 @@ const navItems = [
   { label: "Features", href: "#features" },
   { label: "FAQs", href: "#faq" },
 ] as const;
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (

@@ -1,4 +1,4 @@
-import { FileText, PenLine, Share2, type LucideIcon } from "lucide-react";
+import { FileText, LayoutTemplate, PenLine, Share2, type LucideIcon } from "lucide-react";
 
 // Simple, file-based blog content — no CMS, no database. Each post's body is
 // a small list of typed blocks (heading/paragraph/list) rather than a single
@@ -168,6 +168,49 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         type: "paragraph",
         text: "A close relative forwarding your biodata to a family friend is different from it reaching a matchmaker you've never spoken to. It's reasonable to keep a full home address off a document that might travel further than you expect.",
+      },
+    ],
+  },
+  {
+    slug: "marriage-biodata-word-format",
+    title: "Marriage biodata Word format",
+    excerpt: "The sections a Word-format biodata needs, in the right order, plus a faster way to build one.",
+    category: "Guide",
+    publishedAt: "2026-09-14",
+    icon: LayoutTemplate,
+    panelClass: "bg-primary/[0.06]",
+    accentClass: "bg-accent text-accent-foreground",
+    body: [
+      {
+        type: "paragraph",
+        text: "Most people looking for a \"marriage biodata Word format\" just want to know what sections to include and what order to put them in, so they can open a blank document and start typing without guessing. Here's that structure, plus a few formatting habits that make a Word biodata look clean instead of cramped.",
+      },
+      { type: "heading", text: "The structure to copy" },
+      {
+        type: "list",
+        items: [
+          "Name and a photo placeholder at the top, centered",
+          "Personal details — date of birth, height, marital status, mother tongue, religion",
+          "Family details — parents' names and occupations, siblings, family type and native place",
+          "Education and career — highest qualification, occupation, and company",
+          "Contact details — phone number and city, kept near the bottom",
+        ],
+      },
+      { type: "heading", text: "Formatting tips that make it look clean" },
+      {
+        type: "list",
+        items: [
+          "Keep it to one page — a biodata that runs long is harder to read on a phone and harder to forward",
+          "Pick one simple font and stick to it; mixing two or three makes a document look unfinished",
+          "Line up labels and values in a table or two-column layout so the page reads evenly, not staggered",
+          "Leave a little breathing room between sections instead of packing everything edge to edge",
+          "Save it as a PDF before sending — a Word file can shift its formatting depending on whose computer opens it",
+        ],
+      },
+      { type: "heading", text: "A faster way to get the same result" },
+      {
+        type: "paragraph",
+        text: "This is exactly the structure the biodata builder above already follows — you fill in each section once, and it lays everything out for you across eight different border designs, so there's no fiddling with tables, fonts, or margins by hand. It's free to build and download with a small watermark, and a one-time ₹51 payment removes it if you'd rather share a clean copy.",
       },
     ],
   },

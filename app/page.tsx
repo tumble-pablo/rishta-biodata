@@ -26,6 +26,9 @@ import { SiteFooter } from "@/components/site-footer";
 import { BLOG_POSTS } from "@/lib/blog/posts";
 
 export const metadata: Metadata = {
+  title: "Rishta Biodata — Free Marriage Biodata Maker",
+  description:
+    "Build a marriage biodata online, free. Live preview, multiple designs, and instant PDF download. Pay only if you want it watermark-free.",
   alternates: { canonical: "/" },
 };
 

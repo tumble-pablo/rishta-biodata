@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { exportPreviewAsPdf, sharePreviewAsPdf } from "@/lib/biodata/pdf-export";
-import { PLACEHOLDER_PRICE_INR } from "@/lib/biodata/payment";
+import { UNLOCK_PRICE_INR } from "@/lib/biodata/payment";
 import type { BiodataFormValues } from "@/lib/biodata/schema";
 
 interface StepReviewDownloadProps {
@@ -145,7 +145,7 @@ export function StepReviewDownload({ previewRef, hasPaid, isPaying, onPurchase }
             </div>
             <Button type="button" onClick={() => onPurchase(email)} disabled={isPaying || !email}>
               {isPaying ? <Loader2 className="animate-spin" /> : <Sparkles />}
-              {isPaying ? "Processing…" : `Pay ₹${PLACEHOLDER_PRICE_INR} to unlock`}
+              {isPaying ? "Processing…" : `Pay ₹${UNLOCK_PRICE_INR} to unlock`}
             </Button>
           </div>
         )}

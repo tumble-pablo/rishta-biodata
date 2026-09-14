@@ -13,7 +13,7 @@ import { DEFAULT_VALUES } from "@/lib/biodata/defaults";
 import { STEPS } from "@/lib/biodata/steps";
 import { loadDraft, mergeDraftWithDefaults, saveDraft } from "@/lib/biodata/storage";
 import { loadPurchase, savePurchase } from "@/lib/biodata/purchase-storage";
-import { mockPaymentProvider, PLACEHOLDER_PRICE_INR } from "@/lib/biodata/payment";
+import { razorpayPaymentProvider } from "@/lib/biodata/payment";
 import { mockEmailBackupProvider } from "@/lib/biodata/email-backup";
 import { BiodataPreview } from "@/components/biodata-builder/biodata-preview";
 import { BuilderProgress } from "@/components/biodata-builder/builder-progress";
@@ -45,6 +45,12 @@ const AUTOSAVE_DEBOUNCE_MS = 500;
 // flow (including reaching Review & Download) can be clicked through
 // quickly for testing without filling in valid data at each step.
 const REQUIRE_VALID_FIELDS_TO_ADVANCE = false;
+
+// The live Razorpay flow (real order + server-verified signature — see
+// app/api/payment/*). To test the rest of the flow before
+// RAZORPAY_KEY_ID/RAZORPAY_KEY_SECRET are set locally, swap this import and
+// the line below for `mockPaymentProvider` from lib/biodata/payment.ts.
+const ACTIVE_PAYMENT_PROVIDER = razorpayPaymentProvider;
 
 export function BiodataBuilder() {
   const isMobile = useIsMobile();
@@ -116,8 +122,7 @@ export function BiodataBuilder() {
   const handlePurchase = async (email: string) => {
     setIsPaying(true);
     try {
-      const result = await mockPaymentProvider.startCheckout({
-        amountInPaise: PLACEHOLDER_PRICE_INR * 100,
+      const result = await ACTIVE_PAYMENT_PROVIDER.startCheckout({
         description: "Rishta Biodata — full download",
       });
       if (result.success) {

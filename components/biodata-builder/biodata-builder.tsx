@@ -14,7 +14,8 @@ import { STEPS } from "@/lib/biodata/steps";
 import { loadDraft, mergeDraftWithDefaults, saveDraft } from "@/lib/biodata/storage";
 import { loadPurchase, savePurchase } from "@/lib/biodata/purchase-storage";
 import { razorpayPaymentProvider } from "@/lib/biodata/payment";
-import { mockEmailBackupProvider } from "@/lib/biodata/email-backup";
+import { resendEmailBackupProvider } from "@/lib/biodata/email-backup";
+import { getPreviewPdfBase64 } from "@/lib/biodata/pdf-export";
 import { BiodataPreview } from "@/components/biodata-builder/biodata-preview";
 import { BuilderProgress } from "@/components/biodata-builder/builder-progress";
 import { StepContact } from "@/components/biodata-builder/steps/step-contact";
@@ -51,6 +52,18 @@ const REQUIRE_VALID_FIELDS_TO_ADVANCE = false;
 // RAZORPAY_KEY_ID/RAZORPAY_KEY_SECRET are set locally, swap this import and
 // the line below for `mockPaymentProvider` from lib/biodata/payment.ts.
 const ACTIVE_PAYMENT_PROVIDER = razorpayPaymentProvider;
+
+// The real Resend-backed flow (see app/api/email/send-backup/route.ts). To
+// test without a RESEND_API_KEY configured locally, swap this import and
+// the line below for `mockEmailBackupProvider` from lib/biodata/email-backup.ts.
+const ACTIVE_EMAIL_BACKUP_PROVIDER = resendEmailBackupProvider;
+
+// One extra paint after `setHasPaid(true)` before snapshotting the preview
+// for the backup email — otherwise the PDF could capture the DOM from just
+// before the watermark-removal re-render actually lands.
+function waitForNextPaint(): Promise<void> {
+  return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+}
 
 export function BiodataBuilder() {
   const isMobile = useIsMobile();
@@ -133,9 +146,18 @@ export function BiodataBuilder() {
           paidAt: new Date().toISOString(),
           email: email || null,
         });
-        // Fire-and-forget: a failed mock "send" shouldn't block the unlock
-        // itself. See email-backup.ts for why this isn't a real send yet.
-        if (email) mockEmailBackupProvider.sendBackupCopy(email).catch(() => {});
+        // Fire-and-forget: a failed backup send shouldn't block the unlock
+        // the visitor already paid for. Waits a paint so the snapshot below
+        // captures the just-unlocked (watermark-free) preview, not a stale
+        // pre-render frame.
+        if (email) {
+          void (async () => {
+            await waitForNextPaint();
+            if (!previewRef.current) return;
+            const pdfBase64 = await getPreviewPdfBase64(previewRef.current);
+            await ACTIVE_EMAIL_BACKUP_PROVIDER.sendBackupCopy(email, pdfBase64, "biodata.pdf");
+          })().catch(() => {});
+        }
       }
     } finally {
       setIsPaying(false);

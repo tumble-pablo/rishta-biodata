@@ -6,5 +6,7 @@ declare namespace Cloudflare {
     RAZORPAY_KEY_ID?: string;
     /** Server-only. Never send this to the client. */
     RAZORPAY_KEY_SECRET?: string;
+    /** Server-only. Never send this to the client. */
+    RESEND_API_KEY?: string;
   }
 }

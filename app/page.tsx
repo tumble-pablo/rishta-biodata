@@ -1,17 +1,13 @@
 import {
   ArrowUpRight,
-  FileText,
   KeyRound,
   Languages,
   LayoutTemplate,
   MessageCircle,
-  PenLine,
-  Share2,
   Sparkles,
   Smartphone,
 } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import {
   Accordion,
@@ -24,14 +20,9 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BiodataBuilder } from "@/components/biodata-builder/biodata-builder";
-
-const navItems = [
-  { label: "Home", href: "#hero-title" },
-  { label: "Steps", href: "#how-it-works" },
-  { label: "Reviews", href: "#testimonials" },
-  { label: "Features", href: "#features" },
-  { label: "FAQs", href: "#faq" },
-] as const;
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import { BLOG_POSTS } from "@/lib/blog/posts";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -51,72 +42,7 @@ export default function Home() {
         Skip to main content
       </a>
 
-      <header className="sticky top-0 z-50 border-b border-border/70 bg-background/95">
-        <div className="mx-auto flex min-h-20 max-w-[1440px] items-center justify-between gap-4 px-5 sm:px-8 lg:px-12">
-          <div className="flex min-w-0 items-center gap-7 xl:gap-11">
-            <Link
-              href="/"
-              className="group flex min-h-11 shrink-0 items-center gap-3 rounded-[8px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              aria-label="Rishta Biodata home"
-            >
-              <span
-                aria-hidden="true"
-                className="font-heading grid size-10 place-items-center rounded-[8px] bg-primary text-sm font-semibold text-primary-foreground shadow-[0_8px_20px_rgba(62,21,50,0.16)]"
-              >
-                RB
-              </span>
-              <span className="font-heading hidden text-[15px] font-semibold tracking-[-0.02em] min-[380px]:inline sm:text-base">
-                Rishta Biodata
-              </span>
-            </Link>
-
-            <nav aria-label="Primary navigation" className="hidden lg:block">
-              <ul className="flex items-center gap-1 xl:gap-2">
-                {navItems.map((item) => (
-                  <li key={item.label}>
-                    <a
-                      href={item.href}
-                      className="font-heading flex min-h-11 items-center rounded-[6px] px-3 text-[13px] font-medium text-muted-foreground transition-colors duration-200 hover:bg-secondary/70 hover:text-foreground focus-visible:bg-secondary/70 focus-visible:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring xl:px-3.5"
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
-
-          <Button
-            asChild
-            className="h-11 shrink-0 rounded-[6px] px-4 text-[12px] font-semibold shadow-[0_10px_24px_rgba(62,21,50,0.16)] transition-transform duration-200 hover:-translate-y-0.5 sm:px-5 sm:text-[13px]"
-          >
-            <a
-              href="#biodata-builder"
-              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
-            >
-              Create your biodata
-            </a>
-          </Button>
-        </div>
-
-        <nav
-          aria-label="Primary navigation on mobile"
-          className="border-t border-border/70 bg-background lg:hidden"
-        >
-          <ul className="mx-auto grid max-w-[1440px] grid-cols-5 px-2 sm:px-6">
-            {navItems.map((item) => (
-              <li key={item.label}>
-                <a
-                  href={item.href}
-                  className="font-heading flex min-h-11 items-center justify-center rounded-[6px] px-1 text-[11px] font-medium text-muted-foreground transition-colors duration-200 hover:bg-secondary/70 hover:text-foreground focus-visible:bg-secondary/70 focus-visible:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-[12px]"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </header>
+      <SiteHeader />
 
       <section
         aria-labelledby="hero-title"
@@ -432,75 +358,68 @@ export default function Home() {
           </div>
 
           <div className="mt-12 grid gap-5 md:grid-cols-3 lg:mt-14 lg:gap-6">
-            {[
-              {
-                icon: FileText,
-                title: "What should you include in a marriage biodata?",
-                description:
-                  "A simple checklist for personal, family, education, career and contact details.",
-                panelClass: "bg-secondary",
-                accentClass: "bg-primary/10 text-primary",
-              },
-              {
-                icon: PenLine,
-                title: "How to write a biodata that feels personal",
-                description:
-                  "Practical ways to sound clear, warm and genuine without writing too much.",
-                panelClass: "bg-accent/50",
-                accentClass: "bg-primary text-primary-foreground",
-              },
-              {
-                icon: Share2,
-                title: "Simple tips for sharing your biodata with family",
-                description:
-                  "Keep your biodata easy to read and ready to share across phones and WhatsApp.",
-                panelClass: "bg-muted",
-                accentClass: "bg-card text-primary",
-              },
-            ].map((article) => {
-              const Icon = article.icon;
+            {BLOG_POSTS.map((post) => {
+              const Icon = post.icon;
 
               return (
-                <article key={article.title}>
-                  <Card className="h-full gap-0 overflow-hidden rounded-[14px] border-border bg-card py-0 shadow-none">
-                    <AspectRatio ratio={16 / 10} className={article.panelClass}>
-                      <div
-                        aria-hidden="true"
-                        className="absolute -right-8 -top-10 size-32 rounded-full border border-primary/10"
-                      />
-                      <div
-                        aria-hidden="true"
-                        className="absolute -bottom-12 -left-8 size-36 rounded-full bg-background/55"
-                      />
-                      <span
-                        className={`absolute left-6 top-6 grid size-12 place-items-center rounded-[8px] ${article.accentClass}`}
-                      >
-                        <Icon aria-hidden="true" className="size-5" strokeWidth={1.8} />
-                      </span>
-                      <div
-                        aria-hidden="true"
-                        className="absolute bottom-7 left-6 right-6 space-y-2"
-                      >
-                        <span className="block h-2 w-2/3 rounded-full bg-primary/15" />
-                        <span className="block h-2 w-1/2 rounded-full bg-primary/10" />
-                      </div>
-                    </AspectRatio>
+                <article key={post.slug}>
+                  {/* Plain <a>, not next/link's <Link> — see site-header.tsx's file comment. */}
+                  <a href={`/blog/${post.slug}`} className="group block h-full">
+                    <Card className="h-full gap-0 overflow-hidden rounded-[14px] border-border bg-card py-0 shadow-none transition-shadow duration-200 group-hover:shadow-[0_18px_36px_rgba(62,21,50,0.1)]">
+                      <AspectRatio ratio={16 / 10} className={post.panelClass}>
+                        <div
+                          aria-hidden="true"
+                          className="absolute -right-8 -top-10 size-32 rounded-full border border-primary/10"
+                        />
+                        <div
+                          aria-hidden="true"
+                          className="absolute -bottom-12 -left-8 size-36 rounded-full bg-background/55"
+                        />
+                        <span
+                          className={`absolute left-6 top-6 grid size-12 place-items-center rounded-[8px] ${post.accentClass}`}
+                        >
+                          <Icon aria-hidden="true" className="size-5" strokeWidth={1.8} />
+                        </span>
+                        <div
+                          aria-hidden="true"
+                          className="absolute bottom-7 left-6 right-6 space-y-2"
+                        >
+                          <span className="block h-2 w-2/3 rounded-full bg-primary/15" />
+                          <span className="block h-2 w-1/2 rounded-full bg-primary/10" />
+                        </div>
+                      </AspectRatio>
 
-                    <CardContent className="flex min-h-[220px] flex-col p-6 sm:p-7">
-                      <h3 className="font-heading text-xl font-semibold leading-snug tracking-[-0.025em] text-balance">
-                        {article.title}
-                      </h3>
-                      <p className="mt-3 text-[15px] leading-7 text-muted-foreground sm:text-base">
-                        {article.description}
-                      </p>
-                      <p className="font-heading mt-auto pt-7 text-[13px] font-medium text-primary">
-                        Guide coming soon
-                      </p>
-                    </CardContent>
-                  </Card>
+                      <CardContent className="flex min-h-[220px] flex-col p-6 sm:p-7">
+                        <h3 className="font-heading text-xl font-semibold leading-snug tracking-[-0.025em] text-balance">
+                          {post.title}
+                        </h3>
+                        <p className="mt-3 text-[15px] leading-7 text-muted-foreground sm:text-base">
+                          {post.excerpt}
+                        </p>
+                        <span className="font-heading mt-auto flex items-center gap-1.5 pt-7 text-[13px] font-medium text-primary">
+                          Read post
+                          <ArrowUpRight
+                            aria-hidden="true"
+                            className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                          />
+                        </span>
+                      </CardContent>
+                    </Card>
+                  </a>
                 </article>
               );
             })}
+          </div>
+
+          <div className="mt-8 flex justify-end lg:mt-10">
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- see site-header.tsx */}
+            <a
+              href="/blog"
+              className="font-heading inline-flex min-h-11 items-center gap-1.5 rounded-[6px] px-2 text-[13px] font-semibold text-primary transition-colors hover:text-primary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              Read more blog
+              <ArrowUpRight aria-hidden="true" className="size-4" />
+            </a>
           </div>
         </div>
       </section>
@@ -564,92 +483,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="bg-primary text-primary-foreground">
-        <div className="mx-auto max-w-[1440px] px-5 py-14 sm:px-8 sm:py-16 lg:px-12 lg:py-20">
-          <div className="grid gap-12 border-b border-primary-foreground/15 pb-14 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(120px,0.5fr))] lg:gap-8 lg:pb-16">
-            <div className="max-w-sm">
-              <Link
-                href="/"
-                className="group inline-flex min-h-11 items-center gap-3"
-                aria-label="Rishta Biodata home"
-              >
-                <span
-                  aria-hidden="true"
-                  className="font-heading grid size-10 place-items-center rounded-[6px] bg-primary-foreground text-sm font-semibold text-primary transition-transform duration-200 group-hover:-rotate-2"
-                >
-                  RB
-                </span>
-                <span className="font-heading text-base font-semibold tracking-[-0.02em]">
-                  Rishta Biodata
-                </span>
-              </Link>
-              <p className="mt-5 text-[15px] leading-7 text-primary-foreground/68">
-                Thoughtful marriage biodata, made simple for families across South Asia.
-              </p>
-            </div>
-
-            <nav aria-label="Product">
-              <h3 className="font-heading text-sm font-semibold">Product</h3>
-              <ul className="mt-5 space-y-3 text-sm text-primary-foreground/68">
-                <li>
-                  <a className="transition-colors hover:text-primary-foreground" href="#biodata-builder">
-                    Start creating
-                  </a>
-                </li>
-                <li>
-                  <a className="transition-colors hover:text-primary-foreground" href="#how-it-works">
-                    How it works
-                  </a>
-                </li>
-                <li>
-                  <a className="transition-colors hover:text-primary-foreground" href="#testimonials">
-                    Reviews
-                  </a>
-                </li>
-                <li>
-                  <a className="transition-colors hover:text-primary-foreground" href="#features">
-                    Features
-                  </a>
-                </li>
-              </ul>
-            </nav>
-
-            <nav aria-label="Company">
-              <h3 className="font-heading text-sm font-semibold">Company</h3>
-              <ul className="mt-5 space-y-3 text-sm text-primary-foreground/68">
-                <li>
-                  <a className="transition-colors hover:text-primary-foreground" href="#hero-title">
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a className="transition-colors hover:text-primary-foreground" href="#faq">
-                    FAQs
-                  </a>
-                </li>
-                <li>
-                  <a className="transition-colors hover:text-primary-foreground" href="#testimonials">
-                    Families
-                  </a>
-                </li>
-              </ul>
-            </nav>
-
-            <div>
-              <h3 className="font-heading text-sm font-semibold">Legal</h3>
-              <ul className="mt-5 space-y-3 text-sm text-primary-foreground/68">
-                <li>Privacy</li>
-                <li>Terms</li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3 pt-7 text-[12px] text-primary-foreground/55 sm:flex-row sm:items-center sm:justify-between sm:text-[13px]">
-            <p>© 2026 Rishta Biodata. All rights reserved.</p>
-            <p>Made for meaningful introductions.</p>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

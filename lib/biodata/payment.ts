@@ -13,7 +13,7 @@
 // "has paid" should stop being a trusted client localStorage flag (see
 // `purchase-storage.ts`) and instead be re-confirmed against the server.
 
-export const PLACEHOLDER_PRICE_INR = 199;
+export const PLACEHOLDER_PRICE_INR = 51;
 
 export interface CheckoutOptions {
   amountInPaise: number;

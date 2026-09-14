@@ -14,6 +14,7 @@ import { STEPS } from "@/lib/biodata/steps";
 import { loadDraft, mergeDraftWithDefaults, saveDraft } from "@/lib/biodata/storage";
 import { loadPurchase, savePurchase } from "@/lib/biodata/purchase-storage";
 import { mockPaymentProvider, PLACEHOLDER_PRICE_INR } from "@/lib/biodata/payment";
+import { mockEmailBackupProvider } from "@/lib/biodata/email-backup";
 import { BiodataPreview } from "@/components/biodata-builder/biodata-preview";
 import { BuilderProgress } from "@/components/biodata-builder/builder-progress";
 import { StepContact } from "@/components/biodata-builder/steps/step-contact";
@@ -112,7 +113,7 @@ export function BiodataBuilder() {
     if (!isFirstStep) goToStep(stepIndex - 1);
   };
 
-  const handlePurchase = async () => {
+  const handlePurchase = async (email: string) => {
     setIsPaying(true);
     try {
       const result = await mockPaymentProvider.startCheckout({
@@ -121,7 +122,15 @@ export function BiodataBuilder() {
       });
       if (result.success) {
         setHasPaid(true);
-        savePurchase({ hasPaid: true, token: result.token ?? null, paidAt: new Date().toISOString() });
+        savePurchase({
+          hasPaid: true,
+          token: result.token ?? null,
+          paidAt: new Date().toISOString(),
+          email: email || null,
+        });
+        // Fire-and-forget: a failed mock "send" shouldn't block the unlock
+        // itself. See email-backup.ts for why this isn't a real send yet.
+        if (email) mockEmailBackupProvider.sendBackupCopy(email).catch(() => {});
       }
     } finally {
       setIsPaying(false);

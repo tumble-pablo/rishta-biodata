@@ -11,13 +11,15 @@ export interface PurchaseStatus {
   hasPaid: boolean;
   token: string | null;
   paidAt: string | null;
+  /** Where the (mock, for now) backup copy was sent — see email-backup.ts. */
+  email: string | null;
 }
 
 interface StoredPurchase extends PurchaseStatus {
   version: number;
 }
 
-const UNPAID_STATUS: PurchaseStatus = { hasPaid: false, token: null, paidAt: null };
+const UNPAID_STATUS: PurchaseStatus = { hasPaid: false, token: null, paidAt: null, email: null };
 
 export function loadPurchase(): PurchaseStatus {
   try {
@@ -33,6 +35,7 @@ export function loadPurchase(): PurchaseStatus {
       hasPaid: parsed.hasPaid,
       token: parsed.token ?? null,
       paidAt: parsed.paidAt ?? null,
+      email: parsed.email ?? null,
     };
   } catch {
     return UNPAID_STATUS;

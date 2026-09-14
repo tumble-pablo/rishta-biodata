@@ -79,16 +79,39 @@ export function SiteFooter() {
                   Families
                 </a>
               </li>
+              <li>
+                <a className="transition-colors hover:text-primary-foreground" href="/contact">
+                  Contact us
+                </a>
+              </li>
             </ul>
           </nav>
 
-          <div>
+          <nav aria-label="Legal">
             <h3 className="font-heading text-sm font-semibold">Legal</h3>
             <ul className="mt-5 space-y-3 text-sm text-primary-foreground/68">
-              <li>Privacy</li>
-              <li>Terms</li>
+              <li>
+                <a className="transition-colors hover:text-primary-foreground" href="/terms">
+                  Terms and Conditions
+                </a>
+              </li>
+              <li>
+                <a className="transition-colors hover:text-primary-foreground" href="/privacy">
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a className="transition-colors hover:text-primary-foreground" href="/refund-policy">
+                  Cancellation and Refund
+                </a>
+              </li>
+              <li>
+                <a className="transition-colors hover:text-primary-foreground" href="/shipping-policy">
+                  Shipping and Exchange
+                </a>
+              </li>
             </ul>
-          </div>
+          </nav>
         </div>
 
         <div className="flex flex-col gap-3 pt-7 text-[12px] text-primary-foreground/55 sm:flex-row sm:items-center sm:justify-between sm:text-[13px]">

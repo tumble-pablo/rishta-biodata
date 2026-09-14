@@ -132,7 +132,7 @@ export function BiodataBuilder() {
     if (!isFirstStep) goToStep(stepIndex - 1);
   };
 
-  const handlePurchase = async (email: string) => {
+  const handlePurchase = async (email: string): Promise<boolean> => {
     setIsPaying(true);
     try {
       const result = await ACTIVE_PAYMENT_PROVIDER.startCheckout({
@@ -159,6 +159,7 @@ export function BiodataBuilder() {
           })().catch(() => {});
         }
       }
+      return result.success;
     } finally {
       setIsPaying(false);
     }

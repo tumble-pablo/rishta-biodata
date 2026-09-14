@@ -20,6 +20,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BiodataBuilder } from "@/components/biodata-builder/biodata-builder";
+import { HeroBiodataPreview } from "@/components/hero-biodata-preview";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { BLOG_POSTS } from "@/lib/blog/posts";
@@ -80,41 +81,10 @@ export default function Home() {
         <div id="biodata-preview" className="relative z-10 mx-auto w-full max-w-[410px] scroll-mt-8">
           <div className="absolute -left-4 top-12 hidden h-[72%] w-full -rotate-3 rounded-[26px] border border-primary/10 bg-primary/[0.035] lg:block" />
 
-          <div className="document-sheet relative aspect-[4/5] overflow-hidden rounded-[24px] border border-border bg-card p-5 shadow-[0_28px_64px_rgba(62,21,50,0.13)] sm:p-7">
-            <div aria-hidden="true" className="document-corner document-corner-left" />
-            <div aria-hidden="true" className="document-corner document-corner-right" />
-
-            <div className="relative flex h-full flex-col rounded-[16px] border border-primary/10 px-5 py-6 sm:px-7 sm:py-7">
-              <div className="flex items-start justify-between gap-6">
-                <div className="space-y-3">
-                  <div className="h-2.5 w-20 rounded-full bg-accent" />
-                  <div className="h-7 w-44 rounded-md bg-primary/12 sm:w-56" />
-                </div>
-                <div className="size-16 rounded-full border border-dashed border-primary/20 bg-accent/45 sm:size-[4.5rem]" />
-              </div>
-
-              <div className="mt-7 grid grid-cols-[84px_1fr] gap-x-5 gap-y-3.5 sm:grid-cols-[96px_1fr]">
-                {[72, 92, 58, 82, 68].map((width) => (
-                  <div key={width} className="contents">
-                    <span className="h-2 rounded-full bg-accent" style={{ width: `${Math.max(48, width - 14)}%` }} />
-                    <span className="h-2 rounded-full bg-primary/[0.09]" style={{ width: `${width}%` }} />
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-auto border-t border-primary/10 pt-5">
-                <div className="mb-3.5 h-2.5 w-28 rounded-full bg-accent" />
-                <div className="space-y-2.5">
-                  <div className="h-2 w-full rounded-full bg-primary/[0.07]" />
-                  <div className="h-2 w-[88%] rounded-full bg-primary/[0.07]" />
-                  <div className="h-2 w-[64%] rounded-full bg-primary/[0.07]" />
-                </div>
-              </div>
-            </div>
-          </div>
+          <HeroBiodataPreview />
 
           <p className="mt-3.5 text-center text-[12px] font-medium tracking-[0.02em] text-muted-foreground">
-            A clean canvas for the details that matter
+            A real biodata, built in minutes
           </p>
         </div>
       </section>

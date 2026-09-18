@@ -1,4 +1,4 @@
-import { FileText, LayoutTemplate, PenLine, Share2, type LucideIcon } from "lucide-react";
+import { FileText, LayoutTemplate, Palette, PenLine, Share2, type LucideIcon } from "lucide-react";
 
 // Simple, file-based blog content — no CMS, no database. Each post's body is
 // a small list of typed blocks (heading/paragraph/list) rather than a single
@@ -211,6 +211,51 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         type: "paragraph",
         text: "This is exactly the structure the biodata builder above already follows — you fill in each section once, and it lays everything out for you across eight different border designs, so there's no fiddling with tables, fonts, or margins by hand. It's free to build and download with a small watermark, and a one-time ₹51 payment removes it if you'd rather share a clean copy.",
+      },
+    ],
+  },
+  {
+    slug: "marriage-biodata-templates",
+    title: "8 marriage biodata templates",
+    excerpt: "Eight border and layout styles, side by side, so you can pick one before you start filling anything in.",
+    category: "Guide",
+    publishedAt: "2026-09-18",
+    icon: Palette,
+    panelClass: "bg-muted/60",
+    accentClass: "bg-primary/10 text-primary",
+    body: [
+      {
+        type: "paragraph",
+        text: "Looking for a marriage biodata template usually comes down to one real question: which border and layout style feels right for your family. The content is the same either way — it's the frame around it that changes. Here are the eight designs available in the builder, so you can see the differences before you start filling anything in.",
+      },
+      { type: "heading", text: "The 8 designs" },
+      {
+        type: "list",
+        items: [
+          "Classic Cream — a clean single border with soft corner accents",
+          "Double Border — a traditional double-line frame in maroon",
+          "Ornate Corners — rounded corners with a warm accent tint",
+          "Modern Minimal — a thin, understated border with square corners",
+          "Bold Maroon — a confident solid maroon border",
+          "Dashed Kraft — a relaxed dashed border on a kraft-toned background",
+          "Soft Rose Tint — a gentle rose-tinted sheet with a single accent corner",
+          "Deep Frame — a thick maroon frame for a striking, formal look",
+        ],
+      },
+      { type: "heading", text: "Which one to pick" },
+      {
+        type: "list",
+        items: [
+          "Leaning traditional: Double Border or Deep Frame",
+          "Want something contemporary: Modern Minimal or Soft Rose Tint",
+          "Formal without feeling heavy: Classic Cream or Bold Maroon",
+          "A little warmer and less formal: Dashed Kraft or Ornate Corners",
+        ],
+      },
+      { type: "heading", text: "Try them without downloading anything" },
+      {
+        type: "paragraph",
+        text: "All eight templates share the exact same layout and fields, so switching between them is one click in the builder above, not starting over in a new file. Fill your details in once, then flip through all eight to see which one actually feels right before you download.",
       },
     ],
   },

@@ -41,11 +41,10 @@ const STEP_COMPONENTS = [
 
 const AUTOSAVE_DEBOUNCE_MS = 500;
 
-// TEMPORARY: set back to `true` before launch. While `false`, "Next"
-// advances through every step regardless of required fields, so the whole
-// flow (including reaching Review & Download) can be clicked through
-// quickly for testing without filling in valid data at each step.
-const REQUIRE_VALID_FIELDS_TO_ADVANCE = false;
+// While `false`, "Next" advances through every step regardless of required
+// fields — useful for quickly testing the flow without filling in valid
+// data at each step, but not how the site should behave for real visitors.
+const REQUIRE_VALID_FIELDS_TO_ADVANCE = true;
 
 // The live Razorpay flow (real order + server-verified signature — see
 // app/api/payment/*). To test the rest of the flow before

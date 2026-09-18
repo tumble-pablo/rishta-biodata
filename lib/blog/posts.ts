@@ -192,7 +192,7 @@ export const BLOG_POSTS: BlogPost[] = [
     body: [
       {
         type: "paragraph",
-        text: "Most people looking for a \"marriage biodata Word format\" just want to know what sections to include and what order to put them in, so they can open a blank document and start typing without guessing. Here's that structure, plus a few formatting habits that make a Word biodata look clean instead of cramped.",
+        text: "Most people looking for a \"marriage biodata Word format\" (or a \"shaadi biodata format\" — same thing, different phrasing) just want to know what sections to include and what order to put them in, so they can open a blank document and start typing without guessing. Here's that structure, plus a few formatting habits that make a Word biodata look clean instead of cramped.",
       },
       { type: "heading", text: "The structure to copy" },
       {

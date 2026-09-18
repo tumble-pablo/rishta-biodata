@@ -331,7 +331,12 @@ export default function Home() {
           </div>
 
           <div className="mt-12 grid gap-5 md:grid-cols-3 lg:mt-14 lg:gap-6">
-            {BLOG_POSTS.map((post) => {
+            {/* Only the 3 most broadly-appealing posts feature here — the
+                rest (including narrower, search-intent-specific guides)
+                live on /blog via "Read more blog" below, so this section
+                stays a clean 3-column grid instead of growing crowded as
+                the blog does. */}
+            {BLOG_POSTS.slice(0, 3).map((post) => {
               const Icon = post.icon;
 
               return (

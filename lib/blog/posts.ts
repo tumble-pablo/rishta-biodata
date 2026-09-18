@@ -1,4 +1,13 @@
-import { FileText, LayoutTemplate, Palette, PenLine, Share2, type LucideIcon } from "lucide-react";
+import {
+  Download,
+  FileText,
+  Flower2,
+  LayoutTemplate,
+  Palette,
+  PenLine,
+  Share2,
+  type LucideIcon,
+} from "lucide-react";
 
 // Simple, file-based blog content — no CMS, no database. Each post's body is
 // a small list of typed blocks (heading/paragraph/list) rather than a single
@@ -256,6 +265,82 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         type: "paragraph",
         text: "All eight templates share the exact same layout and fields, so switching between them is one click in the builder above, not starting over in a new file. Fill your details in once, then flip through all eight to see which one actually feels right before you download.",
+      },
+    ],
+  },
+  {
+    slug: "marriage-biodata-pdf",
+    title: "Marriage biodata PDF",
+    excerpt: "Why PDF is usually the right format to send, and the fastest way to get one.",
+    category: "Guide",
+    publishedAt: "2026-09-18",
+    icon: Download,
+    panelClass: "bg-secondary/50",
+    accentClass: "bg-primary text-primary-foreground",
+    body: [
+      {
+        type: "paragraph",
+        text: "People searching for a \"marriage biodata PDF\" are usually after one of two things: a document that's already in PDF form, ready to fill in, or a way to turn something they've already written into a clean PDF before sending it around. Either way, PDF is the right format to land on — here's why, and how to get there.",
+      },
+      { type: "heading", text: "Why PDF, specifically" },
+      {
+        type: "list",
+        items: [
+          "It opens the same way on every phone and computer — no app needed, and nothing reflows or shifts",
+          "It stays exactly as you designed it, even after being forwarded five times over WhatsApp",
+          "It's harder for someone to accidentally edit than a Word file sitting in their downloads folder",
+          "It's usually smaller and faster to open on mobile data than a Word document with the same content",
+        ],
+      },
+      { type: "heading", text: "Already have it written in Word?" },
+      {
+        type: "paragraph",
+        text: "In Word, use File → Save As (or Export) and choose PDF instead of .docx. In Google Docs, it's File → Download → PDF. Either way, open the result on your phone once before sending it — that's the fastest way to catch anything that shifted in the conversion.",
+      },
+      { type: "heading", text: "Starting from scratch?" },
+      {
+        type: "paragraph",
+        text: "The builder above skips the conversion step entirely. You fill in your details once, and the download is already a PDF — formatted to fit one page from the start, not exported from something else and hoped into shape.",
+      },
+    ],
+  },
+  {
+    slug: "hindu-marriage-biodata-format",
+    title: "Hindu marriage biodata format",
+    excerpt: "What's different about a Hindu biodata, and what stays exactly the same.",
+    category: "Guide",
+    publishedAt: "2026-09-18",
+    icon: Flower2,
+    panelClass: "bg-accent/40",
+    accentClass: "bg-card text-primary",
+    body: [
+      {
+        type: "paragraph",
+        text: "Most of a Hindu marriage biodata is identical to any other — personal details, family, education, career, contact. A few specific things are usually added on top, mainly for horoscope matching, and it's worth knowing what those are before you start.",
+      },
+      { type: "heading", text: "What's usually added" },
+      {
+        type: "list",
+        items: [
+          "Rashi (moon sign) and Nakshatra, if your family matches horoscopes",
+          "Manglik status — yes, no, or partial",
+          "Gotra, caste and sub-caste, if your family looks at these",
+          "A religious symbol at the top of the page, most often Om",
+        ],
+      },
+      {
+        type: "paragraph",
+        text: "None of this is universal even within Hindu families — some skip horoscope matching entirely, others treat it as essential. There's no harm leaving a field blank if it doesn't apply; a biodata reads perfectly well without it.",
+      },
+      { type: "heading", text: "Choosing a symbol" },
+      {
+        type: "paragraph",
+        text: "Om is the most common choice at the top of a Hindu biodata, but it's not the only one — Ganesha, Swastik, Kalash, Trishul and Lotus are all traditional options too, and leaving it off entirely is just as valid. The builder above starts with exactly this choice, including \"prefer not to say.\"",
+      },
+      { type: "heading", text: "Everything else stays the same" },
+      {
+        type: "paragraph",
+        text: "Once the religious section is settled, the rest of the biodata — family details, education, career, contact — works exactly like it would for anyone else. The builder's religious and astrological step covers all of the above in one place, so there's nothing extra to look up separately.",
       },
     ],
   },

@@ -113,17 +113,6 @@ h6 {
   font-family: var(--font-sora), "Sora", system-ui, sans-serif;
 }
 
-.hero-glow {
-  position: absolute;
-  left: -12%;
-  top: 3%;
-  width: min(62vw, 760px);
-  aspect-ratio: 1;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgba(225, 137, 112, 0.2), rgba(255, 250, 245, 0) 68%);
-  pointer-events: none;
-}
-
 .document-sheet::before {
   content: "";
   position: absolute;
@@ -151,14 +140,6 @@ h6 {
   right: 0;
   transform: scaleX(-1);
   border-bottom-right-radius: 100%;
-}
-
-@media (max-width: 640px) {
-  .hero-glow {
-    left: -45%;
-    top: 1%;
-    width: 125vw;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

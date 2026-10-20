@@ -18,7 +18,7 @@ const navItems = [
   { label: "Steps", href: "/#how-it-works" },
   { label: "Reviews", href: "/#testimonials" },
   { label: "Features", href: "/#features" },
-  { label: "FAQs", href: "/#faq" },
+  { label: "Frequently asked questions", href: "/#faq" },
 ] as const;
 
 export function SiteHeader() {
@@ -82,7 +82,7 @@ export function SiteHeader() {
             <li key={item.label}>
               <a
                 href={item.href}
-                className="font-heading flex min-h-11 items-center justify-center rounded-[6px] px-1 text-[11px] font-medium text-muted-foreground transition-colors duration-200 hover:bg-secondary/70 hover:text-foreground focus-visible:bg-secondary/70 focus-visible:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-[12px]"
+                className="font-heading flex min-h-11 items-center justify-center rounded-[6px] px-1 text-center text-[11px] leading-tight font-medium text-muted-foreground transition-colors duration-200 hover:bg-secondary/70 hover:text-foreground focus-visible:bg-secondary/70 focus-visible:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-[12px]"
               >
                 {item.label}
               </a>

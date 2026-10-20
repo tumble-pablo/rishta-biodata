@@ -1,6 +1,7 @@
 import {
   ArrowRight,
   ArrowUpRight,
+  Check,
   KeyRound,
   Languages,
   LayoutTemplate,
@@ -21,7 +22,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BiodataBuilder } from "@/components/biodata-builder/biodata-builder";
-import { HeroBiodataPreview } from "@/components/hero-biodata-preview";
+import { HeroBuilderMockup } from "@/components/hero-builder-mockup";
 import {
   DesignIllustration,
   DetailsIllustration,
@@ -56,55 +57,59 @@ export default function Home() {
 
       <section
         aria-labelledby="hero-title"
-        className="relative mx-auto grid min-h-[calc(100dvh-7.75rem)] max-w-[1440px] items-center gap-12 px-5 py-10 sm:px-8 sm:py-14 lg:min-h-[calc(100dvh-5rem)] lg:grid-cols-[minmax(0,1fr)_minmax(400px,0.7fr)] lg:gap-14 lg:px-12 lg:py-12 xl:gap-20"
+        className="hero-grid relative"
       >
-        <div className="relative z-10 max-w-[640px]">
-          <h1
-            id="hero-title"
-            className="font-heading scroll-mt-28 text-[clamp(2.5rem,5vw,4.5rem)] font-semibold leading-[1.06] tracking-[-0.05em]"
-          >
-            <span className="block">आपकी कहानी</span>
-            <span className="block lg:whitespace-nowrap">
-              deserves a <em className="text-accent-foreground">better</em>
+        <div className="relative mx-auto grid max-w-[1180px] items-center gap-14 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(420px,1fr)] lg:gap-12 lg:px-0 lg:py-24">
+          <div className="max-w-[560px]">
+            <span className="inline-flex items-center gap-1.5 rounded-[4px] bg-secondary px-2.5 py-1 text-[11px] font-semibold tracking-[0.08em] text-accent-foreground">
+              <Check aria-hidden="true" className="size-3" strokeWidth={3} />
+              BIODATA MAKER FOR INDIAN FAMILIES
             </span>
-            <span className="block">biodata.</span>
-          </h1>
 
-          <p className="mt-6 max-w-[540px] text-base leading-[1.75] text-muted-foreground sm:text-[17px]">
-            जो बात ज़रूरी है, वो सब एक ही जगह। अपनी personal, family और career details को एक clear और beautiful biodata में सजाइए, जिसे share करना आसान हो।
-          </p>
+            <h1
+              id="hero-title"
+              className="font-heading mt-5 scroll-mt-28 text-[clamp(2.5rem,5vw,4rem)] font-semibold leading-[1.06] tracking-[-0.05em] text-balance"
+            >
+              Create a biodata that is{" "}
+              <span className="text-accent-foreground">ready to share</span>.
+            </h1>
 
-          <Button
-            asChild
-            size="lg"
-            className="mt-8 h-14 rounded-[12px] px-7 text-[15px] font-semibold shadow-[0_18px_40px_rgba(62,21,50,0.26)] transition-transform duration-200 hover:-translate-y-0.5"
-          >
-            <a href="#biodata-preview">
-              Start with a blank biodata
-              <ArrowUpRight aria-hidden="true" className="size-4" strokeWidth={2} />
-            </a>
-          </Button>
-          <p className="mt-4 text-[13px] text-muted-foreground">No sign-up to begin</p>
-        </div>
+            <p className="mt-6 max-w-[440px] text-base leading-[1.7] text-muted-foreground sm:text-[17px]">
+              आपकी personal, family और career details, एक clear और beautiful biodata में। सिर्फ कुछ minutes में।
+            </p>
 
-        <div id="biodata-preview" className="relative z-10 mx-auto w-full max-w-[380px] scroll-mt-8 lg:py-8">
-          {/* Decorative backdrop: two framing rings plus a blush card and a
-              plum card fanned out behind the real preview. Desktop only —
-              on narrow screens they'd crowd the card or force side-scroll. */}
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden lg:block">
-            <div className="absolute left-1/2 top-1/2 aspect-square w-[150%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary/10" />
-            <div className="absolute left-1/2 top-1/2 aspect-square w-[118%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-accent-foreground/20" />
-            <div className="absolute -left-12 top-[18%] h-[72%] w-[86%] -rotate-[7deg] rounded-[26px] bg-secondary shadow-[0_24px_50px_rgba(62,21,50,0.08)]" />
-            <div className="absolute -right-10 top-[12%] h-[76%] w-[86%] rotate-[5deg] rounded-[26px] bg-primary shadow-[0_30px_60px_rgba(62,21,50,0.25)]" />
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Button
+                asChild
+                size="lg"
+                className="h-13 rounded-[8px] bg-accent-foreground px-6 text-[14px] font-semibold text-primary-foreground shadow-[0_16px_34px_rgba(143,47,60,0.28)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-accent-foreground/90"
+              >
+                <a href="#biodata-builder">
+                  Create your biodata
+                  <ArrowRight aria-hidden="true" className="size-4" strokeWidth={2} />
+                </a>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="h-13 rounded-[8px] border-primary! bg-card px-6 text-[14px] font-semibold"
+              >
+                <a href="#biodata-builder">See a sample</a>
+              </Button>
+            </div>
+
+            <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[13px] text-muted-foreground">
+              {["No sign-up to begin", "Hindi and English", "Free"].map((point) => (
+                <li key={point} className="flex items-center gap-1.5">
+                  <Check aria-hidden="true" className="size-3.5 text-accent-foreground" strokeWidth={2.5} />
+                  {point}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <div className="relative">
-            <HeroBiodataPreview />
-          </div>
-
-          <p className="relative mt-3.5 text-center text-[12px] font-medium tracking-[0.02em] text-muted-foreground">
-            A real biodata, built in minutes
-          </p>
+          <HeroBuilderMockup />
         </div>
       </section>
 

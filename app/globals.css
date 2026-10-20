@@ -113,6 +113,20 @@ h6 {
   font-family: var(--font-sora), "Sora", system-ui, sans-serif;
 }
 
+/* Faint graph-paper grid behind the homepage hero, fading out toward the
+   bottom so it doesn't run into the next section. */
+.hero-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(62, 21, 50, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(62, 21, 50, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to bottom, #000 60%, transparent);
+}
+
 .document-sheet::before {
   content: "";
   position: absolute;

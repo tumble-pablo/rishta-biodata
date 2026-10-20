@@ -1,4 +1,5 @@
 import {
+  ArrowRight,
   ArrowUpRight,
   KeyRound,
   Languages,
@@ -21,6 +22,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BiodataBuilder } from "@/components/biodata-builder/biodata-builder";
 import { HeroBiodataPreview } from "@/components/hero-biodata-preview";
+import {
+  DesignIllustration,
+  DetailsIllustration,
+  DownloadIllustration,
+} from "@/components/how-it-works-illustrations";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { BLOG_POSTS } from "@/lib/blog/posts";
@@ -105,51 +111,73 @@ export default function Home() {
       <section
         id="how-it-works"
         aria-labelledby="how-it-works-title"
-        className="relative border-y border-border bg-card"
+        className="relative border-y border-border bg-[linear-gradient(180deg,var(--card),var(--background))]"
       >
-        <div className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-          <div className="mx-auto max-w-[760px] text-center">
-            <h2
-              id="how-it-works-title"
-              className="font-heading text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+        <div className="mx-auto max-w-[1180px] px-5 py-20 sm:px-8 sm:py-24 lg:px-0 lg:py-28">
+          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+            <div className="max-w-[640px]">
+              <span className="inline-block rounded-[4px] bg-secondary px-2.5 py-1 text-[11px] font-semibold tracking-[0.1em] text-accent-foreground">
+                HOW IT WORKS
+              </span>
+              <h2
+                id="how-it-works-title"
+                className="font-heading mt-4 text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+              >
+                Three simple steps to a{" "}
+                <span className="text-accent-foreground">beautiful biodata</span>.
+              </h2>
+            </div>
+            <Button
+              asChild
+              variant="outline"
+              className="h-11 shrink-0 rounded-[8px] border-primary! px-5 text-[13px] font-semibold"
             >
-              Three simple steps to a beautiful biodata.
-            </h2>
+              <a href="#biodata-builder">
+                Start now
+                <ArrowRight aria-hidden="true" className="size-4" strokeWidth={2} />
+              </a>
+            </Button>
           </div>
 
-          <ol className="relative mx-auto mt-12 grid max-w-[1180px] gap-9 md:grid-cols-3 md:gap-8 lg:mt-14 lg:gap-12">
+          <ol className="mt-10 grid overflow-hidden rounded-[16px] border border-border bg-card shadow-[0_24px_60px_rgba(62,21,50,0.06)] md:grid-cols-3 lg:mt-12">
             {[
               {
                 step: "01",
                 title: "Add your details",
                 description:
                   "Share your personal, family, education, career and contact details in one clear flow.",
+                illustration: <DetailsIllustration />,
               },
               {
                 step: "02",
                 title: "Choose your design",
                 description:
                   "Pick a thoughtful biodata style and see your information come together as you go.",
+                illustration: <DesignIllustration />,
               },
               {
                 step: "03",
                 title: "Download your biodata",
                 description:
                   "Review everything carefully, then download your polished biodata when it is ready to share.",
+                illustration: <DownloadIllustration />,
               },
             ].map((item) => (
               <li
                 key={item.step}
-                className="relative grid grid-cols-[40px_1fr] items-start gap-5 after:absolute after:bottom-[-2.25rem] after:left-[19.5px] after:top-10 after:w-px after:bg-border after:content-[''] last:after:hidden md:block md:text-center md:after:bottom-auto md:after:left-1/2 md:after:top-5 md:after:h-px md:after:w-[calc(100%+2rem)] lg:after:w-[calc(100%+3rem)]"
+                className="flex flex-col border-border [&:not(:first-child)]:border-t md:[&:not(:first-child)]:border-l md:[&:not(:first-child)]:border-t-0"
               >
-                <span className="font-heading relative z-10 grid size-10 place-items-center rounded-full bg-primary text-[12px] font-semibold tabular-nums text-primary-foreground ring-8 ring-card md:mx-auto">
-                  {item.step}
-                </span>
-                <div className="pt-1 md:pt-0">
-                  <h3 className="font-heading text-lg font-semibold tracking-[-0.025em] md:mt-8 md:text-xl">
+                <div className="flex h-[200px] items-center justify-center border-b border-border bg-secondary/40 px-6">
+                  {item.illustration}
+                </div>
+                <div className="p-6">
+                  <h3 className="font-heading flex items-center gap-2.5 text-lg font-semibold tracking-[-0.025em]">
+                    <span className="grid size-6 place-items-center rounded-[5px] bg-primary text-[10px] font-semibold tabular-nums text-primary-foreground">
+                      {item.step}
+                    </span>
                     {item.title}
                   </h3>
-                  <p className="mt-3 max-w-[38ch] text-[15px] leading-7 text-muted-foreground md:mx-auto sm:text-base">
+                  <p className="mt-3 max-w-[38ch] text-[15px] leading-7 text-muted-foreground">
                     {item.description}
                   </p>
                 </div>

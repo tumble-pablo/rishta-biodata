@@ -38,5 +38,22 @@
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
-  }
+  },
+  "ratelimits": [
+    {
+      "name": "PAYMENT_ORDER_RATE_LIMITER",
+      "namespace_id": "31085101",
+      "simple": { "limit": 12, "period": 60 }
+    },
+    {
+      "name": "PAYMENT_VERIFY_RATE_LIMITER",
+      "namespace_id": "31085102",
+      "simple": { "limit": 20, "period": 60 }
+    },
+    {
+      "name": "EMAIL_RATE_LIMITER",
+      "namespace_id": "31085103",
+      "simple": { "limit": 3, "period": 60 }
+    }
+  ]
 }

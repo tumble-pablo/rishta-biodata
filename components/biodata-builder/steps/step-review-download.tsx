@@ -15,14 +15,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { exportPreviewAsPdf, sharePreviewAsPdf } from "@/lib/biodata/pdf-export";
-import { UNLOCK_PRICE_INR } from "@/lib/biodata/payment";
+import { UNLOCK_PRICE_INR, type CheckoutResult } from "@/lib/biodata/payment";
 import type { BiodataFormValues } from "@/lib/biodata/schema";
 
 interface StepReviewDownloadProps {
   previewRef: React.RefObject<HTMLDivElement | null>;
   hasPaid: boolean;
   isPaying: boolean;
-  onPurchase: (email: string) => Promise<boolean>;
+  onPurchase: (email: string) => Promise<CheckoutResult>;
 }
 
 // Which specific button is mid-action, so only that one shows a spinner
@@ -34,6 +34,7 @@ type BusyAction = "download-free" | "share-free" | "download-paid" | "share-paid
 // read again once the free/paid choice resolves so the right thing happens
 // immediately, with no separate re-click needed.
 type PendingAction = "download" | "share" | null;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/u;
 
 // Deliberately doesn't mention "free" or "watermark" anywhere in the two
 // buttons visitors see first — that choice only shows up once someone has
@@ -51,6 +52,7 @@ export function StepReviewDownload({ previewRef, hasPaid, isPaying, onPurchase }
   const [email, setEmail] = React.useState(savedEmail);
   const [busy, setBusy] = React.useState<BusyAction>(null);
   const [shareNotice, setShareNotice] = React.useState<string | null>(null);
+  const [paymentNotice, setPaymentNotice] = React.useState<string | null>(null);
   const [pendingAction, setPendingAction] = React.useState<PendingAction>(null);
 
   const runAction = async (action: BusyAction, task: () => Promise<void>) => {
@@ -107,10 +109,19 @@ export function StepReviewDownload({ previewRef, hasPaid, isPaying, onPurchase }
   };
 
   const handleChoosePaid = async () => {
-    const success = await onPurchase(email);
-    if (success) {
+    const normalizedEmail = email.trim();
+    if (!EMAIL_PATTERN.test(normalizedEmail) || normalizedEmail.length > 254) {
+      setPaymentNotice("Enter a valid email address for your backup copy.");
+      return;
+    }
+
+    setPaymentNotice(null);
+    const result = await onPurchase(normalizedEmail);
+    if (result.success) {
       await runPendingAction("paid");
       setPendingAction(null);
+    } else if (!result.cancelled) {
+      setPaymentNotice(result.error || "Payment could not be completed. Please try again.");
     }
     // On failure, leave the dialog open — the Razorpay modal already showed
     // its own error/cancellation state, so they can just try again.
@@ -178,9 +189,20 @@ export function StepReviewDownload({ previewRef, hasPaid, isPaying, onPurchase }
                   inputMode="email"
                   placeholder="you@example.com"
                   value={email}
-                  onChange={(event) => setEmail(event.target.value)}
+                  onChange={(event) => {
+                    setEmail(event.target.value);
+                    setPaymentNotice(null);
+                  }}
+                  aria-invalid={paymentNotice ? true : undefined}
+                  aria-describedby={paymentNotice ? "payment-notice" : undefined}
                 />
               </div>
+
+              {paymentNotice && (
+                <p id="payment-notice" role="alert" className="mt-2 text-xs text-destructive">
+                  {paymentNotice}
+                </p>
+              )}
 
               <Button
                 type="button"

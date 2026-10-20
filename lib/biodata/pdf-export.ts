@@ -91,11 +91,14 @@ export async function exportPreviewAsPdf(node: HTMLElement, filename: string): P
 
 // For emailing a backup copy — the server has no DOM to render from, so the
 // client builds the same PDF it would download/share and sends the bytes
-// along as base64 (jsPDF's own `"base64"` output, no `data:` prefix, ready
-// to drop straight into an email attachment).
+// along as base64 (with the data-URL prefix removed, ready to drop straight
+// into an email attachment).
 export async function getPreviewPdfBase64(node: HTMLElement): Promise<string> {
   const doc = await buildPdf(node);
-  return doc.output("base64");
+  const dataUri = doc.output("datauristring");
+  const separator = dataUri.indexOf(",");
+  if (separator < 0) throw new Error("Could not encode the PDF.");
+  return dataUri.slice(separator + 1);
 }
 
 export type SharePreviewResult = "shared" | "cancelled" | "downloaded";

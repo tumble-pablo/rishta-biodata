@@ -15,7 +15,7 @@ The Sites initializer copies the shared starter and selects managed-linux only w
 
 Whenever reopening or moving a checkout, run `node <plugin-root>/scripts/configure-execution-profile.mjs` before project commands. Profile changes do not alter tracked source or require reinstalling otherwise-valid dependencies; restart an existing preview to use the new selection. Do not commit or upload `.sites-runtime/`.
 
-This starter does not use `wrangler.jsonc`.
+Production Worker bindings and rate limits are declared in `wrangler.jsonc`.
 
 `install:ci` runs `npm ci` once against the shared lockfile, disables parent-workspace discovery, and includes required dev/optional dependencies despite production/omit settings. Sharp defaults to prebuilt binaries unless explicitly configured otherwise. Do not overlap installers.
 
@@ -113,12 +113,28 @@ Replace the filename with the pending migration and `DB` with your D1 binding na
 - `npm run install:ci`: perform the one locked dependency install
 - `npm run dev`: start the Vite/Vinext development server
 - `npm run build`: build the deployable Sites artifact
+- `npm test`: run the payment-security unit suite
 - `npm run start`: preview the built Worker locally with D1/R2 support
 - `npm run db:generate`: generate Drizzle migrations after schema changes
 
 When using the Sites plugin, follow its skill instructions for installation, builds, and publishing. These npm commands remain available for standalone use.
 
 The portable build runs Vinext directly without a host `timeout` command. The managed-linux build uses `scripts/build-verified.sh` and its existing `SITES_BUILD_TIMEOUT` setting.
+
+## Payment security configuration
+
+Set production credentials as encrypted Worker secrets; never put their values in `wrangler.jsonc`, source control, or client-prefixed environment variables:
+
+```sh
+npx wrangler secret put RAZORPAY_KEY_ID
+npx wrangler secret put RAZORPAY_KEY_SECRET
+npx wrangler secret put PAYMENT_SESSION_SECRET
+npx wrangler secret put RESEND_API_KEY
+```
+
+`PAYMENT_SESSION_SECRET` should be a separate random value with at least 32 bytes of entropy. The application temporarily falls back to `RAZORPAY_KEY_SECRET` so existing deployments do not lose paid entitlements during rollout, but a separate signing secret is recommended.
+
+The payment routes create orders at the fixed server-side price, bind the order to a short-lived HttpOnly cookie, verify Razorpay's HMAC, fetch the payment from Razorpay, and unlock only a captured, unrefunded INR payment for the exact order and amount. The resulting entitlement is an HttpOnly, signed, one-year cookie. Backup emails require that entitlement and can only be sent to the email reported by Razorpay for that payment.
 
 ## Learn More
 

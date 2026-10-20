@@ -1,3 +1,7 @@
+import { UNLOCK_PRICE_INR } from "@/lib/biodata/payment-config";
+
+export { UNLOCK_PRICE_INR } from "@/lib/biodata/payment-config";
+
 // Payment abstraction backing the "unlock full download" flow in
 // step-review-download.tsx. `razorpayPaymentProvider` is the active
 // implementation — see app/api/payment/create-order/route.ts and
@@ -13,15 +17,16 @@
 // confirms Razorpay's HMAC signature — a real cryptographic check, not a
 // client-side promise that always resolves the way the old mock did.
 
-export const UNLOCK_PRICE_INR = 51;
-
 export interface CheckoutOptions {
   description: string;
+  email?: string;
 }
 
 export interface CheckoutResult {
   success: boolean;
-  token?: string;
+  cancelled?: boolean;
+  error?: string;
+  backupEmail?: string | null;
 }
 
 export interface PaymentProvider {
@@ -37,7 +42,12 @@ interface CreateOrderResponse {
 
 interface VerifyResponse {
   verified: boolean;
-  paymentId?: string;
+  error?: string;
+  backupEmail?: string | null;
+}
+
+interface PaymentStatusResponse {
+  hasPaid: boolean;
 }
 
 interface RazorpayHandlerResponse {
@@ -58,6 +68,7 @@ interface RazorpayCheckoutOptions {
   order_id: string;
   name: string;
   description: string;
+  prefill?: { email?: string };
   theme?: { color?: string };
   handler: (response: RazorpayHandlerResponse) => void;
   modal?: { ondismiss?: () => void };
@@ -100,16 +111,37 @@ function loadRazorpayScript(): Promise<void> {
 }
 
 export const razorpayPaymentProvider: PaymentProvider = {
-  async startCheckout({ description }) {
-    await loadRazorpayScript();
+  async startCheckout({ description, email }) {
+    try {
+      await loadRazorpayScript();
+    } catch {
+      return { success: false, error: "Payment checkout could not load. Check your connection and try again." };
+    }
 
-    const orderResponse = await fetch("/api/payment/create-order", { method: "POST" });
-    if (!orderResponse.ok) return { success: false };
-    const order = (await orderResponse.json()) as CreateOrderResponse;
+    let orderResponse: Response;
+    try {
+      orderResponse = await fetch("/api/payment/create-order", { method: "POST" });
+    } catch {
+      return { success: false, error: "Could not reach the payment service. Please try again." };
+    }
+    if (!orderResponse.ok) {
+      const body = (await orderResponse.json().catch(() => null)) as { error?: string } | null;
+      return { success: false, error: body?.error || "Could not start payment. Please try again." };
+    }
+    const order = (await orderResponse.json().catch(() => null)) as CreateOrderResponse | null;
+    if (
+      !order ||
+      !order.orderId.startsWith("order_") ||
+      order.amount !== UNLOCK_PRICE_INR * 100 ||
+      order.currency !== "INR" ||
+      !order.keyId
+    ) {
+      return { success: false, error: "The payment service returned an invalid order." };
+    }
 
     return new Promise((resolve) => {
       if (!window.Razorpay) {
-        resolve({ success: false });
+        resolve({ success: false, error: "Payment checkout could not load. Please try again." });
         return;
       }
 
@@ -120,11 +152,12 @@ export const razorpayPaymentProvider: PaymentProvider = {
         order_id: order.orderId,
         name: "Rishta Biodata",
         description,
+        prefill: email ? { email } : undefined,
         theme: { color: "#3e1532" },
         modal: {
           // The visitor closed the popup without paying — resolve (not
           // reject) so the UI just stays on the "pay to unlock" state.
-          ondismiss: () => resolve({ success: false }),
+          ondismiss: () => resolve({ success: false, cancelled: true }),
         },
         handler: async (response) => {
           try {
@@ -133,32 +166,52 @@ export const razorpayPaymentProvider: PaymentProvider = {
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(response),
             });
-            const result = (await verifyResponse.json()) as VerifyResponse;
-            resolve({ success: result.verified, token: result.paymentId });
+            const result = (await verifyResponse.json().catch(() => null)) as VerifyResponse | null;
+            resolve({
+              success: verifyResponse.ok && result?.verified === true,
+              backupEmail: result?.backupEmail,
+              error:
+                verifyResponse.ok && result?.verified === true
+                  ? undefined
+                  : result?.error || "We could not confirm the payment. Please contact support if you were charged.",
+            });
           } catch {
-            resolve({ success: false });
+            resolve({
+              success: false,
+              error: "We could not confirm the payment. Please contact support if you were charged.",
+            });
           }
         },
       });
-      checkout.on("payment.failed", () => resolve({ success: false }));
+      checkout.on("payment.failed", () =>
+        resolve({ success: false, error: "Payment failed. No unlock was applied; please try again." })
+      );
       checkout.open();
     });
   },
 };
 
-function createFakeToken(): string {
-  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
-    return `mock_${crypto.randomUUID()}`;
+export async function fetchPaymentStatus(): Promise<boolean> {
+  try {
+    const response = await fetch("/api/payment/status", {
+      method: "GET",
+      cache: "no-store",
+      credentials: "same-origin",
+    });
+    if (!response.ok) return false;
+    const result = (await response.json()) as PaymentStatusResponse;
+    return result.hasPaid === true;
+  } catch {
+    return false;
   }
-  return `mock_${Date.now()}_${Math.random().toString(36).slice(2)}`;
 }
 
 /** Kept for local testing without Razorpay credentials configured — see
  * ACTIVE_PAYMENT_PROVIDER in biodata-builder.tsx. Always "succeeds" with a
- * fake token; no real money moves and no server call happens. */
+ * local-only result; no real money moves and no server call happens. */
 export const mockPaymentProvider: PaymentProvider = {
   async startCheckout() {
     await new Promise((resolve) => setTimeout(resolve, 900));
-    return { success: true, token: createFakeToken() };
+    return { success: true };
   },
 };

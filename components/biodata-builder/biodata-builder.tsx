@@ -12,8 +12,11 @@ import { biodataSchema, type BiodataFormValues } from "@/lib/biodata/schema";
 import { DEFAULT_VALUES } from "@/lib/biodata/defaults";
 import { STEPS } from "@/lib/biodata/steps";
 import { loadDraft, mergeDraftWithDefaults, saveDraft } from "@/lib/biodata/storage";
-import { loadPurchase, savePurchase } from "@/lib/biodata/purchase-storage";
-import { razorpayPaymentProvider } from "@/lib/biodata/payment";
+import {
+  fetchPaymentStatus,
+  razorpayPaymentProvider,
+  type CheckoutResult,
+} from "@/lib/biodata/payment";
 import { resendEmailBackupProvider } from "@/lib/biodata/email-backup";
 import { getPreviewPdfBase64 } from "@/lib/biodata/pdf-export";
 import { BiodataPreview } from "@/components/biodata-builder/biodata-preview";
@@ -81,7 +84,8 @@ export function BiodataBuilder() {
   const stepHeadingRef = React.useRef<HTMLDivElement>(null);
   const saveTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Restore a saved draft/purchase once, after first paint — `useForm` is
+  // Restore a saved draft and ask the server to verify the signed, HttpOnly
+  // purchase entitlement once after first paint — `useForm` is
   // initialized from static defaults only, so this never causes an
   // SSR/hydration mismatch.
   React.useEffect(() => {
@@ -89,13 +93,20 @@ export function BiodataBuilder() {
     if (draft) {
       form.reset(mergeDraftWithDefaults(DEFAULT_VALUES, draft));
     }
-    setHasPaid(loadPurchase().hasPaid);
-    // Intentionally run once on mount only.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    let active = true;
+    void fetchPaymentStatus().then((paid) => {
+      if (active) setHasPaid(paid);
+    });
+    return () => {
+      active = false;
+    };
+  }, [form]);
 
   // Debounced draft autosave on every change.
   React.useEffect(() => {
+    // React Hook Form intentionally exposes a subscription API here; this
+    // component does not rely on React Compiler memoization for correctness.
+    // eslint-disable-next-line react-hooks/incompatible-library
     const subscription = form.watch((values) => {
       if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
       saveTimeoutRef.current = setTimeout(() => {
@@ -131,34 +142,32 @@ export function BiodataBuilder() {
     if (!isFirstStep) goToStep(stepIndex - 1);
   };
 
-  const handlePurchase = async (email: string): Promise<boolean> => {
+  const handlePurchase = async (email: string): Promise<CheckoutResult> => {
     setIsPaying(true);
     try {
       const result = await ACTIVE_PAYMENT_PROVIDER.startCheckout({
         description: "Rishta Biodata — full download",
+        email,
       });
       if (result.success) {
         setHasPaid(true);
-        savePurchase({
-          hasPaid: true,
-          token: result.token ?? null,
-          paidAt: new Date().toISOString(),
-          email: email || null,
-        });
         // Fire-and-forget: a failed backup send shouldn't block the unlock
         // the visitor already paid for. Waits a paint so the snapshot below
         // captures the just-unlocked (watermark-free) preview, not a stale
         // pre-render frame.
-        if (email) {
+        if (result.backupEmail) {
+          const backupEmail = result.backupEmail;
           void (async () => {
             await waitForNextPaint();
             if (!previewRef.current) return;
             const pdfBase64 = await getPreviewPdfBase64(previewRef.current);
-            await ACTIVE_EMAIL_BACKUP_PROVIDER.sendBackupCopy(email, pdfBase64, "biodata.pdf");
+            await ACTIVE_EMAIL_BACKUP_PROVIDER.sendBackupCopy(backupEmail, pdfBase64, "biodata.pdf");
           })().catch(() => {});
         }
       }
-      return result.success;
+      return result;
+    } catch {
+      return { success: false, error: "Payment could not be completed. Please try again." };
     } finally {
       setIsPaying(false);
     }

@@ -13,5 +13,8 @@ declare namespace Cloudflare {
     PAYMENT_ORDER_RATE_LIMITER?: RateLimit;
     PAYMENT_VERIFY_RATE_LIMITER?: RateLimit;
     EMAIL_RATE_LIMITER?: RateLimit;
+    /** Server-only. Claude API key for "Bring your old biodata" import. */
+    ANTHROPIC_API_KEY?: string;
+    IMPORT_RATE_LIMITER?: RateLimit;
   }
 }

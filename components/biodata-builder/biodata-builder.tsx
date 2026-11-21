@@ -28,6 +28,7 @@ import { StepPersonal } from "@/components/biodata-builder/steps/step-personal";
 import { StepReligious } from "@/components/biodata-builder/steps/step-religious";
 import { StepReviewDownload } from "@/components/biodata-builder/steps/step-review-download";
 import { StepSymbol } from "@/components/biodata-builder/steps/step-symbol";
+import { ImportBiodataCard } from "@/components/biodata-builder/import-biodata-card";
 import { StepTemplate } from "@/components/biodata-builder/steps/step-template";
 
 // One component per data-entry step, in the same order as `STEPS` (minus the
@@ -195,6 +196,8 @@ export function BiodataBuilder() {
 
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(380px,0.85fr)] lg:items-start lg:gap-12">
         <div>
+          {isFirstStep && <ImportBiodataCard />}
+
           <div ref={stepHeadingRef} tabIndex={-1} className="outline-none">
             {isLastStep ? (
               <StepReviewDownload

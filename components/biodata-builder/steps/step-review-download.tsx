@@ -130,9 +130,9 @@ export function StepReviewDownload({ previewRef, hasPaid, isPaying, onPurchase }
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-heading text-xl font-semibold tracking-[-0.02em] sm:text-2xl">
+        <h3 className="font-heading text-xl font-semibold tracking-[-0.02em] sm:text-2xl">
           Review & download
-        </h2>
+        </h3>
         <p className="mt-1.5 text-sm text-muted-foreground">
           Check your details in the preview, then download or share your biodata.
         </p>

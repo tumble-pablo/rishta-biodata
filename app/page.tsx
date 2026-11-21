@@ -3,9 +3,9 @@ import {
   ArrowUpRight,
   Check,
   KeyRound,
-  Languages,
   LayoutTemplate,
   MessageCircle,
+  Save,
   Sparkles,
   Smartphone,
 } from "lucide-react";
@@ -17,7 +17,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -28,16 +27,103 @@ import {
   DetailsIllustration,
   DownloadIllustration,
 } from "@/components/how-it-works-illustrations";
+import { TemplateShowcase } from "@/components/home/template-showcase";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { BLOG_POSTS } from "@/lib/blog/posts";
 
 export const metadata: Metadata = {
-  title: "Rishta Biodata — Free Marriage Biodata Maker",
+  title: "Free Marriage Biodata Maker – 8 Designs, PDF Download | Rishta Biodata",
   description:
-    "Build a marriage biodata online, free. Live preview, multiple designs, and instant PDF download. Pay only if you want it watermark-free.",
+    "Make your marriage biodata online in 5 minutes. Fill in your details, pick a design, download a PDF and share it on WhatsApp. Free, no sign-up.",
   alternates: { canonical: "/" },
 };
+
+// One source for the visible FAQ and its FAQPage structured data, so the
+// two can never drift apart. Answers must stay true to what the product
+// does today (no photo upload, English only, ₹51 watermark removal).
+const FAQ_ITEMS = [
+  {
+    question: "Is Rishta Biodata really free?",
+    answer:
+      "Yes. Making your biodata and downloading the PDF is free. The free PDF has a small watermark. If you want it without the watermark, you pay ₹51 once. There is no subscription.",
+  },
+  {
+    question: "How do I make a marriage biodata on my phone?",
+    answer:
+      "Open this page on your phone and tap “Make my biodata”. Fill in your details step by step, pick a design, and download the PDF. There is no app to install.",
+  },
+  {
+    question: "What should I write in a marriage biodata?",
+    answer:
+      "Write your personal details, religion and stars, education and job, family details, a few lines about yourself, and a contact number. Keep it honest and short enough to fit on one page.",
+  },
+  {
+    question: "Can I send my biodata on WhatsApp?",
+    answer:
+      "Yes. You get a PDF file. Send it on WhatsApp as a document so it stays sharp, or print it if the family prefers paper.",
+  },
+  {
+    question: "Do I need to create an account?",
+    answer: "No. There is no sign-up, password or OTP. Just open the page and start.",
+  },
+  {
+    question: "Can I change my biodata after downloading it?",
+    answer:
+      "Yes. Your details stay saved in the browser you used. Come back, change what you need, and download again. If you paid to remove the watermark, it stays removed on that phone or computer for one year.",
+  },
+  {
+    question: "Is my information safe?",
+    answer:
+      "Your biodata is not put online or shown to anyone. Your details are saved only in your own browser. If you pay, we email one copy of your PDF to the email address you paid with.",
+  },
+  {
+    question: "What does the ₹51 pay for?",
+    answer:
+      "It removes the watermark from your biodata PDF, and we email you a copy. It is a one-time payment, made safely through Razorpay.",
+  },
+  {
+    question: "Which language can I make my biodata in?",
+    answer: "Right now the biodata is in English. Hindi is coming soon.",
+  },
+  {
+    question: "Which design is best for a marriage biodata?",
+    answer:
+      "There is no single best design. Modern Minimal suits a clean, simple look. Double Border or Ornate Corners suit a more traditional family. You can switch designs any time and see the change straight away.",
+  },
+  {
+    question: "How is a biodata different from a résumé?",
+    answer:
+      "A résumé is for jobs and talks about your work and skills. A marriage biodata is for families and also covers your family, religion, stars and values.",
+  },
+  {
+    question: "शादी के लिए बायोडाटा कैसे बनाएं?",
+    answer:
+      "इस पेज पर “Make my biodata” दबाएं। अपनी जानकारी भरें, जैसे नाम, जन्म तिथि, परिवार, पढ़ाई और नौकरी। फिर एक design चुनें और PDF डाउनलोड करें। यह मुफ़्त है और sign-up की ज़रूरत नहीं।",
+  },
+] as const;
+
+const STRUCTURED_DATA = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Rishta Biodata",
+    url: "https://rishtabiodata.com/",
+    applicationCategory: "LifestyleApplication",
+    operatingSystem: "Any",
+    description: "Free online marriage biodata maker. Fill in your details, pick a design and download a PDF.",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ_ITEMS.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  },
+];
 
 export default function Home() {
   return (
@@ -63,19 +149,18 @@ export default function Home() {
           <div className="max-w-[560px]">
             <span className="inline-flex items-center gap-1.5 rounded-[4px] bg-secondary px-2.5 py-1 text-[11px] font-semibold tracking-[0.08em] text-accent-foreground">
               <Check aria-hidden="true" className="size-3" strokeWidth={3} />
-              BIODATA MAKER FOR INDIAN FAMILIES
+              FREE MARRIAGE BIODATA MAKER
             </span>
 
             <h1
               id="hero-title"
               className="font-heading mt-5 scroll-mt-28 text-[clamp(2.5rem,5vw,4rem)] font-semibold leading-[1.06] tracking-[-0.05em] text-balance"
             >
-              Create a biodata that is{" "}
-              <span className="text-accent-foreground">ready to share</span>.
+              Make your <span className="text-accent-foreground">marriage biodata</span> in 5 minutes
             </h1>
 
-            <p className="mt-6 max-w-[440px] text-base leading-[1.7] text-muted-foreground sm:text-[17px]">
-              आपकी personal, family और career details, एक clear और beautiful biodata में। सिर्फ कुछ minutes में।
+            <p className="mt-6 max-w-[460px] text-base leading-[1.7] text-muted-foreground sm:text-[17px]">
+              Fill in your details, pick a design you like, and download a PDF you can send on WhatsApp. No sign-up needed.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -85,7 +170,7 @@ export default function Home() {
                 className="h-13 rounded-[8px] bg-accent-foreground px-6 text-[14px] font-semibold text-primary-foreground shadow-[0_16px_34px_rgba(143,47,60,0.28)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-accent-foreground/90"
               >
                 <a href="#biodata-builder">
-                  Create your biodata
+                  Make my biodata
                   <ArrowRight aria-hidden="true" className="size-4" strokeWidth={2} />
                 </a>
               </Button>
@@ -95,12 +180,12 @@ export default function Home() {
                 variant="outline"
                 className="h-13 rounded-[8px] border-primary! bg-card px-6 text-[14px] font-semibold"
               >
-                <a href="#biodata-builder">See a sample</a>
+                <a href="#templates">See designs</a>
               </Button>
             </div>
 
             <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[13px] text-muted-foreground">
-              {["No sign-up to begin", "Hindi and English", "Free"].map((point) => (
+              {["Free to make", "No sign-up", "Ready for WhatsApp"].map((point) => (
                 <li key={point} className="flex items-center gap-1.5">
                   <Check aria-hidden="true" className="size-3.5 text-accent-foreground" strokeWidth={2.5} />
                   {point}
@@ -110,6 +195,30 @@ export default function Home() {
           </div>
 
           <HeroBuilderMockup />
+        </div>
+      </section>
+
+      <section
+        id="templates"
+        aria-labelledby="templates-title"
+        className="scroll-mt-20 border-t border-border bg-card"
+      >
+        <div className="mx-auto max-w-[1180px] px-5 py-20 sm:px-8 sm:py-24 lg:px-0">
+          <div className="max-w-[640px]">
+            <h2
+              id="templates-title"
+              className="font-heading text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+            >
+              Marriage biodata templates
+            </h2>
+            <p className="mt-4 text-base leading-7 text-muted-foreground sm:text-[17px]">
+              8 designs, from simple to traditional. Tap one to start. You can change the design any time, even after filling in your details.
+            </p>
+          </div>
+
+          <div className="mt-10 lg:mt-12">
+            <TemplateShowcase />
+          </div>
         </div>
       </section>
 
@@ -203,10 +312,10 @@ export default function Home() {
               id="biodata-builder-title"
               className="font-heading text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
             >
-              Build your biodata.
+              Make your biodata
             </h2>
             <p className="mx-auto mt-4 max-w-[52ch] text-base leading-7 text-muted-foreground sm:text-[17px]">
-              Fill in your details on the left and watch your biodata come together on the right.
+              Fill in your details step by step. Your biodata shows up next to the form as you type.
             </p>
           </div>
 
@@ -217,69 +326,81 @@ export default function Home() {
       </section>
 
       <section
-        id="testimonials"
-        aria-labelledby="testimonials-title"
-        className="border-b border-border bg-card"
+        id="biodata-format"
+        aria-labelledby="biodata-format-title"
+        className="scroll-mt-20 border-b border-border bg-card"
       >
-        <div className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-          <div className="max-w-[720px]">
-            <h2
-              id="testimonials-title"
-              className="font-heading text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
-            >
-              What families are saying.
-            </h2>
-          </div>
-
-          <div className="mt-12 grid divide-y divide-border md:grid-cols-3 md:divide-x md:divide-y-0 lg:mt-14">
-            {[
-              {
-                quote:
-                  "The whole process was so much easier. My parents were impressed with how thoughtful it looked.",
-                name: "Priya S.",
-                city: "Bengaluru",
-                initials: "PS",
-              },
-              {
-                quote:
-                  "I created my brother’s biodata in 15 minutes on my phone. No login, no hassle.",
-                name: "Arjun M.",
-                city: "Delhi",
-                initials: "AM",
-              },
-              {
-                quote:
-                  "Finally, a biodata that doesn’t look like it was made in Word. Clean and modern.",
-                name: "Fatima K.",
-                city: "Dhaka",
-                initials: "FK",
-              },
-            ].map((testimonial) => (
-              <figure
-                key={testimonial.name}
-                className="flex flex-col py-8 first:pt-0 last:pb-0 md:min-h-[250px] md:px-8 md:py-0 md:first:pl-0 md:last:pr-0 lg:min-h-[270px] lg:px-12"
+        <div className="mx-auto max-w-[1180px] px-5 py-20 sm:px-8 sm:py-24 lg:px-0 lg:py-28">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
+            <div>
+              <h2
+                id="biodata-format-title"
+                className="font-heading text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
               >
-                <blockquote className="relative pl-5 text-[16px] leading-7 text-foreground before:absolute before:inset-y-1 before:left-0 before:w-[3px] before:rounded-full before:bg-accent before:content-[''] sm:text-[17px]">
-                  <p>“{testimonial.quote}”</p>
-                </blockquote>
+                What is a marriage biodata?
+              </h2>
+              {/* Kept to a short, self-contained answer so search engines can
+                  quote it directly for "what is biodata" style queries. */}
+              <p className="mt-5 text-[17px] leading-8 text-foreground">
+                A marriage biodata is a one-page introduction that families share when they look for a match. It has your personal details, religion and stars, education and job, family details and a contact number. Think of it as a résumé, but for marriage.
+              </p>
+              <p className="mt-4 text-base leading-7 text-muted-foreground">
+                It is usually the first thing the other family sees, so it should be neat, honest and easy to read.
+              </p>
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- see site-header.tsx */}
+              <a
+                href="/blog/what-to-include-in-a-marriage-biodata"
+                className="font-heading mt-6 inline-flex min-h-11 items-center gap-1.5 text-[14px] font-semibold text-accent-foreground hover:underline focus-visible:underline focus-visible:outline-none"
+              >
+                Read the full biodata format guide
+                <ArrowRight aria-hidden="true" className="size-4" />
+              </a>
+            </div>
 
-                <figcaption className="mt-auto flex items-center gap-3 pt-8">
-                  <Avatar className="size-11 ring-1 ring-primary/10">
-                    <AvatarFallback className="font-heading bg-primary text-[11px] font-semibold tracking-[0.04em] text-primary-foreground">
-                      {testimonial.initials}
-                    </AvatarFallback>
-                  </Avatar>
-                  <span>
-                    <span className="font-heading block text-sm font-semibold tracking-[-0.02em]">
-                      {testimonial.name}
-                    </span>
-                    <span className="mt-1 block text-[13px] text-muted-foreground">
-                      {testimonial.city}
-                    </span>
-                  </span>
-                </figcaption>
-              </figure>
-            ))}
+            <div>
+              <h3 className="font-heading text-xl font-semibold tracking-[-0.025em]">
+                What to write in your biodata
+              </h3>
+              <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+                {[
+                  {
+                    title: "About you",
+                    detail: "Name, date of birth, time and place of birth, height.",
+                  },
+                  {
+                    title: "Religion and stars",
+                    detail: "Religion, caste, gotra, rashi, nakshatra, manglik.",
+                  },
+                  {
+                    title: "Studies and work",
+                    detail: "Your education, your job and where you work.",
+                  },
+                  {
+                    title: "Family",
+                    detail: "Parents, brothers and sisters, and what they do.",
+                  },
+                  {
+                    title: "About me",
+                    detail: "Two or three lines about you, in your own words.",
+                  },
+                  {
+                    title: "Contact",
+                    detail: "A phone number and the city you live in.",
+                  },
+                ].map((item) => (
+                  <li key={item.title} className="rounded-[12px] border border-border bg-background p-5">
+                    <p className="font-heading flex items-center gap-2 text-[15px] font-semibold">
+                      <Check aria-hidden="true" className="size-4 text-accent-foreground" strokeWidth={2.5} />
+                      {item.title}
+                    </p>
+                    <p className="mt-2 text-[14px] leading-6 text-muted-foreground">{item.detail}</p>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-5 text-[14px] leading-6 text-muted-foreground">
+                Only a few basics are needed, like your name, date of birth, religion and a phone number. Everything else is optional, so leave out anything your family is not comfortable sharing.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -287,55 +408,49 @@ export default function Home() {
       <section
         id="features"
         aria-labelledby="features-title"
-        className="border-b border-border bg-card"
+        className="border-b border-border bg-background"
       >
-        <div className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-          <div className="max-w-[820px]">
+        <div className="mx-auto max-w-[1180px] px-5 py-20 sm:px-8 sm:py-24 lg:px-0 lg:py-28">
+          <div className="max-w-[720px]">
             <h2
               id="features-title"
-              className="font-heading text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+              className="font-heading text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
             >
-              Built for how South Asian families share biodata.
+              Why families make their biodata here
             </h2>
           </div>
 
-          <div className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-14">
+          <div className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3 lg:gap-x-12 lg:gap-y-12">
             {[
               {
                 icon: KeyRound,
-                title: "No login required",
-                description:
-                  "Start right away and preview your biodata without creating an account.",
+                title: "No sign-up",
+                description: "Open the page and start. No account, no password, no OTP.",
               },
               {
                 icon: LayoutTemplate,
-                title: "Multiple templates",
-                description:
-                  "Choose from thoughtful traditional and modern layouts for print and sharing.",
+                title: "8 designs to choose from",
+                description: "Simple or traditional. Change the design any time, even after filling your details.",
               },
               {
                 icon: MessageCircle,
-                title: "WhatsApp-ready PDF",
-                description:
-                  "Download a lightweight PDF that stays clear when sent to family and friends.",
+                title: "PDF ready for WhatsApp",
+                description: "A light PDF that looks the same on every phone. Send it or print it.",
               },
               {
                 icon: Sparkles,
-                title: "Astrology details",
-                description:
-                  "Add optional gotra, rashi, nakshatra, manglik and birth details when needed.",
-              },
-              {
-                icon: Languages,
-                title: "Multiple languages",
-                description:
-                  "Begin in English, with Hindi and more Indian languages coming as we grow.",
+                title: "Stars and gotra built in",
+                description: "Add gotra, rashi, nakshatra, manglik and birth time if your family needs them.",
               },
               {
                 icon: Smartphone,
-                title: "Made for mobile",
-                description:
-                  "Fill every detail comfortably from your phone, tablet or computer.",
+                title: "Easy on your phone",
+                description: "Fill everything from your phone. No app to install.",
+              },
+              {
+                icon: Save,
+                title: "Saved as you type",
+                description: "Your details stay saved in this browser, so you can stop and finish later.",
               },
             ].map((feature) => {
               const Icon = feature.icon;
@@ -354,6 +469,40 @@ export default function Home() {
                 </article>
               );
             })}
+          </div>
+
+          <div className="mt-16 lg:mt-20">
+            <h3 className="font-heading text-xl font-semibold tracking-[-0.025em]">
+              Rishta Biodata vs Word, Canva and other sites
+            </h3>
+            <div className="mt-6 overflow-x-auto rounded-[12px] border border-border bg-card">
+              <table className="w-full min-w-[640px] text-left text-[14px]">
+                <thead>
+                  <tr className="border-b border-border bg-secondary/50">
+                    <th scope="col" className="p-4 font-semibold"><span className="sr-only">Compare</span></th>
+                    <th scope="col" className="font-heading p-4 font-semibold text-accent-foreground">Rishta Biodata</th>
+                    <th scope="col" className="font-heading p-4 font-semibold">Word or Canva</th>
+                    <th scope="col" className="font-heading p-4 font-semibold">Other biodata sites</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ["Sign-up needed", "No", "Canva needs an account", "Many ask for a login or OTP"],
+                    ["Layout", "Done for you", "You fix it yourself", "Done for you"],
+                    ["Stars, gotra and family fields", "Ready to fill", "You type them in yourself", "Usually ready"],
+                    ["Price", "Free with a small watermark. ₹51 once to remove it", "Free", "Usually ₹21 to ₹59 to download clean"],
+                    ["Easy on a phone", "Yes", "Hard to edit on a phone", "Varies"],
+                  ].map(([label, ours, word, others]) => (
+                    <tr key={label} className="border-b border-border last:border-b-0">
+                      <th scope="row" className="p-4 font-medium text-muted-foreground">{label}</th>
+                      <td className="p-4 font-semibold">{ours}</td>
+                      <td className="p-4">{word}</td>
+                      <td className="p-4">{others}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
@@ -456,7 +605,7 @@ export default function Home() {
               id="faq-title"
               className="font-heading text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
             >
-              A few things worth knowing.
+              Questions families ask
             </h2>
           </div>
 
@@ -465,28 +614,7 @@ export default function Home() {
             collapsible
             className="mt-12 border-y border-border lg:mt-14"
           >
-            {[
-              {
-                question: "Is my data kept private?",
-                answer:
-                  "Yes. Your biodata is never listed publicly. You decide when to download it and who you share it with.",
-              },
-              {
-                question: "Can I edit my biodata after downloading?",
-                answer:
-                  "You can review and edit every detail before downloading. If something changes later, return to the builder and create an updated copy.",
-              },
-              {
-                question: "What languages are supported?",
-                answer:
-                  "We are starting with English, with Hindi and more Indian languages planned as the builder grows.",
-              },
-              {
-                question: "Do I need to create an account?",
-                answer:
-                  "No. You can start filling in your details and preview your biodata without creating an account.",
-              },
-            ].map((item, index) => (
+            {FAQ_ITEMS.map((item, index) => (
               <AccordionItem
                 key={item.question}
                 value={`item-${index + 1}`}
@@ -503,6 +631,39 @@ export default function Home() {
           </Accordion>
         </div>
       </section>
+
+      <section aria-labelledby="final-cta-title" className="bg-primary text-primary-foreground">
+        <div className="mx-auto flex max-w-[1180px] flex-col items-start gap-6 px-5 py-16 sm:px-8 sm:py-20 lg:flex-row lg:items-center lg:justify-between lg:px-0">
+          <div className="max-w-[620px]">
+            <h2
+              id="final-cta-title"
+              className="font-heading text-[clamp(1.75rem,3.5vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.04em] text-balance"
+            >
+              Your biodata is the first thing the other family sees.
+            </h2>
+            <p className="mt-3 text-base leading-7 text-primary-foreground/80 sm:text-[17px]">
+              Make it neat and easy to read. It takes about 5 minutes.
+            </p>
+          </div>
+          <Button
+            asChild
+            size="lg"
+            className="h-13 shrink-0 rounded-[8px] bg-accent-foreground px-6 text-[14px] font-semibold text-primary-foreground hover:bg-accent-foreground/90"
+          >
+            <a href="#biodata-builder">
+              Make my biodata
+              <ArrowRight aria-hidden="true" className="size-4" strokeWidth={2} />
+            </a>
+          </Button>
+        </div>
+      </section>
+
+      <script
+        type="application/ld+json"
+        // JSON.stringify output is safe here: all values are static strings
+        // defined in this file, none come from user input.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
+      />
 
       <SiteFooter />
     </main>

@@ -11,7 +11,7 @@ export function HeroBuilderMockup() {
   return (
     <div aria-hidden="true" className="relative mx-auto w-full max-w-[500px] select-none">
       <span className="font-heading absolute -right-3 -top-4 z-20 rounded-[8px] bg-primary px-3.5 py-2.5 text-[10px] font-semibold tracking-[0.1em] text-primary-foreground shadow-[0_12px_28px_rgba(62,21,50,0.25)] sm:-right-5">
-        HINDI + ENGLISH
+        WHATSAPP READY
       </span>
 
       <div className="overflow-hidden rounded-[14px] border border-border bg-card shadow-[0_30px_70px_rgba(62,21,50,0.14)]">

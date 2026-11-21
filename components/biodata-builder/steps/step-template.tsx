@@ -30,9 +30,9 @@ export function StepTemplate() {
 
   return (
     <div>
-      <h2 className="font-heading text-xl font-semibold tracking-[-0.02em] sm:text-2xl">
+      <h3 className="font-heading text-xl font-semibold tracking-[-0.02em] sm:text-2xl">
         Choose your design
-      </h2>
+      </h3>
       <p className="mt-1.5 text-sm text-muted-foreground">
         Pick a border style for your biodata document. You can change this anytime.
       </p>

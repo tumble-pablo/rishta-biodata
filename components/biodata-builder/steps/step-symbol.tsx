@@ -14,9 +14,9 @@ export function StepSymbol() {
 
   return (
     <div>
-      <h2 className="font-heading text-xl font-semibold tracking-[-0.02em] sm:text-2xl">
+      <h3 className="font-heading text-xl font-semibold tracking-[-0.02em] sm:text-2xl">
         Choose your symbol
-      </h2>
+      </h3>
       <p className="mt-1.5 text-sm text-muted-foreground">
         Pick a symbol to place at the top of your biodata — or skip this if you&apos;d rather not include one.
       </p>

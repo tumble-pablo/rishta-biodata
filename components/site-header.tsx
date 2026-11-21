@@ -29,15 +29,15 @@ const navItems = [
     label: "Features",
     href: "/#features",
     children: [
-      "No login required",
-      "Multiple templates",
-      "WhatsApp-ready PDF",
-      "Astrology details",
-      "Multiple languages",
-      "Made for mobile",
+      "No sign-up",
+      "8 designs to choose from",
+      "PDF ready for WhatsApp",
+      "Stars and gotra built in",
+      "Easy on your phone",
+      "Saved as you type",
     ],
   },
-  { label: "Reviews", href: "/#testimonials" },
+  { label: "Templates", href: "/#templates" },
   { label: "FAQs", href: "/#faq" },
 ] as const;
 

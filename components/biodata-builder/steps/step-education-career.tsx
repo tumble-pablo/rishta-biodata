@@ -16,9 +16,9 @@ export function StepEducationCareer() {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-heading text-xl font-semibold tracking-[-0.02em] sm:text-2xl">
+        <h3 className="font-heading text-xl font-semibold tracking-[-0.02em] sm:text-2xl">
           Education & career
-        </h2>
+        </h3>
         <p className="mt-1.5 text-sm text-muted-foreground">Your qualifications and work.</p>
       </div>
 

@@ -25,9 +25,9 @@ export function StepReligious() {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-heading text-xl font-semibold tracking-[-0.02em] sm:text-2xl">
+        <h3 className="font-heading text-xl font-semibold tracking-[-0.02em] sm:text-2xl">
           Religious & astrological details
-        </h2>
+        </h3>
         <p className="mt-1.5 text-sm text-muted-foreground">
           Optional details some families like to include. Rashi and Nakshatra need a birth chart to
           calculate precisely, so please fill these in only if you already know them.

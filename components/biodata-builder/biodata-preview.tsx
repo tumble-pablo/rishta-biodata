@@ -117,23 +117,25 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
             )}
             <div className="mt-1.5 flex items-center justify-center gap-2">
               <span className="h-px w-6 bg-accent-foreground/40" />
-              <h2 className="font-heading text-sm font-semibold tracking-[0.03em] text-primary sm:text-base">
+              {/* Styled text, not a heading: this preview sits inside the
+                  homepage, where an h2/h3 here would pollute its outline. */}
+              <p className="font-heading text-sm font-semibold tracking-[0.03em] text-primary sm:text-base">
                 Biodata
-              </h2>
+              </p>
               <span className="h-px w-6 bg-accent-foreground/40" />
             </div>
           </div>
 
           <div className="mt-2 flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <h3
+              <p
                 className={cn(
                   "font-heading truncate text-base font-semibold sm:text-lg",
                   layout.header.name ? "text-foreground" : "text-muted-foreground/40"
                 )}
               >
                 {layout.header.name || "Full Name"}
-              </h3>
+              </p>
               <p
                 className={cn(
                   "mt-0.5 text-[8px] sm:text-[9px]",

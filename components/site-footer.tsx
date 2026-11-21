@@ -44,8 +44,8 @@ export function SiteFooter() {
                 </a>
               </li>
               <li>
-                <a className="transition-colors hover:text-primary-foreground" href="/#testimonials">
-                  Reviews
+                <a className="transition-colors hover:text-primary-foreground" href="/#templates">
+                  Templates
                 </a>
               </li>
               <li>
@@ -72,11 +72,6 @@ export function SiteFooter() {
               <li>
                 <a className="transition-colors hover:text-primary-foreground" href="/#faq">
                   FAQs
-                </a>
-              </li>
-              <li>
-                <a className="transition-colors hover:text-primary-foreground" href="/#testimonials">
-                  Families
                 </a>
               </li>
               <li>

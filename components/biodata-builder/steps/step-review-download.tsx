@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useFormContext } from "react-hook-form";
-import { Download, Loader2, Share2, Sparkles } from "lucide-react";
+import { Download, ImageDown, Loader2, Share2, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { exportPreviewAsPdf, sharePreviewAsPdf } from "@/lib/biodata/pdf-export";
+import { exportPreviewAsImage, exportPreviewAsPdf, sharePreviewAsPdf } from "@/lib/biodata/pdf-export";
 import { UNLOCK_PRICE_INR, type CheckoutResult } from "@/lib/biodata/payment";
 import type { BiodataFormValues } from "@/lib/biodata/schema";
 
@@ -27,13 +27,20 @@ interface StepReviewDownloadProps {
 
 // Which specific button is mid-action, so only that one shows a spinner
 // (not every button on the step) and the rest stay disabled meanwhile.
-type BusyAction = "download-free" | "share-free" | "download-paid" | "share-paid" | null;
+type BusyAction =
+  | "download-free"
+  | "share-free"
+  | "image-free"
+  | "download-paid"
+  | "share-paid"
+  | "image-paid"
+  | null;
 
 // Which action the visitor actually asked for, before we knew whether
 // they'd pay — set the moment "Download"/"Share" is clicked (pre-payment),
 // read again once the free/paid choice resolves so the right thing happens
 // immediately, with no separate re-click needed.
-type PendingAction = "download" | "share" | null;
+type PendingAction = "download" | "share" | "image" | null;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/u;
 
 // Deliberately doesn't mention "free" or "watermark" anywhere in the two
@@ -69,6 +76,9 @@ export function StepReviewDownload({ previewRef, hasPaid, isPaying, onPurchase }
   const handleDownload = (filename: string, action: BusyAction) =>
     runAction(action, () => exportPreviewAsPdf(previewRef.current!, filename));
 
+  const handleImage = (filename: string, action: BusyAction) =>
+    runAction(action, () => exportPreviewAsImage(previewRef.current!, filename));
+
   const handleShare = (filename: string, action: BusyAction) =>
     runAction(action, async () => {
       const result = await sharePreviewAsPdf(previewRef.current!, filename);
@@ -97,7 +107,21 @@ export function StepReviewDownload({ previewRef, hasPaid, isPaying, onPurchase }
     setPendingAction("share");
   };
 
+  const handlePrimaryImage = () => {
+    if (hasPaid) {
+      handleImage("biodata.jpg", "image-paid");
+      return;
+    }
+    setPendingAction("image");
+  };
+
   const runPendingAction = (variant: "free" | "paid") => {
+    if (pendingAction === "image") {
+      return handleImage(
+        variant === "paid" ? "biodata.jpg" : "biodata-preview.jpg",
+        variant === "paid" ? "image-paid" : "image-free"
+      );
+    }
     const filename = variant === "paid" ? "biodata.pdf" : "biodata-preview.pdf";
     if (pendingAction === "share") return handleShare(filename, variant === "paid" ? "share-paid" : "share-free");
     return handleDownload(filename, variant === "paid" ? "download-paid" : "download-free");
@@ -160,7 +184,14 @@ export function StepReviewDownload({ previewRef, hasPaid, isPaying, onPurchase }
             )}
             Share on WhatsApp
           </Button>
+          <Button type="button" variant="outline" onClick={handlePrimaryImage} disabled={busy !== null}>
+            {busy === "image-paid" || busy === "image-free" ? <Loader2 className="animate-spin" /> : <ImageDown />}
+            Download JPG
+          </Button>
         </div>
+        <p className="mt-2 text-xs text-muted-foreground">
+          Tip: a JPG shows up as a picture inside WhatsApp, so the family can see it without opening a file.
+        </p>
       </div>
 
       {shareNotice && <p className="text-xs text-muted-foreground">{shareNotice}</p>}
@@ -169,7 +200,9 @@ export function StepReviewDownload({ previewRef, hasPaid, isPaying, onPurchase }
         <DialogContent className="sm:max-w-[420px]">
           <DialogHeader>
             <DialogTitle>Almost there</DialogTitle>
-            <DialogDescription>Choose which version to {pendingAction ?? "download"}.</DialogDescription>
+            <DialogDescription>
+              Choose which version to {pendingAction === "share" ? "share" : "download"}.
+            </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4">

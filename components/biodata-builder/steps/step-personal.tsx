@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { PhotoField } from "@/components/biodata-builder/photo-field";
 import {
   RadioField,
   SelectField,
@@ -52,6 +53,7 @@ export function StepPersonal() {
         options={PROFILE_CREATED_FOR_OPTIONS}
       />
       <TextField control={control} name="personal.fullName" label="Full name" placeholder="e.g. Aditi Sharma" />
+      <PhotoField />
       <RadioField control={control} name="personal.gender" label="Gender" options={GENDER_OPTIONS} />
 
       <FormField

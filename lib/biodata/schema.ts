@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { PHOTO_DATA_URL_PREFIX } from "@/lib/biodata/photo";
 import { SYMBOL_IDS } from "@/lib/biodata/symbols";
 import { TEMPLATE_IDS } from "@/lib/biodata/templates";
 
@@ -22,6 +23,14 @@ const optionalEmail = z
     "Enter a valid email address."
   );
 
+// The photo is a data URL produced by `preparePhoto` (see photo.ts). Only
+// accept that exact shape, and cap its size, since a restored draft comes
+// from localStorage and is rendered straight into an <img>.
+const optionalPhoto = z
+  .string()
+  .max(600_000, "This photo is too large.")
+  .refine((value) => value === "" || value.startsWith(PHOTO_DATA_URL_PREFIX), "Choose a JPG or PNG photo.");
+
 const symbolSchema = z.object({
   symbolId: z.enum(SYMBOL_IDS),
 });
@@ -33,6 +42,7 @@ const templateSchema = z.object({
 const personalSchema = z.object({
   profileCreatedFor: requiredText("Let us know who this biodata is for."),
   fullName: requiredText("Enter a full name.").min(2, "Enter a full name."),
+  photo: optionalPhoto,
   gender: requiredText("Select an option."),
   dateOfBirth: requiredText("Enter a date of birth."),
   timeOfBirth: optionalText,

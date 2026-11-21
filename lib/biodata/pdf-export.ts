@@ -33,11 +33,8 @@ const TARGET_CANVAS_WIDTH_PX = 1600; // ~print-quality without being excessive
 // captures its instance type without a static (eager) import.
 type JsPdfInstance = InstanceType<typeof import("jspdf").jsPDF>;
 
-async function buildPdf(node: HTMLElement): Promise<JsPdfInstance> {
-  const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
-    import("html2canvas-pro"),
-    import("jspdf"),
-  ]);
+async function captureCanvas(node: HTMLElement): Promise<HTMLCanvasElement> {
+  const { default: html2canvas } = await import("html2canvas-pro");
 
   // The preview renders at whatever CSS size its container gives it (small
   // on mobile, larger on desktop) — scale the capture up to a consistent
@@ -46,11 +43,15 @@ async function buildPdf(node: HTMLElement): Promise<JsPdfInstance> {
   // large one.
   const scale = Math.max(1, TARGET_CANVAS_WIDTH_PX / node.offsetWidth);
 
-  const canvas = await html2canvas(node, {
+  return html2canvas(node, {
     scale,
     backgroundColor: "#fffefd",
     useCORS: true,
   });
+}
+
+async function buildPdf(node: HTMLElement): Promise<JsPdfInstance> {
+  const [canvas, { jsPDF }] = await Promise.all([captureCanvas(node), import("jspdf")]);
 
   // JPEG rather than PNG: this is a flat, mostly-solid-color document (no
   // transparency needed, since html2canvas already painted a solid
@@ -82,6 +83,25 @@ async function buildPdf(node: HTMLElement): Promise<JsPdfInstance> {
 
   doc.addImage(imageData, "JPEG", x, y, renderWidth, renderHeight);
   return doc;
+}
+
+// A JPG of the same snapshot, for WhatsApp: unlike a PDF, an image shows
+// inline in the chat, so the other family sees the biodata without opening
+// a file.
+export async function exportPreviewAsImage(node: HTMLElement, filename: string): Promise<void> {
+  const canvas = await captureCanvas(node);
+  const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.92));
+  if (!blob) throw new Error("Could not create the image.");
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  // Give the download a moment to start before releasing the blob.
+  setTimeout(() => URL.revokeObjectURL(url), 10_000);
 }
 
 export async function exportPreviewAsPdf(node: HTMLElement, filename: string): Promise<void> {

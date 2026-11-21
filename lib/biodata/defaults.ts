@@ -17,6 +17,7 @@ export const DEFAULT_VALUES: BiodataFormValues = {
   personal: {
     profileCreatedFor: "myself",
     fullName: "",
+    photo: "",
     gender: "",
     dateOfBirth: "",
     timeOfBirth: "",

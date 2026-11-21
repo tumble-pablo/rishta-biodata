@@ -12,6 +12,7 @@ export const SAMPLE_BIODATA_VALUES: BiodataFormValues = {
   personal: {
     profileCreatedFor: "myself",
     fullName: "Rahul Sharma",
+    photo: "",
     gender: "male",
     dateOfBirth: "1997-08-14",
     timeOfBirth: "06:45",

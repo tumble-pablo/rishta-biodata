@@ -145,12 +145,21 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
                 {layout.header.subtitle || "Age  |  Height  |  City"}
               </p>
             </div>
-            <div className="flex h-14 w-12 shrink-0 flex-col items-center justify-center gap-1 rounded border border-dashed border-primary/25 bg-muted/40 sm:h-[4.5rem] sm:w-14">
-              <UserRound aria-hidden="true" className="size-3.5 text-primary/30 sm:size-4" />
-              <span className="text-[6px] font-medium tracking-wide text-primary/40 uppercase sm:text-[6.5px]">
-                Photo
-              </span>
-            </div>
+            {values.personal.photo ? (
+              // eslint-disable-next-line @next/next/no-img-element -- local data URL; must be a plain <img> so html2canvas captures it in the PDF
+              <img
+                src={values.personal.photo}
+                alt=""
+                className="h-14 w-12 shrink-0 rounded border border-primary/15 object-cover sm:h-[4.5rem] sm:w-14"
+              />
+            ) : (
+              <div className="flex h-14 w-12 shrink-0 flex-col items-center justify-center gap-1 rounded border border-dashed border-primary/25 bg-muted/40 sm:h-[4.5rem] sm:w-14">
+                <UserRound aria-hidden="true" className="size-3.5 text-primary/30 sm:size-4" />
+                <span className="text-[6px] font-medium tracking-wide text-primary/40 uppercase sm:text-[6.5px]">
+                  Photo
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="mt-1.5 h-px bg-border" />

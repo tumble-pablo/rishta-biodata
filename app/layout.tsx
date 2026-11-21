@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Public_Sans, Sora } from "next/font/google";
+import { Noto_Sans_Devanagari, Public_Sans, Sora } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -14,6 +14,17 @@ const publicSans = Public_Sans({
 const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],
+  display: "swap",
+});
+
+// Fallback for Hindi/Marathi text (printed biodata labels, typed values,
+// the Hindi FAQ). Public Sans and Sora have no Devanagari glyphs, and
+// relying on each phone's system font makes the downloaded PDF look
+// different from device to device.
+const notoDevanagari = Noto_Sans_Devanagari({
+  variable: "--font-devanagari",
+  subsets: ["devanagari"],
+  weight: ["400", "600"],
   display: "swap",
 });
 
@@ -35,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${publicSans.variable} ${sora.variable} antialiased`}>
+      <body className={`${publicSans.variable} ${sora.variable} ${notoDevanagari.variable} antialiased`}>
         {children}
         <Script
           strategy="afterInteractive"

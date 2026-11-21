@@ -31,10 +31,10 @@ const navItems = [
     children: [
       "No sign-up",
       "8 designs to choose from",
-      "PDF ready for WhatsApp",
+      "Ready for WhatsApp",
       "Stars and gotra built in",
       "Easy on your phone",
-      "Saved as you type",
+      "English, Hindi or Marathi",
     ],
   },
   { label: "Templates", href: "/#templates" },

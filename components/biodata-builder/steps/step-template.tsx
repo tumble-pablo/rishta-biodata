@@ -5,7 +5,9 @@ import { useFormContext } from "react-hook-form";
 import { FormField } from "@/components/ui/form";
 import { Field, FieldContent, FieldLabel } from "@/components/ui/field";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioField } from "@/components/biodata-builder/form-fields";
 import { TemplateFrame } from "@/components/biodata-builder/template-frame";
+import { PRINT_LANGUAGE_OPTIONS } from "@/lib/biodata/print-i18n";
 import type { BiodataFormValues } from "@/lib/biodata/schema";
 import { TEMPLATES } from "@/lib/biodata/templates";
 
@@ -36,6 +38,18 @@ export function StepTemplate() {
       <p className="mt-1.5 text-sm text-muted-foreground">
         Pick a border style for your biodata document. You can change this anytime.
       </p>
+
+      <div className="mt-6">
+        <RadioField
+          control={control}
+          name="template.language"
+          label="Biodata language"
+          options={PRINT_LANGUAGE_OPTIONS}
+        />
+        <p className="mt-1.5 text-[13px] text-muted-foreground">
+          Headings and choices print in this language. What you type prints as you type it, so you can type in Hindi or Marathi too.
+        </p>
+      </div>
 
       <FormField
         control={control}

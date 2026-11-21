@@ -3,9 +3,9 @@ import {
   ArrowUpRight,
   Check,
   KeyRound,
+  Languages,
   LayoutTemplate,
   MessageCircle,
-  Save,
   Sparkles,
   Smartphone,
 } from "lucide-react";
@@ -61,7 +61,12 @@ const FAQ_ITEMS = [
   {
     question: "Can I send my biodata on WhatsApp?",
     answer:
-      "Yes. You get a PDF file. Send it on WhatsApp as a document so it stays sharp, or print it if the family prefers paper.",
+      "Yes. Download it as a JPG and it shows up as a picture in the chat, so the family sees it straight away. You can also send the PDF, or print it if the family prefers paper.",
+  },
+  {
+    question: "Can I add my photo?",
+    answer:
+      "Yes. Add a photo in the personal details step and it is fitted into your biodata automatically. Your photo stays on your phone or computer and only appears in your biodata.",
   },
   {
     question: "Do I need to create an account?",
@@ -84,7 +89,8 @@ const FAQ_ITEMS = [
   },
   {
     question: "Which language can I make my biodata in?",
-    answer: "Right now the biodata is in English. Hindi is coming soon.",
+    answer:
+      "Your biodata can be printed in English, Hindi or Marathi. Pick the language when you choose your design. The form itself is in English, and you can type your details in any script.",
   },
   {
     question: "Which design is best for a marriage biodata?",
@@ -434,8 +440,8 @@ export default function Home() {
               },
               {
                 icon: MessageCircle,
-                title: "PDF ready for WhatsApp",
-                description: "A light PDF that looks the same on every phone. Send it or print it.",
+                title: "Ready for WhatsApp",
+                description: "Download a JPG that shows up as a picture in the chat, or a PDF to send or print.",
               },
               {
                 icon: Sparkles,
@@ -448,9 +454,9 @@ export default function Home() {
                 description: "Fill everything from your phone. No app to install.",
               },
               {
-                icon: Save,
-                title: "Saved as you type",
-                description: "Your details stay saved in this browser, so you can stop and finish later.",
+                icon: Languages,
+                title: "English, Hindi or Marathi",
+                description: "Print your biodata in the language your family reads. Add your photo too.",
               },
             ].map((feature) => {
               const Icon = feature.icon;

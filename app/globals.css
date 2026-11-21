@@ -85,8 +85,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: var(--font-public-sans), "Public Sans", system-ui, sans-serif;
-  --font-heading: var(--font-sora), "Sora", system-ui, sans-serif;
+  --font-sans: var(--font-public-sans), "Public Sans", var(--font-devanagari), system-ui, sans-serif;
+  --font-heading: var(--font-sora), "Sora", var(--font-devanagari), system-ui, sans-serif;
 }
 
 * {
@@ -100,7 +100,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-public-sans), "Public Sans", system-ui, sans-serif;
+  font-family: var(--font-public-sans), "Public Sans", var(--font-devanagari), system-ui, sans-serif;
 }
 
 .font-heading,
@@ -110,7 +110,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-sora), "Sora", system-ui, sans-serif;
+  font-family: var(--font-sora), "Sora", var(--font-devanagari), system-ui, sans-serif;
 }
 
 /* Faint graph-paper grid behind the homepage hero, fading out toward the

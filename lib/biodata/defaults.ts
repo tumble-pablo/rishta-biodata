@@ -13,6 +13,7 @@ export const DEFAULT_VALUES: BiodataFormValues = {
   },
   template: {
     templateId: DEFAULT_TEMPLATE_ID,
+    language: "en",
   },
   personal: {
     profileCreatedFor: "myself",

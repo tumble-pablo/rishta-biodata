@@ -120,7 +120,7 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
               {/* Styled text, not a heading: this preview sits inside the
                   homepage, where an h2/h3 here would pollute its outline. */}
               <p className="font-heading text-sm font-semibold tracking-[0.03em] text-primary sm:text-base">
-                Biodata
+                {layout.strings.documentTitle}
               </p>
               <span className="h-px w-6 bg-accent-foreground/40" />
             </div>
@@ -134,7 +134,7 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
                   layout.header.name ? "text-foreground" : "text-muted-foreground/40"
                 )}
               >
-                {layout.header.name || "Full Name"}
+                {layout.header.name || layout.strings.namePlaceholder}
               </p>
               <p
                 className={cn(
@@ -142,7 +142,7 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
                   layout.header.subtitle ? "text-muted-foreground" : "text-muted-foreground/40"
                 )}
               >
-                {layout.header.subtitle || "Age  |  Height  |  City"}
+                {layout.header.subtitle || layout.strings.subtitlePlaceholder}
               </p>
             </div>
             {values.personal.photo ? (
@@ -178,12 +178,16 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
             <PrintFieldRow {...layout.contact} />
           </div>
 
-          <div className="-mx-3.5 -mb-3.5 mt-auto border-t border-accent-foreground/15 bg-accent/25 px-3.5 pt-1 pb-1.5 text-center sm:-mx-5 sm:-mb-4 sm:px-5">
-            <p className="text-[7.5px] leading-snug text-accent-foreground/90 italic sm:text-[8.5px]">
-              Looking for a kind, understanding and family-oriented partner to build a happy life
-              together.
-            </p>
-          </div>
+          {/* The person's own words, never a stock line: an earlier version
+              printed the same "looking for a partner…" sentence on every
+              biodata. Clamped to two lines to keep the card one page. */}
+          {layout.aboutMe && (
+            <div className="-mx-3.5 -mb-3.5 mt-auto border-t border-accent-foreground/15 bg-accent/25 px-3.5 pt-1 pb-1.5 text-center sm:-mx-5 sm:-mb-4 sm:px-5">
+              <p className="line-clamp-2 text-[7.5px] leading-snug text-accent-foreground/90 italic sm:text-[8.5px]">
+                {layout.aboutMe}
+              </p>
+            </div>
+          )}
         </div>
       </TemplateFrame>
     );

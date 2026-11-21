@@ -1,4 +1,4 @@
-import { format, isValid, parseISO } from "date-fns";
+import { isValid, parseISO } from "date-fns";
 
 import { getAge, getZodiacSign } from "@/lib/biodata/derive";
 import {
@@ -17,15 +17,22 @@ import {
   RELIGION_OPTIONS,
   optionLabel,
 } from "@/lib/biodata/options";
+import {
+  OPTION_TRANSLATIONS,
+  PRINT_STRINGS,
+  type PrintLanguage,
+  type PrintStrings,
+} from "@/lib/biodata/print-i18n";
+import type { Option } from "@/lib/biodata/options";
 import type { BiodataFormValues } from "@/lib/biodata/schema";
 
 // What actually gets PRINTED on the one-page card is a curated subset of the
 // full form — matching a real formal biodata document (see the reference
 // design this was built from), not a dump of every field. Long free-text
-// fields (About me, family description) are deliberately left off the card
-// entirely: they have no natural length limit, and printing them is what
-// made an earlier version balloon to dozens of pages. They're kept in the
-// input form (out of scope to change) but simply don't appear here.
+// fields have no natural length limit, and printing them is what made an
+// earlier version balloon to dozens of pages — so the family description
+// stays off the card, and "About me" only appears in the closing band,
+// clamped to two lines by the preview.
 //
 // Every row in this curated set is ALWAYS present, whether or not it has a
 // value yet — like a printed form's blank lines. Without that, the card
@@ -52,7 +59,11 @@ export interface PrintSection {
 }
 
 export interface PrintLayout {
+  /** Fixed document text (title, placeholders) in the chosen language. */
+  strings: PrintStrings;
   header: PrintHeader;
+  /** The person's own "About me" lines, printed in the closing band. */
+  aboutMe: string;
   age: number | null;
   zodiac: string | null;
   personal: PrintSection;
@@ -70,25 +81,44 @@ function row(label: string, value: string | null | undefined): PrintRow {
   return { label, value: value?.trim() ?? "" };
 }
 
-function habitSummary(habit: string, verb: "Smokes" | "Drinks", nonLabel: string): string | null {
-  if (!habit) return null;
-  if (habit === "never") return nonLabel;
-  return `${verb} ${optionLabel(HABIT_FREQUENCY_OPTIONS, habit).toLowerCase()}`;
+// Option label in the print language: the translated label when there is
+// one, otherwise the English label (see OPTION_TRANSLATIONS for why).
+function printOption(
+  language: PrintLanguage,
+  list: keyof typeof OPTION_TRANSLATIONS,
+  options: Option[],
+  value: string
+): string {
+  if (!value) return "";
+  if (language !== "en") {
+    const translated = OPTION_TRANSLATIONS[list]?.[value]?.[language];
+    if (translated) return translated;
+  }
+  return optionLabel(options, value);
 }
 
-function habitsSummary(smoking: string, drinking: string): string {
-  return [habitSummary(smoking, "Smokes", "Non-smoker"), habitSummary(drinking, "Drinks", "Non-drinker")]
+function habitSummary(habit: string, kind: "smokes" | "drinks", strings: PrintStrings): string | null {
+  if (!habit) return null;
+  if (habit === "never") return kind === "smokes" ? strings.habits.nonSmoker : strings.habits.nonDrinker;
+  if (habit === "occasionally" || habit === "regularly") return strings.habits[kind][habit];
+  return optionLabel(HABIT_FREQUENCY_OPTIONS, habit);
+}
+
+function habitsSummary(smoking: string, drinking: string, strings: PrintStrings): string {
+  return [habitSummary(smoking, "smokes", strings), habitSummary(drinking, "drinks", strings)]
     .filter(Boolean)
     .join(", ");
 }
 
 // The form stores DOB as a plain ISO string and time-of-birth as a raw
 // `<input type="time">` value ("HH:MM") — both need reformatting for a
-// document meant to read like a formal printed biodata.
-function formatDate(iso: string): string {
+// document meant to read like a formal printed biodata. Month names come
+// from the print language (date-fns has no Marathi locale, hence the list).
+function formatDate(iso: string, strings: PrintStrings): string {
   if (!iso) return "";
   const parsed = parseISO(iso);
-  return isValid(parsed) ? format(parsed, "d MMMM yyyy") : iso;
+  if (!isValid(parsed)) return iso;
+  return `${parsed.getDate()} ${strings.months[parsed.getMonth()]} ${parsed.getFullYear()}`;
 }
 
 function formatTime(time: string): string {
@@ -100,6 +130,15 @@ function formatTime(time: string): string {
   return `${hour12}:${match[2]} ${period}`;
 }
 
+// Hard cap on top of the preview's CSS line-clamp: the PDF/JPG are captured
+// by html2canvas, which doesn't reliably honour line-clamp, so overly long
+// text must never reach the card in the first place.
+const ABOUT_ME_MAX_CHARS = 200;
+
+function clampText(text: string, max: number): string {
+  return text.length > max ? `${text.slice(0, max - 1).trimEnd()}…` : text;
+}
+
 function personName(name: string, occupation: string): string {
   if (name && occupation) return `${name} (${occupation})`;
   return name || occupation;
@@ -107,11 +146,16 @@ function personName(name: string, occupation: string): string {
 
 export function buildPrintLayout(values: BiodataFormValues): PrintLayout {
   const { personal, religious, family, educationCareer, contact } = values;
+  const language: PrintLanguage = values.template.language ?? "en";
+  const strings = PRINT_STRINGS[language];
+  const { labels, sections } = strings;
+  const option = (list: keyof typeof OPTION_TRANSLATIONS, options: Option[], value: string) =>
+    printOption(language, list, options, value);
 
   const age = getAge(personal.dateOfBirth);
   const zodiac = getZodiacSign(personal.dateOfBirth);
 
-  const subtitle = [age !== null ? `${age} Years` : null, personal.height || null, contact.city || null]
+  const subtitle = [age !== null ? `${age} ${strings.years}` : null, personal.height || null, contact.city || null]
     .filter(Boolean)
     .join("  |  ");
 
@@ -126,67 +170,72 @@ export function buildPrintLayout(values: BiodataFormValues): PrintLayout {
     if (!family.siblingsCount) return null;
     const married =
       family.siblingsMarriedCount && family.siblingsMarriedCount !== "0"
-        ? ` (${family.siblingsMarriedCount} married)`
+        ? ` (${family.siblingsMarriedCount} ${strings.married})`
         : "";
     return `${family.siblingsCount}${married}`;
   })();
 
   return {
+    strings,
     header: { name: personal.fullName, subtitle },
+    aboutMe: clampText(personal.aboutMe.trim(), ABOUT_ME_MAX_CHARS),
     age,
     zodiac,
-    contact: row("Contact", contactValue),
+    contact: row(labels.contact, contactValue),
     personal: {
-      title: "Personal Details",
+      title: sections.personal,
       rows: [
-        row("Date of Birth", formatDate(personal.dateOfBirth)),
-        row("Time of Birth", formatTime(personal.timeOfBirth)),
-        row("Place of Birth", personal.placeOfBirth),
-        row("Height", personal.height),
-        row("Complexion", optionLabel(COMPLEXION_OPTIONS, personal.complexion)),
-        row("Body Type", optionLabel(BODY_TYPE_OPTIONS, personal.bodyType)),
+        row(labels.dateOfBirth, formatDate(personal.dateOfBirth, strings)),
+        row(labels.timeOfBirth, formatTime(personal.timeOfBirth)),
+        row(labels.placeOfBirth, personal.placeOfBirth),
+        row(labels.height, personal.height),
+        row(labels.complexion, option("complexion", COMPLEXION_OPTIONS, personal.complexion)),
+        row(labels.bodyType, option("bodyType", BODY_TYPE_OPTIONS, personal.bodyType)),
       ],
     },
     religion: {
-      title: "Religion & Community",
+      title: sections.religion,
       rows: [
-        row("Religion", optionLabel(RELIGION_OPTIONS, personal.religion)),
-        row("Mother Tongue", optionLabel(MOTHER_TONGUE_OPTIONS, personal.motherTongue)),
-        row("Caste", religious.caste),
-        row("Sub Caste", religious.subCaste),
-        row("Gotra", religious.gotra),
-        row("Rashi", optionLabel(RASHI_OPTIONS, religious.rashi)),
-        row("Manglik", optionLabel(MANGLIK_OPTIONS, religious.manglik)),
-        row("Nakshatra", optionLabel(NAKSHATRA_OPTIONS, religious.nakshatra)),
+        row(labels.religion, option("religion", RELIGION_OPTIONS, personal.religion)),
+        row(labels.motherTongue, option("motherTongue", MOTHER_TONGUE_OPTIONS, personal.motherTongue)),
+        row(labels.caste, religious.caste),
+        row(labels.subCaste, religious.subCaste),
+        row(labels.gotra, religious.gotra),
+        row(labels.rashi, option("rashi", RASHI_OPTIONS, religious.rashi)),
+        row(labels.manglik, option("manglik", MANGLIK_OPTIONS, religious.manglik)),
+        row(labels.nakshatra, option("nakshatra", NAKSHATRA_OPTIONS, religious.nakshatra)),
       ],
     },
     educationCareer: {
-      title: "Education & Career",
+      title: sections.educationCareer,
       rows: [
-        row("Qualification", optionLabel(HIGHEST_QUALIFICATION_OPTIONS, educationCareer.highestQualification)),
-        row("University", educationCareer.college),
-        row("Occupation", educationCareer.occupation),
-        row("Company", educationCareer.companyName),
-        row("Annual Income", optionLabel(ANNUAL_INCOME_OPTIONS, educationCareer.annualIncome)),
+        row(
+          labels.qualification,
+          option("qualification", HIGHEST_QUALIFICATION_OPTIONS, educationCareer.highestQualification)
+        ),
+        row(labels.university, educationCareer.college),
+        row(labels.occupation, educationCareer.occupation),
+        row(labels.company, educationCareer.companyName),
+        row(labels.annualIncome, option("annualIncome", ANNUAL_INCOME_OPTIONS, educationCareer.annualIncome)),
       ],
     },
     lifestyle: {
-      title: "Lifestyle",
+      title: sections.lifestyle,
       rows: [
-        row("Diet", optionLabel(DIET_OPTIONS, personal.diet)),
-        row("Hobbies", personal.hobbies),
-        row("Habits", habitsSummary(personal.smokingHabit, personal.drinkingHabit)),
+        row(labels.diet, option("diet", DIET_OPTIONS, personal.diet)),
+        row(labels.hobbies, personal.hobbies),
+        row(labels.habits, habitsSummary(personal.smokingHabit, personal.drinkingHabit, strings)),
       ],
     },
     family: {
-      title: "Family Details",
+      title: sections.family,
       rows: [
-        row("Father", personName(family.fatherName, family.fatherOccupation)),
-        row("Family Type", optionLabel(FAMILY_TYPE_OPTIONS, family.familyType)),
-        row("Mother", personName(family.motherName, family.motherOccupation)),
-        row("Family Value", optionLabel(FAMILY_VALUES_OPTIONS, family.familyValues)),
-        row("Siblings", siblings),
-        row("Native Place", family.nativePlace),
+        row(labels.father, personName(family.fatherName, family.fatherOccupation)),
+        row(labels.familyType, option("familyType", FAMILY_TYPE_OPTIONS, family.familyType)),
+        row(labels.mother, personName(family.motherName, family.motherOccupation)),
+        row(labels.familyValues, option("familyValues", FAMILY_VALUES_OPTIONS, family.familyValues)),
+        row(labels.siblings, siblings),
+        row(labels.nativePlace, family.nativePlace),
       ],
     },
   };

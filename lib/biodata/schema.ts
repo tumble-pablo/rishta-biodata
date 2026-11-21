@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { PHOTO_DATA_URL_PREFIX } from "@/lib/biodata/photo";
+import { PRINT_LANGUAGES } from "@/lib/biodata/print-i18n";
 import { SYMBOL_IDS } from "@/lib/biodata/symbols";
 import { TEMPLATE_IDS } from "@/lib/biodata/templates";
 
@@ -37,6 +38,8 @@ const symbolSchema = z.object({
 
 const templateSchema = z.object({
   templateId: z.enum(TEMPLATE_IDS),
+  /** Language of the printed biodata (labels only — see print-i18n.ts). */
+  language: z.enum(PRINT_LANGUAGES),
 });
 
 const personalSchema = z.object({

@@ -8,7 +8,7 @@ import type { BiodataFormValues } from "@/lib/biodata/schema";
 // behaviour (see biodata-preview.tsx) alongside the filled ones.
 export const SAMPLE_BIODATA_VALUES: BiodataFormValues = {
   symbol: { symbolId: "om" },
-  template: { templateId: "classic" },
+  template: { templateId: "classic", language: "en" },
   personal: {
     profileCreatedFor: "myself",
     fullName: "Rahul Sharma",

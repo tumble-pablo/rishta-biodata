@@ -64,6 +64,11 @@ const FAQ_ITEMS = [
       "Yes. Download it as a JPG and it shows up as a picture in the chat, so the family sees it straight away. You can also send the PDF, or print it if the family prefers paper.",
   },
   {
+    question: "I don't know my rashi or nakshatra. Can you find them?",
+    answer:
+      "Yes. Enter your date and time of birth, then tap “Fill from my birth details” in the religion step. We use the Lahiri method that most Indian panchangs use, for births in India. You can still change them, and it is a good idea to check with your family pandit.",
+  },
+  {
     question: "Can I add my photo?",
     answer:
       "Yes. Add a photo in the personal details step and it is fitted into your biodata automatically. Your photo stays on your phone or computer and only appears in your biodata.",
@@ -445,8 +450,8 @@ export default function Home() {
               },
               {
                 icon: Sparkles,
-                title: "Stars and gotra built in",
-                description: "Add gotra, rashi, nakshatra, manglik and birth time if your family needs them.",
+                title: "Rashi and nakshatra worked out",
+                description: "Don't know them? We work them out from your birth date and time, the way a panchang does.",
               },
               {
                 icon: Smartphone,

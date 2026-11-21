@@ -32,7 +32,7 @@ const navItems = [
       "No sign-up",
       "8 designs to choose from",
       "Ready for WhatsApp",
-      "Stars and gotra built in",
+      "Rashi and nakshatra worked out",
       "Easy on your phone",
       "English, Hindi or Marathi",
     ],

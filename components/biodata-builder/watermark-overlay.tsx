@@ -15,7 +15,7 @@ export function WatermarkOverlay() {
         {tiles.map((_, index) => (
           <span
             key={index}
-            className="whitespace-nowrap text-[9px] font-semibold tracking-[0.15em] text-primary/15 uppercase sm:text-[10px]"
+            className="whitespace-nowrap text-[9px] font-semibold tracking-[0.15em] text-[var(--bd-watermark)] uppercase sm:text-[10px]"
           >
             Preview · rishtabiodata.com
           </span>

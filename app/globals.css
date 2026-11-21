@@ -87,10 +87,17 @@
   --radius-xl: calc(var(--radius) + 4px);
   --font-sans: var(--font-public-sans), "Public Sans", var(--font-devanagari), system-ui, sans-serif;
   --font-heading: var(--font-sora), "Sora", var(--font-devanagari), system-ui, sans-serif;
+  --font-display: var(--font-playfair), "Playfair Display", var(--font-devanagari-serif), Georgia, serif;
 }
 
-* {
-  border-color: var(--border);
+/* Default border colour for every element. Inside @layer base so Tailwind's
+   border-colour utilities (in the utilities layer) can override it — as an
+   unlayered rule it used to beat them all, so every coloured border on the
+   site (including all the biodata template frames) rendered beige. */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
 }
 
 html {
@@ -103,28 +110,25 @@ body {
   font-family: var(--font-public-sans), "Public Sans", var(--font-devanagari), system-ui, sans-serif;
 }
 
-.font-heading,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-sora), "Sora", var(--font-devanagari), system-ui, sans-serif;
+/* Headings default to Sora. In @layer base so a font utility on a heading
+   (e.g. font-display) can override it, like the border rule above. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-sora), "Sora", var(--font-devanagari), system-ui, sans-serif;
+  }
 }
 
-/* Faint graph-paper grid behind the homepage hero, fading out toward the
-   bottom so it doesn't run into the next section. */
-.hero-grid::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(rgba(62, 21, 50, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(62, 21, 50, 0.035) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: linear-gradient(to bottom, #000 60%, transparent);
+/* Warm ivory-and-gold wash behind the homepage hero. */
+.hero-warm {
+  background:
+    radial-gradient(ellipse 60% 70% at 78% 35%, rgba(232, 192, 104, 0.22), transparent 70%),
+    radial-gradient(ellipse 50% 60% at 10% 0%, rgba(143, 47, 60, 0.07), transparent 70%),
+    linear-gradient(180deg, #fbf3e8 0%, #fffaf5 100%);
 }
 
 .document-sheet::before {

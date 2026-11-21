@@ -1,8 +1,9 @@
+import { SAMPLE_PHOTO_MAN, SAMPLE_PHOTO_WOMAN } from "@/lib/biodata/sample-photos";
 import type { BiodataFormValues } from "@/lib/biodata/schema";
 
-// A fully fictional, filled-in example — used only to show what a finished
-// biodata actually looks like (e.g. in the homepage hero preview), instead
-// of an empty form. Caste/sub-caste/gotra are deliberately left blank: a
+// Fully fictional, filled-in examples — used only to show what a finished
+// biodata looks like (homepage hero and template gallery), instead of an
+// empty form. Rashi/nakshatra match their birth details (lib/biodata/astro). Caste/sub-caste/gotra are deliberately left blank: a
 // marketing sample doesn't need to invent a specific community, and it
 // doubles as a demo of the "blank fields show a dashed line, not a gap"
 // behaviour (see biodata-preview.tsx) alongside the filled ones.
@@ -12,7 +13,7 @@ export const SAMPLE_BIODATA_VALUES: BiodataFormValues = {
   personal: {
     profileCreatedFor: "myself",
     fullName: "Rahul Sharma",
-    photo: "",
+    photo: SAMPLE_PHOTO_MAN,
     gender: "male",
     dateOfBirth: "1997-08-14",
     timeOfBirth: "06:45",
@@ -36,8 +37,8 @@ export const SAMPLE_BIODATA_VALUES: BiodataFormValues = {
     caste: "",
     subCaste: "",
     gotra: "",
-    rashi: "mesh",
-    nakshatra: "ashwini",
+    rashi: "vrishchik",
+    nakshatra: "jyeshtha",
     manglik: "no",
   },
   family: {
@@ -75,5 +76,56 @@ export const SAMPLE_BIODATA_VALUES: BiodataFormValues = {
     email: "",
     contactPersonName: "Suresh Sharma",
     contactPersonRelation: "Father",
+  },
+};
+
+export const SAMPLE_BIODATA_VALUES_WOMAN: BiodataFormValues = {
+  ...SAMPLE_BIODATA_VALUES,
+  symbol: { symbolId: "ganesha" },
+  personal: {
+    ...SAMPLE_BIODATA_VALUES.personal,
+    fullName: "Priya Verma",
+    photo: SAMPLE_PHOTO_WOMAN,
+    gender: "female",
+    dateOfBirth: "1999-02-03",
+    timeOfBirth: "09:20",
+    placeOfBirth: "Lucknow, Uttar Pradesh",
+    height: "5'4\"",
+    weight: "55 kg",
+    bodyType: "slim",
+    complexion: "fair",
+    hobbies: "Kathak, cooking, reading",
+    aboutMe: "Chartered accountant, calm and family-oriented, who loves classical dance.",
+  },
+  religious: {
+    caste: "",
+    subCaste: "",
+    gotra: "",
+    rashi: "simha",
+    nakshatra: "purva_phalguni",
+    manglik: "no",
+  },
+  family: {
+    ...SAMPLE_BIODATA_VALUES.family,
+    fatherName: "Rajesh Verma",
+    fatherOccupation: "Businessman",
+    motherName: "Sunita Verma",
+    motherOccupation: "Teacher",
+    nativePlace: "Lucknow, Uttar Pradesh",
+  },
+  educationCareer: {
+    ...SAMPLE_BIODATA_VALUES.educationCareer,
+    highestQualification: "professional",
+    fieldOfStudy: "Commerce",
+    college: "University of Delhi",
+    occupation: "Chartered Accountant",
+    companyName: "A Big Four firm",
+    annualIncome: "15_25l",
+  },
+  contact: {
+    ...SAMPLE_BIODATA_VALUES.contact,
+    state: "uttar_pradesh",
+    city: "Lucknow",
+    contactPersonName: "Rajesh Verma",
   },
 };

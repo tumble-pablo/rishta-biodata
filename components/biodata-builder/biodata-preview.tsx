@@ -19,13 +19,13 @@ function PrintFieldRow({ label, value, wrap = false }: PrintRow & { wrap?: boole
   const hasValue = value.length > 0;
   return (
     <div className="grid grid-cols-[auto_1fr] items-baseline gap-x-1.5 text-[8.5px] leading-snug sm:text-[9.5px]">
-      <span className="text-muted-foreground">{label}</span>
+      <span className="text-[var(--bd-muted)]">{label}</span>
       {hasValue ? (
-        <span className={cn("font-medium text-foreground", wrap ? "" : "truncate")}>{value}</span>
+        <span className={cn("font-medium text-[var(--bd-ink)]", wrap ? "" : "truncate")}>{value}</span>
       ) : (
         <span
           aria-hidden="true"
-          className="h-px w-10 self-center border-b border-dashed border-muted-foreground/25 sm:w-14"
+          className="h-px w-10 self-center border-b border-dashed border-[var(--bd-rule)] sm:w-14"
         />
       )}
     </div>
@@ -35,10 +35,10 @@ function PrintFieldRow({ label, value, wrap = false }: PrintRow & { wrap?: boole
 function SectionHeading({ title }: { title: string }) {
   return (
     <div className="mb-1 flex items-center gap-2">
-      <span className="text-[8.5px] font-semibold tracking-[0.08em] text-accent-foreground uppercase sm:text-[9.5px]">
+      <span className="font-[family-name:var(--bd-heading-font)] text-[9px] font-semibold tracking-[0.08em] text-[var(--bd-accent)] uppercase sm:text-[10px]">
         {title}
       </span>
-      <span className="h-px flex-1 bg-border" />
+      <span className="h-px flex-1 bg-[var(--bd-rule)]" />
     </div>
   );
 }
@@ -109,20 +109,20 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
           <div className="text-center">
             {showSymbol && (
               <>
-                <SymbolGlyph className="mx-auto size-6 text-primary sm:size-8" />
-                <p className="mt-1 text-[8px] tracking-[0.15em] text-primary/70 sm:text-[9px]">
+                <SymbolGlyph className="mx-auto size-6 text-[var(--bd-header-ink)] sm:size-8" />
+                <p className="mt-1 text-[8px] tracking-[0.15em] text-[var(--bd-header-ink)] opacity-80 sm:text-[9px]">
                   || शुभम् भवतु ||
                 </p>
               </>
             )}
             <div className="mt-1.5 flex items-center justify-center gap-2">
-              <span className="h-px w-6 bg-accent-foreground/40" />
+              <span className="h-px w-8 bg-[var(--bd-header-ink)] opacity-50" />
               {/* Styled text, not a heading: this preview sits inside the
                   homepage, where an h2/h3 here would pollute its outline. */}
-              <p className="font-heading text-sm font-semibold tracking-[0.03em] text-primary sm:text-base">
+              <p className="font-[family-name:var(--bd-heading-font)] text-sm font-semibold tracking-[0.18em] text-[var(--bd-header-ink)] uppercase sm:text-base">
                 {layout.strings.documentTitle}
               </p>
-              <span className="h-px w-6 bg-accent-foreground/40" />
+              <span className="h-px w-8 bg-[var(--bd-header-ink)] opacity-50" />
             </div>
           </div>
 
@@ -130,8 +130,8 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
             <div className="min-w-0">
               <p
                 className={cn(
-                  "font-heading truncate text-base font-semibold sm:text-lg",
-                  layout.header.name ? "text-foreground" : "text-muted-foreground/40"
+                  "font-[family-name:var(--bd-heading-font)] truncate text-base font-semibold sm:text-xl",
+                  layout.header.name ? "text-[var(--bd-accent)]" : "text-[var(--bd-muted)] opacity-50"
                 )}
               >
                 {layout.header.name || layout.strings.namePlaceholder}
@@ -139,7 +139,7 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
               <p
                 className={cn(
                   "mt-0.5 text-[8px] sm:text-[9px]",
-                  layout.header.subtitle ? "text-muted-foreground" : "text-muted-foreground/40"
+                  layout.header.subtitle ? "text-[var(--bd-muted)]" : "text-[var(--bd-muted)] opacity-50"
                 )}
               >
                 {layout.header.subtitle || layout.strings.subtitlePlaceholder}
@@ -150,19 +150,19 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
               <img
                 src={values.personal.photo}
                 alt=""
-                className="h-14 w-12 shrink-0 rounded border border-primary/15 object-cover sm:h-[4.5rem] sm:w-14"
+                className="h-14 w-12 shrink-0 rounded-[3px] border-2 border-[var(--bd-frame)] object-cover sm:h-[4.5rem] sm:w-14"
               />
             ) : (
-              <div className="flex h-14 w-12 shrink-0 flex-col items-center justify-center gap-1 rounded border border-dashed border-primary/25 bg-muted/40 sm:h-[4.5rem] sm:w-14">
-                <UserRound aria-hidden="true" className="size-3.5 text-primary/30 sm:size-4" />
-                <span className="text-[6px] font-medium tracking-wide text-primary/40 uppercase sm:text-[6.5px]">
+              <div className="flex h-14 w-12 shrink-0 flex-col items-center justify-center gap-1 rounded-[3px] border border-dashed border-[var(--bd-frame)] opacity-60 sm:h-[4.5rem] sm:w-14">
+                <UserRound aria-hidden="true" className="size-3.5 text-[var(--bd-muted)] sm:size-4" />
+                <span className="text-[6px] font-medium tracking-wide text-[var(--bd-muted)] uppercase sm:text-[6.5px]">
                   Photo
                 </span>
               </div>
             )}
           </div>
 
-          <div className="mt-1.5 h-px bg-border" />
+          <div className="mt-1.5 h-px bg-[var(--bd-rule)]" />
 
           <FullWidthSection {...layout.personal} />
           <FullWidthSection {...layout.religion} />
@@ -174,7 +174,7 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
 
           <FullWidthSection {...layout.family} />
 
-          <div className="mt-1.5 border-t border-border pt-1">
+          <div className="mt-1.5 border-t border-[var(--bd-rule)] pt-1">
             <PrintFieldRow {...layout.contact} />
           </div>
 
@@ -182,8 +182,8 @@ export const BiodataPreview = React.forwardRef<HTMLDivElement, BiodataPreviewPro
               printed the same "looking for a partner…" sentence on every
               biodata. Clamped to two lines to keep the card one page. */}
           {layout.aboutMe && (
-            <div className="-mx-3.5 -mb-3.5 mt-auto border-t border-accent-foreground/15 bg-accent/25 px-3.5 pt-1 pb-1.5 text-center sm:-mx-5 sm:-mb-4 sm:px-5">
-              <p className="line-clamp-2 text-[7.5px] leading-snug text-accent-foreground/90 italic sm:text-[8.5px]">
+            <div className="mt-auto rounded-[3px] bg-[var(--bd-band)] px-3 py-1.5 text-center">
+              <p className="line-clamp-2 font-[family-name:var(--bd-heading-font)] text-[7.5px] leading-snug text-[var(--bd-accent)] italic sm:text-[8.5px]">
                 {layout.aboutMe}
               </p>
             </div>

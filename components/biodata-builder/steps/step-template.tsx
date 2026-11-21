@@ -11,18 +11,23 @@ import { PRINT_LANGUAGE_OPTIONS } from "@/lib/biodata/print-i18n";
 import type { BiodataFormValues } from "@/lib/biodata/schema";
 import { TEMPLATES } from "@/lib/biodata/templates";
 
-// A tiny sample "document" rendered inside each tile so the border/frame
-// treatment is genuinely visible at a glance, not just implied by a label.
+// A tiny sample "document" rendered inside each tile in the template's own
+// colours and heading font (TemplateFrame sets them as CSS variables), so
+// each tile reads as that design at a glance.
 function TemplateMiniPreview() {
   return (
-    <div className="space-y-1.5">
-      <div className="flex items-center gap-1.5">
-        <div className="size-3 rounded-full bg-accent" />
-        <div className="h-1.5 w-10 rounded-full bg-primary/15" />
-      </div>
-      <div className="h-1 w-full rounded-full bg-primary/[0.08]" />
-      <div className="h-1 w-4/5 rounded-full bg-primary/[0.08]" />
-      <div className="h-1 w-3/5 rounded-full bg-primary/[0.08]" />
+    <div className="space-y-1.5 pt-1">
+      <p className="text-center font-[family-name:var(--bd-heading-font)] text-[7px] font-semibold tracking-[0.18em] text-[var(--bd-header-ink)] uppercase">
+        Biodata
+      </p>
+      <div className="mx-auto h-[3px] w-1/2 rounded-full bg-[var(--bd-accent)]" />
+      {[0, 1].map((section) => (
+        <div key={section} className="space-y-1 pt-0.5">
+          <div className="h-[2px] w-1/3 rounded-full bg-[var(--bd-accent)] opacity-70" />
+          <div className="h-[2px] w-full rounded-full bg-[var(--bd-rule)]" />
+          <div className="h-[2px] w-4/5 rounded-full bg-[var(--bd-rule)]" />
+        </div>
+      ))}
     </div>
   );
 }
@@ -36,7 +41,7 @@ export function StepTemplate() {
         Choose your design
       </h3>
       <p className="mt-1.5 text-sm text-muted-foreground">
-        Pick a border style for your biodata document. You can change this anytime.
+        Pick a design you like. You can change it any time and see it update straight away.
       </p>
 
       <div className="mt-6">

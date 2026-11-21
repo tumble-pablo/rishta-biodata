@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Noto_Sans_Devanagari, Public_Sans, Sora } from "next/font/google";
+import { Noto_Sans_Devanagari, Noto_Serif_Devanagari, Playfair_Display, Public_Sans, Sora } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -28,6 +28,23 @@ const notoDevanagari = Noto_Sans_Devanagari({
   display: "swap",
 });
 
+// Display serif for the site's large headings and the traditional biodata
+// templates (with a Devanagari serif for Hindi/Marathi biodatas).
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const notoSerifDevanagari = Noto_Serif_Devanagari({
+  variable: "--font-devanagari-serif",
+  subsets: ["devanagari"],
+  weight: ["500", "600"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://rishtabiodata.com"),
   title: "Rishta Biodata — Create a beautiful marriage biodata",
@@ -46,7 +63,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${publicSans.variable} ${sora.variable} ${notoDevanagari.variable} antialiased`}>
+      <body className={`${publicSans.variable} ${sora.variable} ${notoDevanagari.variable} ${playfair.variable} ${notoSerifDevanagari.variable} antialiased`}>
         {children}
         <Script
           strategy="afterInteractive"

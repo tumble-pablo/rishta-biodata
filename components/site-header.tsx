@@ -30,7 +30,7 @@ const navItems = [
     href: "/#features",
     children: [
       "No sign-up",
-      "8 designs to choose from",
+      "16 designs to choose from",
       "Ready for WhatsApp",
       "Rashi and nakshatra worked out",
       "Easy on your phone",

@@ -21,7 +21,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BiodataBuilder } from "@/components/biodata-builder/biodata-builder";
-import { HeroBuilderMockup } from "@/components/hero-builder-mockup";
+import { HeroBiodataFan } from "@/components/home/hero-biodata-fan";
 import {
   DesignIllustration,
   DetailsIllustration,
@@ -33,7 +33,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { BLOG_POSTS } from "@/lib/blog/posts";
 
 export const metadata: Metadata = {
-  title: "Free Marriage Biodata Maker – 8 Designs, PDF Download | Rishta Biodata",
+  title: "Free Marriage Biodata Maker – 16 Designs, PDF Download | Rishta Biodata",
   description:
     "Make your marriage biodata online in 5 minutes. Fill in your details, pick a design, download a PDF and share it on WhatsApp. Free, no sign-up.",
   alternates: { canonical: "/" },
@@ -100,7 +100,7 @@ const FAQ_ITEMS = [
   {
     question: "Which design is best for a marriage biodata?",
     answer:
-      "There is no single best design. Modern Minimal suits a clean, simple look. Double Border or Ornate Corners suit a more traditional family. You can switch designs any time and see the change straight away.",
+      "There is no single best design. Royal Maroon, Emerald Gold or Ganesh Gold suit a traditional family. Modern Minimal or Navy Modern suit a clean, simple look. Black & White prints best on a home printer. You can switch designs any time and see the change straight away.",
   },
   {
     question: "How is a biodata different from a résumé?",
@@ -154,31 +154,31 @@ export default function Home() {
 
       <section
         aria-labelledby="hero-title"
-        className="hero-grid relative"
+        className="hero-warm relative overflow-hidden"
       >
-        <div className="relative mx-auto grid max-w-[1180px] items-center gap-14 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(420px,1fr)] lg:gap-12 lg:px-0 lg:py-24">
-          <div className="max-w-[560px]">
-            <span className="inline-flex items-center gap-1.5 rounded-[4px] bg-secondary px-2.5 py-1 text-[11px] font-semibold tracking-[0.08em] text-accent-foreground">
-              <Check aria-hidden="true" className="size-3" strokeWidth={3} />
-              FREE MARRIAGE BIODATA MAKER
+        <div className="relative mx-auto grid max-w-[1180px] items-center gap-10 px-5 pt-12 pb-6 sm:px-8 sm:pt-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(420px,1fr)] lg:gap-10 lg:px-0 lg:pt-20 lg:pb-10">
+          <div className="max-w-[580px]">
+            <span className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-[0.16em] text-accent-foreground uppercase">
+              <span aria-hidden="true" className="h-px w-6 bg-accent-foreground/60" />
+              Free marriage biodata maker
             </span>
 
             <h1
               id="hero-title"
-              className="font-heading mt-5 scroll-mt-28 text-[clamp(2.5rem,5vw,4rem)] font-semibold leading-[1.06] tracking-[-0.05em] text-balance"
+              className="font-display mt-5 scroll-mt-28 text-[clamp(2.6rem,5.4vw,4.4rem)] font-semibold leading-[1.05] tracking-[-0.015em] text-balance"
             >
-              Make your <span className="text-accent-foreground">marriage biodata</span> in 5 minutes
+              A <em className="font-medium text-accent-foreground">marriage biodata</em> your family will be proud to send
             </h1>
 
-            <p className="mt-6 max-w-[460px] text-base leading-[1.7] text-muted-foreground sm:text-[17px]">
-              Fill in your details, pick a design you like, and download a PDF you can send on WhatsApp. No sign-up needed.
+            <p className="mt-6 max-w-[500px] text-[17px] leading-[1.7] text-muted-foreground">
+              Fill in your details once, pick one of 16 designs, and download a neat PDF, or a picture that opens straight in WhatsApp. No sign-up, and your details stay on your phone.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Button
                 asChild
                 size="lg"
-                className="h-13 rounded-[8px] bg-accent-foreground px-6 text-[14px] font-semibold text-primary-foreground shadow-[0_16px_34px_rgba(143,47,60,0.28)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-accent-foreground/90"
+                className="h-13 rounded-full bg-accent-foreground px-7 text-[15px] font-semibold text-primary-foreground shadow-[0_16px_34px_rgba(143,47,60,0.28)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-accent-foreground/90"
               >
                 <a href="#biodata-builder">
                   Make my biodata
@@ -189,23 +189,53 @@ export default function Home() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="h-13 rounded-[8px] border-primary! bg-card px-6 text-[14px] font-semibold"
+                className="h-13 rounded-full border-primary/40 bg-card/70 px-7 text-[15px] font-semibold"
               >
-                <a href="#templates">See designs</a>
+                <a href="#templates">See all 16 designs</a>
               </Button>
             </div>
-
-            <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[13px] text-muted-foreground">
-              {["Free to make", "No sign-up", "Ready for WhatsApp"].map((point) => (
-                <li key={point} className="flex items-center gap-1.5">
-                  <Check aria-hidden="true" className="size-3.5 text-accent-foreground" strokeWidth={2.5} />
-                  {point}
-                </li>
-              ))}
-            </ul>
           </div>
 
-          <HeroBuilderMockup />
+          <HeroBiodataFan />
+        </div>
+
+        {/* Plain facts, not invented usage numbers. */}
+        <dl className="relative mx-auto grid max-w-[1180px] grid-cols-2 gap-y-6 border-t border-primary/10 px-5 py-8 sm:px-8 md:grid-cols-4 lg:px-0">
+          {[
+            ["16", "designs, traditional and modern"],
+            ["5 min", "from start to download"],
+            ["3", "languages: English, Hindi, Marathi"],
+            ["₹0", "to make and download"],
+          ].map(([value, label]) => (
+            <div key={label} className="flex flex-col-reverse items-center text-center">
+              <dt className="mt-1 text-[13px] text-muted-foreground">{label}</dt>
+              <dd className="font-display text-[28px] font-semibold text-accent-foreground">{value}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <section
+        id="biodata-builder"
+        aria-labelledby="biodata-builder-title"
+        className="scroll-mt-20 border-b border-border bg-background"
+      >
+        <div className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+          <div className="mx-auto max-w-[760px] text-center">
+            <h2
+              id="biodata-builder-title"
+              className="font-display text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-balance"
+            >
+              Make your biodata
+            </h2>
+            <p className="mx-auto mt-4 max-w-[52ch] text-base leading-7 text-muted-foreground sm:text-[17px]">
+              Fill in your details step by step. Your biodata shows up next to the form as you type.
+            </p>
+          </div>
+
+          <div className="mt-12 lg:mt-14">
+            <BiodataBuilder />
+          </div>
         </div>
       </section>
 
@@ -218,12 +248,12 @@ export default function Home() {
           <div className="max-w-[640px]">
             <h2
               id="templates-title"
-              className="font-heading text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+              className="font-display text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-balance"
             >
               Marriage biodata templates
             </h2>
             <p className="mt-4 text-base leading-7 text-muted-foreground sm:text-[17px]">
-              8 designs, from simple to traditional. Tap one to start. You can change the design any time, even after filling in your details.
+              16 designs, from grand and traditional to clean and modern. Tap one to start. You can change the design any time, even after filling in your details.
             </p>
           </div>
 
@@ -246,7 +276,7 @@ export default function Home() {
               </span>
               <h2
                 id="how-it-works-title"
-                className="font-heading mt-4 text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+                className="font-display mt-4 text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-balance"
               >
                 Three simple steps to a{" "}
                 <span className="text-accent-foreground">beautiful biodata</span>.
@@ -255,7 +285,7 @@ export default function Home() {
             <Button
               asChild
               variant="outline"
-              className="h-11 shrink-0 rounded-[8px] border-primary! px-5 text-[13px] font-semibold"
+              className="h-11 shrink-0 rounded-[8px] border-primary px-5 text-[13px] font-semibold"
             >
               <a href="#biodata-builder">
                 Start now
@@ -313,30 +343,6 @@ export default function Home() {
       </section>
 
       <section
-        id="biodata-builder"
-        aria-labelledby="biodata-builder-title"
-        className="scroll-mt-20 border-b border-border bg-background"
-      >
-        <div className="mx-auto max-w-[1440px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-          <div className="mx-auto max-w-[760px] text-center">
-            <h2
-              id="biodata-builder-title"
-              className="font-heading text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
-            >
-              Make your biodata
-            </h2>
-            <p className="mx-auto mt-4 max-w-[52ch] text-base leading-7 text-muted-foreground sm:text-[17px]">
-              Fill in your details step by step. Your biodata shows up next to the form as you type.
-            </p>
-          </div>
-
-          <div className="mt-12 lg:mt-14">
-            <BiodataBuilder />
-          </div>
-        </div>
-      </section>
-
-      <section
         id="biodata-format"
         aria-labelledby="biodata-format-title"
         className="scroll-mt-20 border-b border-border bg-card"
@@ -346,7 +352,7 @@ export default function Home() {
             <div>
               <h2
                 id="biodata-format-title"
-                className="font-heading text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+                className="font-display text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-balance"
               >
                 What is a marriage biodata?
               </h2>
@@ -356,7 +362,7 @@ export default function Home() {
                 A marriage biodata is a one-page introduction that families share when they look for a match. It has your personal details, religion and stars, education and job, family details and a contact number. Think of it as a résumé, but for marriage.
               </p>
               <p className="mt-4 text-base leading-7 text-muted-foreground">
-                It is usually the first thing the other family sees, so it should be neat, honest and easy to read.
+                Families often decide whether to take a proposal forward from this one page, so it should be neat, honest and easy to read.
               </p>
               {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- see site-header.tsx */}
               <a
@@ -425,7 +431,7 @@ export default function Home() {
           <div className="max-w-[720px]">
             <h2
               id="features-title"
-              className="font-heading text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+              className="font-display text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-balance"
             >
               Why families make their biodata here
             </h2>
@@ -440,7 +446,7 @@ export default function Home() {
               },
               {
                 icon: LayoutTemplate,
-                title: "8 designs to choose from",
+                title: "16 designs to choose from",
                 description: "Simple or traditional. Change the design any time, even after filling your details.",
               },
               {
@@ -527,7 +533,7 @@ export default function Home() {
           <div className="max-w-[820px]">
             <h2
               id="articles-title"
-              className="font-heading text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+              className="font-display text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-balance"
             >
               Helpful reads for creating your biodata.
             </h2>
@@ -614,7 +620,7 @@ export default function Home() {
           <div className="max-w-[760px]">
             <h2
               id="faq-title"
-              className="font-heading text-[clamp(2rem,4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.045em] text-balance"
+              className="font-display text-[clamp(2rem,4vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-balance"
             >
               Questions families ask
             </h2>
@@ -648,12 +654,12 @@ export default function Home() {
           <div className="max-w-[620px]">
             <h2
               id="final-cta-title"
-              className="font-heading text-[clamp(1.75rem,3.5vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.04em] text-balance"
+              className="font-display text-[clamp(1.75rem,3.5vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.01em] text-balance"
             >
-              Your biodata is the first thing the other family sees.
+              Ready when you are. It takes about five minutes.
             </h2>
             <p className="mt-3 text-base leading-7 text-primary-foreground/80 sm:text-[17px]">
-              Make it neat and easy to read. It takes about 5 minutes.
+              Fill in your details, choose a design, and download. Free, with no sign-up.
             </p>
           </div>
           <Button
